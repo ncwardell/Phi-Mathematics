@@ -112,7 +112,9 @@ $$\boxed{\nabla \cdot \vec{B} = 0}$$
 
 **Torus origin:** The toroidal field lines on $T^2$ close by construction. A toroidal field wraps around the torus and returns to its starting point — it has no endpoints, no sources, no sinks. The divergence of a field whose lines are closed loops is identically zero.
 
-This is **Theorem 0 (Closure) applied to the field.** There is no outside to the torus ($\Sigma = 0$), so no field line can escape. Every field line that exits through one face of an infinitesimal volume must re-enter through another. Magnetic monopoles are forbidden because the torus has no boundary.
+This is **Theorem 0 (Closure) applied to the field on $T^2$.** On the torus, no field line can escape — every line that exits through one face of an infinitesimal volume must re-enter through another. Magnetic monopoles are forbidden *on a single torus* because the torus has no boundary.
+
+**Caveat:** This argument applies to the EM field on a single $T^2$. It does not address whether monopole-like topological defects could exist in the scale network between tori (§5.27), or in the ambient $S^3$ of the Hopf fibration. The non-existence of magnetic monopoles on the torus is proven; their non-existence everywhere in the framework is an open question.
 
 ---
 

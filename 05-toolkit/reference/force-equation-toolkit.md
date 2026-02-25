@@ -28,6 +28,7 @@ tags:
 
 ## Cross-References
 
+- [Depth Crystallization Toolkit](depth-crystallization.md) -- the comprehensive version: full depth-by-depth inventory, quark-lepton correspondence, α running
 - [Correction Factor Anatomy](correction-factor-anatomy.md) -- how these tools combine in the mass equation
 - [Established Equations](established-equations.md) -- the force and mass equations that use these structures
 - [Additional Tools from φ-Algebra](phi-algebra.md) -- the empathetic derivation method (Theorem 37)

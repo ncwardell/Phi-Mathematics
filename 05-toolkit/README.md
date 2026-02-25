@@ -33,6 +33,8 @@ Core identities, properties, and tables used throughout the framework.
 9. [Zeckendorf Representation](reference/zeckendorf-representation.md) -- Section 5.9: Unique Fibonacci decomposition
 10. [Established Equations](reference/established-equations.md) -- Section 5.10: Summary table of all equations with status and error
 11. [Additional Tools from $\phi$-Algebra](reference/phi-algebra.md) -- Section 5.11: $\pi$ from $\phi$, $\phi$-Euler identity, witnessing function, empathetic derivation
+12. [The φ-Alignment Toolkit](reference/phi-alignment.md) -- Section 5.12: φ-residues, φ-deviations, the void/existence duality, metallic mean spacing theorem
+13. [Depth Crystallization Toolkit](reference/depth-crystallization.md) -- Section 5.13: Tool availability at each depth, quark-lepton correspondence, α running in depth units
 
 ### Theorems
 
@@ -44,13 +46,17 @@ New mathematical results derived within the framework.
 
 Geometric structures and constructions.
 
-- [geometry/](geometry/) -- Kepler triangle extensions, pentagonal geometry, torus constructions, knot spectrum, chirality and linkage, electromagnetic field from breathing torus
+- [geometry/](geometry/) -- Kepler triangle extensions, pentagonal geometry, torus constructions, knot spectrum, chirality and linkage, electromagnetic field from breathing torus, metallic Jones polynomials
 
 ### Holographic
 
 Holographic and self-similar structure results.
 
 - [holographic/](holographic/) -- Self-similar encodings, holographic properties, scale relations
+
+### Meta-Analysis
+
+- [Assumptions Audit](assumptions-audit.md) -- Section 5.30: Tracking what is proven vs. assumed across the entire framework
 
 ---
 

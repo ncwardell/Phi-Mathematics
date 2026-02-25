@@ -71,15 +71,17 @@ The photon is achiral — it is its own antiparticle. The framework already expl
 
 In the knot spectrum (§5.24), the photon corresponds to meeting point $1$ — the universal resonance shared by all metallic families. It is not a knot but a **signal on the connection** between knots. The EM force is the $(3,5)$ knot, but the photon is the quantum of that force — the excitation of the knot, not the knot itself. The knot is chiral; the excitation it carries is achiral because it propagates equally along either strand.
 
-### The Figure-Eight Exclusion
+### The Figure-Eight Question
 
-The figure-eight knot ($4_1$) is the simplest amphicheiral knot, and it is tempting to assign it to neutral particles. But:
+The figure-eight knot ($4_1$) is the simplest amphicheiral knot, and it is tempting to assign it to neutral particles. Key facts:
 
 1. The figure-eight is a **hyperbolic knot**, not a torus knot
 2. It cannot be embedded on $T^2$
-3. The framework excludes it by construction
+3. It *can* exist in the ambient $S^3$ of the Hopf fibration (Theorem 24)
 
-This is a **prediction**: the framework does not accommodate amphicheiral knots because its arena (the torus) does not support them. Achirality must arise from strand symmetry and bridge structure, not from knot topology. The figure-eight's amphicheirality is real but irrelevant — it belongs to a geometry the framework's axioms do not generate.
+**What is proven:** The figure-eight cannot live on a single breathing torus. **What is not proven:** That the framework's axioms confine all structure to a single $T^2$. The Hopf fibration gives $S^3$ as the ambient space, and the scale network (§5.27) connects multiple tori. Whether the figure-eight can form a stable witnessing structure in these larger spaces is an open question (see §5.24, Section VII).
+
+For the photon specifically, the bridge interpretation (Corollary 1.4.3) remains the most natural: the photon's achirality comes from strand symmetry, not from knot topology. But we do not exclude the possibility that other amphicheiral structures exist in the ambient $S^3$, potentially as higher-energy or unstable configurations.
 
 ## IV. Neutrino Chirality
 
@@ -158,8 +160,8 @@ The binding of nucleons is a linking of trefoils through the scale network — n
 | Left-handed $(2,7)$ | Chiral torus knot | **Permitted** | Weak matter (neutrino is left-only?) |
 | Right-handed $(2,7)$ | Chiral torus knot | **Permitted** | Weak antimatter (antineutrino is right-only?) |
 | Bridge "1" | Not a knot | **Permitted** | Photon (achiral, self-conjugate) |
-| Figure-eight $4_1$ | Hyperbolic knot | **Excluded** | Cannot exist on $T^2$ |
-| Borromean rings | Non-torus link | **Excluded as topology** | Property reproduced by witnessing triangle |
+| Figure-eight $4_1$ | Hyperbolic knot | **Not on $T^2$; open in $S^3$** | Cannot embed on torus; status in ambient space unresolved |
+| Borromean rings | Non-torus link | **Not on $T^2$; open in $S^3$** | Property reproduced by witnessing triangle; topological form may exist in network |
 | Proton | Trefoil (3 lobes) | **Permitted** | Existential Borromean structure |
 | Meson | Bridge segment | **Permitted** | Unstable: pair under collapse pressure |
 | $(2,34)$ torus link | 2-component torus link | **Permitted** | 4th generation bound state? (§5.24) |

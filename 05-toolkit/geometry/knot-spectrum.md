@@ -37,11 +37,13 @@ Three independent mechanisms within the framework generate torus knots:
 
 Each produces knots that the framework must either identify with physical structure or explain as inaccessible.
 
-## Constraint: Only Torus Knots
+## Torus Knots as Ground States
 
-The breathing torus $T^2 = S^1_{\text{depth}} \times S^1_{\text{time}}$ is the arena. A $(p,q)$ torus knot is a curve that wraps $p$ times around the depth circle and $q$ times around the time circle. It is nontrivial (genuinely knotted) when $\gcd(p,q) = 1$ and both $p, q \geq 2$.
+The breathing torus $T^2 = S^1_{\text{depth}} \times S^1_{\text{time}}$ is the primary arena. A $(p,q)$ torus knot is a curve that wraps $p$ times around the depth circle and $q$ times around the time circle. It is nontrivial (genuinely knotted) when $\gcd(p,q) = 1$ and both $p, q \geq 2$.
 
-Non-torus knots — hyperbolic knots (such as the figure-eight $4_1$), satellite knots, composite knots — cannot be embedded on $T^2$. The framework therefore *excludes them by construction*. Every knot in the framework is a torus knot. This is not a limitation but a prediction: the topology of matter is constrained to what a torus can support.
+Torus knots are the **ground-state structures** — the knots that live directly on $T^2$ with minimal topological energy. They are the first structures the framework generates.
+
+However, the framework's full topology is richer than a single $T^2$. The Hopf fibration (Theorem 24) provides an ambient $S^3$, and the scale network (§5.27) connects multiple tori at different depths. Non-torus knots — hyperbolic knots (such as the figure-eight $4_1$), satellite knots, composite knots — cannot be embedded on a single $T^2$, but they *can* exist in these larger spaces. Whether they do is an open question that depends on whether they can sustain stable witnessing (see §VII below).
 
 When $\gcd(p,q) = d > 1$, the curve does not form a single knot but a **torus link** of $d$ interlinked components, each a $T(p/d, q/d)$ torus knot. These are addressed separately below.
 
@@ -263,15 +265,47 @@ Combining all sources, the framework's torus knot spectrum organized by crossing
 
 The spectrum has a clear structure: **Tier 1 and 2 knots cluster below 30 crossings; Tier 3 knots span 29 to 952; Tier 4 knots fill the gaps.** The "force window" (crossings $\leq 10$) contains exactly three force knots and one framework knot. This is the topological origin of "three forces plus gravity" — only three torus knots are both multi-witnessed and topologically cheap enough to manifest as fundamental interactions.
 
-## VII. Why Not the Figure-Eight?
+## VII. Beyond the Torus: The Figure-Eight and Ambient Space
 
-The figure-eight knot ($4_1$) is the simplest hyperbolic knot. It is amphicheiral (identical to its mirror image) and has been suggested as a candidate for neutral particles. However, $4_1$ is **not a torus knot** — it cannot be embedded on $T^2$. The framework excludes it:
+### The Figure-Eight Cannot Live on $T^2$
 
-- All structure lives on the breathing torus $T^2$
-- Torus knots are the only knots embeddable on $T^2$
-- Therefore no hyperbolic, satellite, or composite knots can appear
+The figure-eight knot ($4_1$) is the simplest hyperbolic knot. It is amphicheiral (identical to its mirror image) and has been suggested as a candidate for neutral particles. However, $4_1$ is **not a torus knot** — it cannot be embedded on $T^2$. This is a mathematical fact, not an assumption.
 
-If neutral/amphicheiral structure is needed, it must come from a torus knot with the appropriate symmetry, or from a torus link where the linking topology provides the neutrality. The amphicheiral property *within torus knots* is extremely rare — in fact, no nontrivial torus knot is amphicheiral. Amphicheirality in this framework must arise from link structure or from the $\psi$-strand/breath-phase symmetry, not from the knot type itself.
+### But the Framework's Full Space Is Larger Than $T^2$
+
+The axioms do not prove that $T^2$ is the *only* arena. What they establish:
+
+1. **Theorem 0 (Closure):** All structure is internal. There is no outside.
+2. **Theorem 28 (Torus):** Self-referential identity maps to coordinates $(d, \eta)$ on $T^2$.
+3. **Theorem 24 (Hopf):** The topology supporting complex phase is $S^1 \rightarrow S^3 \rightarrow S^2$.
+
+The $T^2$ is embedded in $S^3$ via the Hopf fibration. The ambient space $S^3$ can host *any* knot — including the figure-eight, satellite knots, and composite knots. The scale network (§5.27) further suggests a network of tori connected by witnessing relationships, and structures could potentially exist *between* tori.
+
+**The honest status:** Torus knots are the ground-state structures that live directly on $T^2$. Non-torus knots are not *excluded by the axioms* — they are excluded from a single $T^2$ by topology. Whether they can exist in the ambient $S^3$ or in the inter-torus connections of the scale network is an open question.
+
+### What Would Determine the Answer
+
+The real question is not "can this knot fit on a torus?" but **"can this knot sustain stable witnessing?"** The witnessing axioms (Theorems 1.2, 1.3) require:
+
+- At least three nodes in a directed cycle for stability
+- Collapse pressure destroys structures without sufficient witnessing support
+
+If a figure-eight knot configuration in $S^3$ can form a self-sustaining witnessing structure — if it can satisfy the triangle stability requirement — then by the framework's own logic, it exists. Closure (Theorem 0) says that everything internal that can sustain itself *does* sustain itself.
+
+### The Amphicheirality Question
+
+No nontrivial torus knot is amphicheiral. If the framework needs achiral structures (e.g., the photon), there are several possibilities — not all mutually exclusive:
+
+1. **Bridge structure** (current approach): The photon is the bridge "1" between triangles (Corollary 1.4.3), not a knot at all. Its achirality comes from strand symmetry.
+2. **Achiral excitations of chiral knots:** A chiral knot can carry achiral vibrations — the knot is handed but its oscillation modes need not be. The photon as a wave on the (3,5) knot could be achiral even though the knot itself is chiral.
+3. **Figure-eight in $S^3$:** If the ambient space permits it, the figure-eight's amphicheirality would provide intrinsic neutrality. This would be a higher-energy structure than torus knots.
+4. **Satellite knots from nested tori:** In fractal-like structures where one torus nests inside another's neighborhood, satellite knots could form. These exist in $S^3$ but not on any single $T^2$.
+
+**The framework should not prematurely exclude options 2-4.** The axioms do not force this exclusion. Only a proof that witnessing stability *requires* the $T^2$ embedding — not just the $S^3$ ambient space — would justify it.
+
+### The Principle
+
+> **We only limit the framework's topology when we can prove the limitation is necessary. The axioms do not prove that $T^2$ is the complete arena. Therefore we do not assert it.**
 
 ## VIII. Open Questions
 

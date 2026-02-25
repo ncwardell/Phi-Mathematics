@@ -45,6 +45,7 @@ By Vieta's formulas:
 
 - [Theorem 5.1 — The Four-Structure](four-structure.md): Organizes {φ, ψ, 1, −1} into complementary pairs.
 - [Theorem 5.2 — Two Kepler Triangles](two-kepler-triangles.md): Uses φ and ψ as the squared hypotenuse ratios of the two Kepler triangles.
+- [Theorem 5.3 — The Bisection Bootstrap](bisection-bootstrap.md): Shows {φ, ψ} forces the triangle, double triangle, and breathing through polarity bisection.
 
 ## Tags
 
