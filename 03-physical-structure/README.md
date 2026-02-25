@@ -34,6 +34,11 @@ tags:
    - [Strong Coupling](force-equations/strong-coupling.md) -- Section 3.9.1: alpha_s = 1/(2phi^3 + alpha)
    - [Electromagnetic Coupling](force-equations/electromagnetic-coupling.md) -- Section 3.9.2: The self-referential EM equation
    - [Weak Mixing Angle](force-equations/weak-mixing-angle.md) -- Section 3.9.3: sin^2(theta_W) = phi/7 + alpha^2
+   - [Gravitational Coupling](force-equations/gravitational-coupling.md) -- Section 3.9.4: M_P/m_e = phi^(107 + 1/(4pi))
+   - [Hierarchy of Complexity](force-equations/hierarchy-of-complexity.md) -- Section 3.9.5: Force summary table and error comparison
+10. [Mass Equation](mass-equation.md) -- Section 3.10: Theorem 48 (m/m_e = phi^d / (1 - sigma*C*alpha*(1+4alpha)))
+11. [Complete Prediction Table](prediction-table.md) -- Section 3.11: All predictions with errors and Standard Model comparison
+12. [Open Questions](open-questions.md) -- Section 3.12: Open questions with RESOLVED annotations
 
 ## Dependency Chain
 
@@ -68,6 +73,17 @@ Theorem 47 (Force Equations)  <-- Theorems 46, 5, 24, 29
     |-- 3.9.1 Strong Coupling
     |-- 3.9.2 Electromagnetic Coupling
     |-- 3.9.3 Weak Mixing Angle
+    |-- 3.9.4 Gravitational Coupling
+    |-- 3.9.5 Force Summary (Hierarchy of Complexity)
+    |
+    v
+Theorem 48 (Mass Equation)  <-- Theorems 47, 12, 13, 24, 29.3, 34
+    |
+    v
+§3.11 Complete Prediction Table  <-- all above
+    |
+    v
+§3.12 Open Questions  <-- all above
 ```
 
 ## What Follows
