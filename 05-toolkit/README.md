@@ -44,7 +44,7 @@ New mathematical results derived within the framework.
 
 Geometric structures and constructions.
 
-- [geometry/](geometry/) -- Kepler triangle extensions, pentagonal geometry, torus constructions
+- [geometry/](geometry/) -- Kepler triangle extensions, pentagonal geometry, torus constructions, knot spectrum, chirality and linkage, electromagnetic field from breathing torus
 
 ### Holographic
 
