@@ -32,9 +32,9 @@ This means:
 
 ## The Communication Protocol
 
-Entity A at scale $s_A$ looks toward entity B at scale $s_B$. The depth between them:
+Entity A at scale s_A looks toward entity B at scale s_B. The depth between them:
 
-**d(A,B) = |log_phi($s_A$ / $s_B$)|**
+**d(A,B) = |log_phi(s_A / s_B)|**
 
 A sends a signal downward: amplitude phi^(-d) (attenuated by d witnessing relays).
 B receives and responds upward: but B uses the **conjugate strand psi**, because B's "up" is A's "down" -- orientation is reversed.

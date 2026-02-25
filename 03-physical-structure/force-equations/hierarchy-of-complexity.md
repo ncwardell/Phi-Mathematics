@@ -23,9 +23,9 @@ The four force equations form a hierarchy of structural complexity, each reflect
 | Force | Depth | Available Structure | Equation Form | Structural Character |
 |-------|-------|-------------------|---------------|---------------------|
 | Strong | 3 (shallowest) | Triangle, two strands, minimal bridge | 1/(winding + perturbation) | Simple inverse -- first force, minimal tools |
-| EM | 10 (middle) | $\sqrt{5}$, $\pi$, Kepler area, L(3), full self-reference | Implicit quadratic self-consistency | Self-referential -- the bridge examining itself |
+| EM | 10 (middle) | √5, π, Kepler area, L(3), full self-reference | Implicit quadratic self-consistency | Self-referential -- the bridge examining itself |
 | Weak mixing | Geometric | Strand symmetry, minimal EM correction | Ratio + minimal self-loop | Geometric angle -- relationship between symmetries |
-| Gravity | All (deepest) | Entire depth structure, all meeting points | Pure exponential $\pm$ witnessing phase | Global hierarchy -- not a force at a depth but the depth structure itself |
+| Gravity | All (deepest) | Entire depth structure, all meeting points | Pure exponential ± witnessing phase | Global hierarchy -- not a force at a depth but the depth structure itself |
 
 **The progression of forms is not arbitrary -- it is forced by the unfolding:**
 1. At depth 3, only simple tools exist -> simple equation
@@ -35,20 +35,20 @@ The four force equations form a hierarchy of structural complexity, each reflect
 
 | Force | Equation | Error | vs. Exp. Unc. | Grade |
 |-------|----------|-------|---------------|-------|
-| EM ($\alpha$) | 5π$\alpha^2$ + $\alpha$(1−($\varphi^2$+4)$\varphi^{-20}$) = $\varphi^{-10}$ | **0.0001%** | ~10⁻⁷% | ✓✓✓ |
-| Weak (si$n^2$θ_W) | $\varphi$/7 + $\alpha^2$ | 0.004% | ~0.02% | ✓✓ |
-| Strong (α_s) | 1/(2$\varphi^3$ + $\alpha$) | 0.027% | ~0.5% | ✓✓✓ |
-| Gravity (M_P/m_e) | $\varphi$^(107 + 1/(4$\pi$)) | **0.0004%** | -- | ✓✓✓ |
-| Gravity ($\alpha$/α_G) | $\varphi$^(204 − 1/(4$\pi$)) | 0.007% | ~0.002% | ✓✓ |
+| EM (α) | 5πα² + α(1−(φ²+4)φ⁻²⁰) = φ⁻¹⁰ | **0.0001%** | ~10⁻⁷% | ✓✓✓ |
+| Weak (sin²θ_W) | φ/7 + α² | 0.004% | ~0.02% | ✓✓ |
+| Strong (α_s) | 1/(2φ³ + α) | 0.027% | ~0.5% | ✓✓✓ |
+| Gravity (M_P/m_e) | φ^(107 + 1/(4π)) | **0.0004%** | -- | ✓✓✓ |
+| Gravity (α/α_G) | φ^(204 − 1/(4π)) | 0.007% | ~0.002% | ✓✓ |
 
 ---
 
 ## Dependencies
 
-- [Strong Coupling](strong-coupling.md) -- §3.9.1: α_s = 1/(2$\varphi^3$ + $\alpha$)
+- [Strong Coupling](strong-coupling.md) -- §3.9.1: α_s = 1/(2φ³ + α)
 - [Electromagnetic Coupling](electromagnetic-coupling.md) -- §3.9.2: the self-referential EM equation
-- [Weak Mixing Angle](weak-mixing-angle.md) -- §3.9.3: si$n^2$θ_W = $\varphi$/7 + $\alpha^2$
-- [Gravitational Coupling](gravitational-coupling.md) -- §3.9.4: $\varphi$^(107 + 1/(4$\pi$))
+- [Weak Mixing Angle](weak-mixing-angle.md) -- §3.9.3: sin²θ_W = φ/7 + α²
+- [Gravitational Coupling](gravitational-coupling.md) -- §3.9.4: φ^(107 + 1/(4π))
 
 ## Cross-References
 

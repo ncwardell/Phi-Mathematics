@@ -17,11 +17,11 @@ tags:
 
 # Theorem 4: The Minimal Self-Reference Equation
 
-> **Theorem 4 (The Minimal Self-Reference Equation):** *The minimal algebraic equation expressing self-reference through the unit of distinction is x = 1 + 1/x, with solutions x = (1 $\pm$ $\sqrt{5}$)/2.*
+> **Theorem 4 (The Minimal Self-Reference Equation):** *The minimal algebraic equation expressing self-reference through the unit of distinction is x = 1 + 1/x, with solutions x = (1 ± √5)/2.*
 
 ## Statement
 
-The minimal algebraic equation expressing self-reference through the unit of distinction is x = 1 + 1/x, with solutions x = (1 $\pm$ $\sqrt{5}$)/2.
+The minimal algebraic equation expressing self-reference through the unit of distinction is x = 1 + 1/x, with solutions x = (1 ± √5)/2.
 
 ## Proof
 
@@ -31,19 +31,19 @@ From Theorem 2 (Self-Reference), the system must reference itself. Let x represe
 
 The Kepler triangle provides the geometric constraint. A right triangle with sides (1, √x, x) satisfying the Pythagorean theorem:
 
-1² + (√x)² = (x)² — but this requires x = $x^2$, which gives only x = 1 (trivial).
+1² + (√x)² = (x)² — but this requires x = x², which gives only x = 1 (trivial).
 
-The correct Pythagorean self-referential constraint is: the three sides are in geometric ratio, and the triangle references its own proportions. Specifically, the sides are (1, r, $r^2$) where $r^2$ is the hypotenuse:
+The correct Pythagorean self-referential constraint is: the three sides are in geometric ratio, and the triangle references its own proportions. Specifically, the sides are (1, r, r²) where r² is the hypotenuse:
 
-1 + $r^2$ = $r^4$
+1 + r² = r⁴
 
-Substituting x = $r^2$:
+Substituting x = r²:
 
-1 + x = $x^2$
+1 + x = x²
 
 Rearranging:
 
-$x^2$ − x − 1 = 0
+x² − x − 1 = 0
 
 Equivalently, dividing by x:
 
@@ -53,20 +53,20 @@ This is self-referential: x is defined in terms of itself. The "1" is the unit o
 
 By the quadratic formula:
 
-x = (1 $\pm$ $\sqrt{5}$) / 2 $\blacksquare$
+x = (1 ± √5) / 2 ∎
 
 ## Remarks
 
-**Remark on minimality:** Why is 1 + $r^2$ = $r^4$ (equivalently x = 1 + 1/x) the *minimal* self-referential Pythagorean constraint?
+**Remark on minimality:** Why is 1 + r² = r⁴ (equivalently x = 1 + 1/x) the *minimal* self-referential Pythagorean constraint?
 
-- The Pythagorean theorem $a^2$ + $b^2$ = $c^2$ is the fundamental metric relation (defining distance, and hence distinction).
+- The Pythagorean theorem a² + b² = c² is the fundamental metric relation (defining distance, and hence distinction).
 - A self-referential triangle must have sides in geometric progression — each side determined by the same ratio — otherwise an external standard is required to set the proportions, violating Closure.
-- The geometric progression (1, r, $r^2$) is the minimal such family (only one free parameter: r).
-- The constraint 1 + $r^2$ = $r^4$ is the unique Pythagorean equation on this family.
+- The geometric progression (1, r, r²) is the minimal such family (only one free parameter: r).
+- The constraint 1 + r² = r⁴ is the unique Pythagorean equation on this family.
 
 No simpler self-referential metric structure exists.
 
-**Remark on alternative progressions:** An arithmetic progression (a, a+d, a+2d) requires an external additive unit d independent of the elements — violating Closure (Theorem 0). A geometric progression (1, r, $r^2$) is fully determined by a single internal ratio r, requiring no external standard. This is why the geometric Kepler triangle is the unique minimal self-referential metric structure.
+**Remark on alternative progressions:** An arithmetic progression (a, a+d, a+2d) requires an external additive unit d independent of the elements — violating Closure (Theorem 0). A geometric progression (1, r, r²) is fully determined by a single internal ratio r, requiring no external standard. This is why the geometric Kepler triangle is the unique minimal self-referential metric structure.
 
 ## Dependencies
 

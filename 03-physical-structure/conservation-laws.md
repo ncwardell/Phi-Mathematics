@@ -41,7 +41,7 @@ In standard spacetime coordinates, these map to:
 - **P, F --> Momentum conservation:** The total momentum (past + future components) is conserved.
 - **C --> Mass-shell condition:** p^2 - E^2 = -m^2 (the relativistic energy-momentum relation).
 
-All of these emerge from the structure, not from assumptions about spacetime. $\blacksquare$
+All of these emerge from the structure, not from assumptions about spacetime. ∎
 
 ## Dependencies
 

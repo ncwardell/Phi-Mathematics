@@ -16,7 +16,7 @@ tags:
 
 Every positive integer has a unique representation as a sum of non-consecutive Fibonacci numbers:
 
-n = F(i₁) + F(i₂) + ... where i_j $\geq$ i_{j+1} + 2
+n = F(i₁) + F(i₂) + ... where i_j ≥ i_{j+1} + 2
 
 This may be relevant for quark depths: if d = n/5 where n has a Zeckendorf representation, the quark's depth encodes its relationship to the Fibonacci structure through the algebraic completion factor F(5) = 5.
 

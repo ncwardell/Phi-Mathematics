@@ -22,9 +22,9 @@ Any witnessing or measurement within the totality must be self-referential. The 
 
 ## Proof
 
-By Theorem 0, the totality is closed — there is no exterior. Let W be any witnessing process. W exists, therefore W $\in$ T (the totality). The object witnessed by W is some structure S $\in$ T. But T is the only closed system, and W $\subset$ T and S $\subset$ T. Therefore W and S are subsystems of the same closed totality. W is referencing part of the system that contains W. This is self-reference.
+By Theorem 0, the totality is closed — there is no exterior. Let W be any witnessing process. W exists, therefore W ∈ T (the totality). The object witnessed by W is some structure S ∈ T. But T is the only closed system, and W ⊂ T and S ⊂ T. Therefore W and S are subsystems of the same closed totality. W is referencing part of the system that contains W. This is self-reference.
 
-More precisely: the totality T cannot be witnessed by anything outside T (Theorem 0), therefore T can only be witnessed by its own substructures. Any complete account of T must include the witness, which must include an account of itself. Self-reference is forced. $\blacksquare$
+More precisely: the totality T cannot be witnessed by anything outside T (Theorem 0), therefore T can only be witnessed by its own substructures. Any complete account of T must include the witness, which must include an account of itself. Self-reference is forced. ∎
 
 ## Corollaries
 

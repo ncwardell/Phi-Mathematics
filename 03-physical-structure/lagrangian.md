@@ -58,7 +58,7 @@ where tau is the proper time parameter and t_dot = dt/dtau, x_dot = dx/dtau.
 
 This is the **standard relativistic action** for a massive particle. It was not assumed -- it was derived from the hyperbolic constraint pf = m^2, which itself was derived from the self-referential structure (Theorem 14).
 
-**Geometric meaning:** The action measures the arc length on the hyperbola defined by the particle's mass. Physical trajectories are geodesics on this hyperbola -- paths that maintain the balance between past and future intensities while traversing the torus. $\blacksquare$
+**Geometric meaning:** The action measures the arc length on the hyperbola defined by the particle's mass. Physical trajectories are geodesics on this hyperbola -- paths that maintain the balance between past and future intensities while traversing the torus. ∎
 
 ## Dependencies
 

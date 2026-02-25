@@ -37,7 +37,7 @@ Consider three elements {A, B, C} with the directed witnessing relation A → B 
 
 4. **Directionality is necessary:** An undirected 3-graph (A—B—C—A) decomposes into three mutual pairs: {A,B}, {B,C}, {A,C}. Each pair individually is subject to Theorem 1.2.1. The directed cycle A → B → C → A is irreducible — it cannot be decomposed into independent pairs because each witnessing act depends on the full cycle.
 
-Therefore the directed 3-cycle is the minimal stable witnessing topology. $\blacksquare$
+Therefore the directed 3-cycle is the minimal stable witnessing topology. ∎
 
 ## Corollaries
 

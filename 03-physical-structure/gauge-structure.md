@@ -83,7 +83,7 @@ The full gauge group is:
 
 **SU(3) x SU(2) x U(1)**
 
-This is not assumed -- it is the symmetry group of the three topological structures (triangle, double strand, fiber) that were derived from the axiom Sigma = 0 and the postulate Exists. $\blacksquare$
+This is not assumed -- it is the symmetry group of the three topological structures (triangle, double strand, fiber) that were derived from the axiom Sigma = 0 and the postulate Exists. ∎
 
 ## Corollaries
 

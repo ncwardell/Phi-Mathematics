@@ -33,7 +33,7 @@ df/deta = e^(eta) = f
 
 These flow equations encode the breathing torus (Theorem 29): the past intensity decays exponentially (collapse pressure pulling backward) while the future intensity grows exponentially (dynamic self-reference unfolding forward). The particle survives by riding the constraint surface where these two flows balance.
 
-Verification: d(pf)/deta = (dp/deta)f + p(df/deta) = (-p)f + p(f) = 0. The constraint pf = m^2 is preserved by the flow, as required. $\blacksquare$
+Verification: d(pf)/deta = (dp/deta)f + p(df/deta) = (-p)f + p(f) = 0. The constraint pf = m^2 is preserved by the flow, as required. ∎
 
 ## Dependencies
 

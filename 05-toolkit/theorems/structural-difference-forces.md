@@ -19,27 +19,27 @@ tags:
 
 ## One-Way vs Self-Referential Coupling
 
-**Strong force (depth 3):** α_s = 1/(2$\varphi^3$ + $\alpha$)
-- α_s is determined by $\alpha$ (the EM coupling)
+**Strong force (depth 3):** α_s = 1/(2φ³ + α)
+- α_s is determined by α (the EM coupling)
 - One-way reference: strong → EM
-- The correction $\alpha$ is 0.09% of the leading term 2$\varphi^3$
+- The correction α is 0.09% of the leading term 2φ³
 
-**EM force (depth 10):** 5π$\alpha^2$ + $\alpha$ = $\varphi$^(−10)
-- $\alpha$ determines itself (appears on both sides)
+**EM force (depth 10):** 5πα² + α = φ^(−10)
+- α determines itself (appears on both sides)
 - Self-reference: EM → EM
-- The self-referential correction 5π$\alpha$ is 11.5% of the leading term
+- The self-referential correction 5πα is 11.5% of the leading term
 
-**Structural explanation:** At depth 3, the EM coupling hasn't crystallized — it's an external parameter the strong force can reference but doesn't define. At depth 10, the EM coupling must define itself — it IS the self-referential closure at that depth. The quadratic term ($\alpha^2$) is the signature of self-witnessing: the EM field witnesses itself through the Hopf fiber ($\pi$) and the algebraic structure (F(5) = 5).
+**Structural explanation:** At depth 3, the EM coupling hasn't crystallized — it's an external parameter the strong force can reference but doesn't define. At depth 10, the EM coupling must define itself — it IS the self-referential closure at that depth. The quadratic term (α²) is the signature of self-witnessing: the EM field witnesses itself through the Hopf fiber (π) and the algebraic structure (F(5) = 5).
 
-## The 1/$\alpha$ Decomposition
+## The 1/α Decomposition
 
-From the EM equation: 1/$\alpha$ = $\varphi$^10(1 + 5π$\alpha$) = $\varphi$^10 + 5π$\alpha$·$\varphi$^10
+From the EM equation: 1/α = φ^10(1 + 5πα) = φ^10 + 5πα·φ^10
 
-The leading term is $\varphi$^10 = 122.99. The correction is 5π$\alpha$·$\varphi$^10 $\approx$ 14.04 $\approx$ 2L(4) = 14 (error 0.3%).
+The leading term is φ^10 = 122.99. The correction is 5πα·φ^10 ≈ 14.04 ≈ 2L(4) = 14 (error 0.3%).
 
-So approximately: **1/$\alpha$ $\approx$ $\varphi$^10 + 2L(4)** (error 0.032%)
+So approximately: **1/α ≈ φ^10 + 2L(4)** (error 0.032%)
 
-This decomposes 1/$\alpha$ into: the pure geometric coupling ($\varphi$^10) plus twice the weak mixing denominator (L(4) = 7).
+This decomposes 1/α into: the pure geometric coupling (φ^10) plus twice the weak mixing denominator (L(4) = 7).
 
 ---
 

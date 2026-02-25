@@ -18,23 +18,23 @@ tags:
 
 The mass equation from [Part III](../03-physical-structure/mass-equation.md) applies to all particles:
 
-**m/$m_e$ = $\varphi$ᵈ / (1 + $\sigma$ · C · $\alpha$)**
+**m/mₑ = φᵈ / (1 + σ · C · α)**
 
 With the full correction for leptons:
 
-**m/$m_e$ = $\varphi$ᵈ / (1 − σCα(1+4$\alpha$))** (unfold)
-**m/$m_e$ = $\varphi$ᵈ / (1 + Cα(1+4$\alpha$)/(1+5π$\alpha$))** (fold)
+**m/mₑ = φᵈ / (1 − σCα(1+4α))** (unfold)
+**m/mₑ = φᵈ / (1 + Cα(1+4α)/(1+5πα))** (fold)
 
-And a possible temporal correction factor cosh($\eta$) for particles with significant rapidity on the torus (see §4.8 on open questions).
+And a possible temporal correction factor cosh(η) for particles with significant rapidity on the torus (see §4.8 on open questions).
 
-The parameters (d, C, $\sigma$) are determined by the particle's position on the torus $T^2$ = $S^1$_depth $\times$ $S^1$_time. Each particle occupies an address (d, n) in the phase space, where d is the depth and n is the temporal index.
+The parameters (d, C, σ) are determined by the particle's position on the torus T² = S¹_depth × S¹_time. Each particle occupies an address (d, n) in the phase space, where d is the depth and n is the temporal index.
 
 ---
 
 ## Dependencies
 
 - [Mass Equation (Theorem 48)](../03-physical-structure/mass-equation.md) -- the original lepton mass equation
-- [Electromagnetic Coupling](../03-physical-structure/force-equations/electromagnetic-coupling.md) -- $\alpha$ entering the correction terms
+- [Electromagnetic Coupling](../03-physical-structure/force-equations/electromagnetic-coupling.md) -- α entering the correction terms
 
 ## Cross-References
 

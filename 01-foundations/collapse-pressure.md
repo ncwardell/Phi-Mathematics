@@ -30,13 +30,13 @@ This is fundamentally scale-dependent:
 - **From outside the scale (zoomed out):** E + (−E) = 0. The pair is a fluctuation — it appears and disappears as a single event. No net structure is visible.
 - **From inside the scale (zoomed in):** If a scale-defining element exists at that scale, the distinction between E and (−E) persists for as long as that element maintains reference.
 
-Therefore: E + (−E) → 0 at all scales lacking a scale-defining element. $\blacksquare$
+Therefore: E + (−E) → 0 at all scales lacking a scale-defining element. ∎
 
 **Remark:** This is the mathematical structure underlying virtual particle physics. Polar pairs appearing and annihilating in the vacuum are structures without a scale-defining witness at that scale. The vacuum does not lack structure — it lacks *sustained distinction*.
 
 ## Dependencies
 
-- [Axiom (Conservation)](axioms-and-postulates.md) — provides $\Sigma = 0$, the annihilation target
+- [Axiom (Conservation)](axioms-and-postulates.md) — provides Σ = 0, the annihilation target
 - [Closure (Theorem 0)](closure.md) — forbids external references, forcing the need for internal scale-defining elements
 - [Polarity (Theorem 1)](polarity.md) — creates the polar pair {E, (−E)} on which collapse pressure acts
 

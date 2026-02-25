@@ -26,7 +26,7 @@ tags:
 
 A regular polygon with n sides has interior angle (n−2)×180°/n. For at least 3 polygons to meet at a vertex of a Platonic solid, the angle sum must be strictly less than 360°:
 
-| n-gon | Angle | 3 $\times$ Angle | Closes? |
+| n-gon | Angle | 3 × Angle | Closes? |
 |-------|-------|-----------|---------|
 | 3 (triangle) | 60° | 180° | ✓ — room to spare |
 | 4 (square) | 90° | 270° | ✓ — room to spare |
@@ -80,15 +80,15 @@ The binary (double-cover) versions of the Platonic rotation groups, as finite su
 
 | Triangulated solid | Binary group | Dynkin diagram | Dimension |
 |-------------------|-------------|----------------|-----------|
-| Tetrahedron | Binary tetrahedral (order 24) | **E₆** | 78 = 2 $\times$ 3 $\times$ 13 |
-| Octahedron | Binary octahedral (order 48) | **E₇** | 133 = 7 $\times$ 19 |
-| Icosahedron | Binary icosahedral (order 120) | **E₈** | 248 = 8 $\times$ 31 |
+| Tetrahedron | Binary tetrahedral (order 24) | **E₆** | 78 = 2 × 3 × 13 |
+| Octahedron | Binary octahedral (order 48) | **E₇** | 133 = 7 × 19 |
+| Icosahedron | Binary icosahedral (order 120) | **E₈** | 248 = 8 × 31 |
 
 The factorizations of these dimensions into framework numbers:
 
-- dim(E₆) = 78 = **2 $\times$ 3 $\times$ 13** = duality $\times$ triangle $\times$ C(Higgs)
-- dim(E₇) = 133 = **7 $\times$ 19** = L(4) $\times$ d(bottom) = weak mixing $\times$ anti-Eisenstein norm of (2,3)
-- dim(E₈) = 248 = **8 $\times$ 31** = F(6) $\times$ 31
+- dim(E₆) = 78 = **2 × 3 × 13** = duality × triangle × C(Higgs)
+- dim(E₇) = 133 = **7 × 19** = L(4) × d(bottom) = weak mixing × anti-Eisenstein norm of (2,3)
+- dim(E₈) = 248 = **8 × 31** = F(6) × 31
 
 The E₆ and E₇ factorizations are striking: they use exactly the framework's primitive numbers and derived quantities. This suggests the exceptional Lie algebras may play a direct role in the generation structure.
 
@@ -103,7 +103,7 @@ The simplest closed 3D structure. Self-duality means the witnessing circuit sees
 The square face (4-gon) introduces the duality perspective. The cube's 8 vertices = 2³ = F(6) = C(W/Z). The octahedron's 12 edges = the witnessing edge number.
 
 **Gen 3: Second dual pair (Dodecahedron {5,3} ↔ Icosahedron {3,5})**
-The pentagonal face (5-gon) introduces algebraic completion. Both solids are built from $\varphi$ — the icosahedron's vertices are (0, ±1, ±$\varphi$) in cyclic permutations. The dodecahedron's diagonal-to-edge ratio is $\varphi$. This is the φ-generation: the dual pair where the golden ratio becomes geometrically manifest.
+The pentagonal face (5-gon) introduces algebraic completion. Both solids are built from φ — the icosahedron's vertices are (0, ±1, ±φ) in cyclic permutations. The dodecahedron's diagonal-to-edge ratio is φ. This is the φ-generation: the dual pair where the golden ratio becomes geometrically manifest.
 
 **Three generations = 1 self-dual solid + 2 dual pairs.** This is forced by the classification of Platonic solids — there is no fourth generation for the same reason there is no sixth Platonic solid.
 
@@ -111,13 +111,13 @@ The pentagonal face (5-gon) introduces algebraic completion. Both solids are bui
 
 The icosahedron {3,5} and dodecahedron {5,3} are duals: swapping faces and vertices exchanges triangle faces with pentagonal faces. In the framework, this is the duality between 3 (witnessing circuit) and 5 (algebraic completion).
 
-Both solids require $\varphi$ for their construction. The pentagon's diagonal-to-side ratio IS $\varphi$. The triangle-pentagon duality is thus the geometric expression of the framework's fundamental tension between witnessing (3) and self-reference (5), mediated by the golden ratio.
+Both solids require φ for their construction. The pentagon's diagonal-to-side ratio IS φ. The triangle-pentagon duality is thus the geometric expression of the framework's fundamental tension between witnessing (3) and self-reference (5), mediated by the golden ratio.
 
 ---
 
 ## Dependencies
 
-- [Golden Ratio (§1)](/01-foundations/golden-ratio.md) -- $\varphi$ appears in icosahedron/dodecahedron vertex coordinates and diagonal ratios
+- [Golden Ratio (§1)](/01-foundations/golden-ratio.md) -- φ appears in icosahedron/dodecahedron vertex coordinates and diagonal ratios
 - [Triangle Structure (§1)](/01-foundations/triangle-structure.md) -- the witnessing triangle as the face type for three of the five solids
 - [Closure (§1)](/01-foundations/closure.md) -- algebraic completion at F(5) = 5 connects to icosahedral symmetry
 

@@ -13,15 +13,15 @@ tags:
 
 # Theorem 0: Closure — No Outside
 
-> **Theorem 0 (Closure — No Outside):** *If $\Sigma = 0$ holds over all that exists, then the totality is topologically closed and boundaryless. No element exists outside it.*
+> **Theorem 0 (Closure — No Outside):** *If Σ = 0 holds over all that exists, then the totality is topologically closed and boundaryless. No element exists outside it.*
 
 ## Statement
 
-If $\Sigma = 0$ holds over all that exists, then the totality is topologically closed and boundaryless. No element exists outside it.
+If Σ = 0 holds over all that exists, then the totality is topologically closed and boundaryless. No element exists outside it.
 
 ## Proof
 
-Suppose for contradiction that some element O exists outside the totality T. By the Postulate, O exists. By definition, T contains all that exists. Therefore O $\in$ T, contradicting the assumption that O is outside T. Hence no such O exists, and T has no exterior. A set with no exterior is closed and boundaryless. $\blacksquare$
+Suppose for contradiction that some element O exists outside the totality T. By the Postulate, O exists. By definition, T contains all that exists. Therefore O ∈ T, contradicting the assumption that O is outside T. Hence no such O exists, and T has no exterior. A set with no exterior is closed and boundaryless. ∎
 
 ## Corollaries
 
@@ -29,7 +29,7 @@ Suppose for contradiction that some element O exists outside the totality T. By 
 
 ## Dependencies
 
-- [Axiom (Conservation) and Postulate (Existence)](axioms-and-postulates.md) — the axiom $\Sigma = 0$ defines the totality; the postulate $\exists$ ensures it is nonempty
+- [Axiom (Conservation) and Postulate (Existence)](axioms-and-postulates.md) — the axiom Σ = 0 defines the totality; the postulate ∃ ensures it is nonempty
 
 ## Dependents
 

@@ -38,7 +38,7 @@ H = pf - m^2 = 0
 
 This constraint is formally identical to the Hamiltonian constraint in general relativity, which encodes the reparametrization invariance of worldlines. Here it arises not from diffeomorphism invariance but from the self-referential structure of the torus: the product of past and future intensities must equal the mass shell, which is determined by the depth and coupling (Part II).
 
-**Interpretation:** A physical system must "live" on its specific hyperbola. The constraint H = 0 is the variational expression of Sigma = 0 -- the conservation axiom applied to the dynamical evolution. A trajectory satisfying H = 0 is one that maintains the internal balance between expanding (future) and contracting (past) components at every moment. $\blacksquare$
+**Interpretation:** A physical system must "live" on its specific hyperbola. The constraint H = 0 is the variational expression of Sigma = 0 -- the conservation axiom applied to the dynamical evolution. A trajectory satisfying H = 0 is one that maintains the internal balance between expanding (future) and contracting (past) components at every moment. ∎
 
 ## Dependencies
 

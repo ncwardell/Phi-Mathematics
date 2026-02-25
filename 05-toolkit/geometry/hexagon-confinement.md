@@ -29,13 +29,13 @@ The hexagon (6-gon) has interior angle 120°. Three hexagons at a vertex give ex
 - **= 360°** (hexagons): flat tiling, infinite structure, no closure
 - **> 360°** (heptagons and beyond): hyperbolic geometry, cannot close
 
-In the framework, 6 = 2 $\times$ 3 is the product of the two generators — **complete color traversal** (both strands through all three nodes). The hexagonal limit says: once you have exhausted both generators multiplicatively, no curvature remains. The structure is saturated.
+In the framework, 6 = 2 × 3 is the product of the two generators — **complete color traversal** (both strands through all three nodes). The hexagonal limit says: once you have exhausted both generators multiplicatively, no curvature remains. The structure is saturated.
 
 ## Confinement as Saturation
 
 A free quark would be a single node of the witnessing triangle existing independently. But to be "free," it would need to complete its own witnessing circuit — which requires at least 3 nodes (the chiral minimum). A lone quark cannot self-witness.
 
-The hexagonal saturation makes this precise: the color structure (triangle $\times$ duality = 6) uses all available angular budget. A free quark would need to generate *additional* curvature beyond the hexagonal limit, which is geometrically forbidden. The only way to add structure beyond 6 is through the heptagon (7 = L(4) = weak mixing), which is hyperbolic — it cannot close into a compact object.
+The hexagonal saturation makes this precise: the color structure (triangle × duality = 6) uses all available angular budget. A free quark would need to generate *additional* curvature beyond the hexagonal limit, which is geometrically forbidden. The only way to add structure beyond 6 is through the heptagon (7 = L(4) = weak mixing), which is hyperbolic — it cannot close into a compact object.
 
 This provides a geometric explanation for why quarks are confined but leptons are not: leptons complete the full witnessing circuit (all 3 nodes), so their angular budget is internally balanced. Quarks occupy a single node and need the other nodes to close — they are topologically incomplete.
 
@@ -46,7 +46,7 @@ The transition from hexagon (6) to heptagon (7) is also the transition from the 
 - 6 = 2×3: the flat tiling (confinement)
 - 7 = 2²−2·3+3²: the first hyperbolic polygon (weak mixing)
 
-The weak force operates precisely at this boundary — it connects the confined (color) sector to the unconfined (electroweak) sector. The weak mixing angle si$n^2$θ_W = $\varphi$/7 + $\alpha^2$ quantifies how much of the hexagonal structure "leaks" into the heptagonal regime.
+The weak force operates precisely at this boundary — it connects the confined (color) sector to the unconfined (electroweak) sector. The weak mixing angle sin²θ_W = φ/7 + α² quantifies how much of the hexagonal structure "leaks" into the heptagonal regime.
 
 ---
 

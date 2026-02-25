@@ -15,23 +15,23 @@ tags:
 
 # 1.9 The Golden Ratio
 
-> **Theorem 5 ($\varphi$ Emerges):**
-> *The unique positive solution to $x^2$ − x − 1 = 0 is $\varphi$ = (1 + $\sqrt{5}$)/2 $\approx$ 1.6180339887. The negative solution is $\psi$ = (1 − $\sqrt{5}$)/2 $\approx$ −0.6180339887. These are the eigenvalues of self-reference.*
+> **Theorem 5 (φ Emerges):**
+> *The unique positive solution to x² − x − 1 = 0 is φ = (1 + √5)/2 ≈ 1.6180339887. The negative solution is ψ = (1 − √5)/2 ≈ −0.6180339887. These are the eigenvalues of self-reference.*
 
 ## Statement
 
-The self-reference equation $x^2$ − x − 1 = 0 (Theorem 4) has exactly two solutions: $\varphi$ = (1 + $\sqrt{5}$)/2 and $\psi$ = (1 − $\sqrt{5}$)/2. These are the eigenvalues of self-reference, and they satisfy Vieta's formulas: $\varphi$ + $\psi$ = 1 and $\varphi$ $\times$ $\psi$ = −1.
+The self-reference equation x² − x − 1 = 0 (Theorem 4) has exactly two solutions: φ = (1 + √5)/2 and ψ = (1 − √5)/2. These are the eigenvalues of self-reference, and they satisfy Vieta's formulas: φ + ψ = 1 and φ × ψ = −1.
 
 ## Proof
 
-From [Theorem 4](self-reference-equation.md), $x^2$ − x − 1 = 0 has discriminant $\Delta$ = 1 + 4 = 5, giving:
+From [Theorem 4](self-reference-equation.md), x² − x − 1 = 0 has discriminant Δ = 1 + 4 = 5, giving:
 
-$x_1$ = (1 + $\sqrt{5}$)/2 = $\varphi$ $\approx$ 1.6180339887...
-$x_2$ = (1 − $\sqrt{5}$)/2 = $\psi$ $\approx$ −0.6180339887...
+x₁ = (1 + √5)/2 = φ ≈ 1.6180339887...
+x₂ = (1 − √5)/2 = ψ ≈ −0.6180339887...
 
 By Vieta's formulas:
-- $\varphi$ + $\psi$ = 1 (the sum of eigenvalues equals the unit of distinction)
-- $\varphi$ $\times$ $\psi$ = −1 (the product of eigenvalues equals negative unity) $\blacksquare$
+- φ + ψ = 1 (the sum of eigenvalues equals the unit of distinction)
+- φ × ψ = −1 (the product of eigenvalues equals negative unity) ∎
 
 ## Corollaries
 
@@ -39,12 +39,12 @@ By Vieta's formulas:
 
 ## Dependencies
 
-- [Theorem 4 — The Self-Reference Equation](self-reference-equation.md): Provides the quadratic $x^2$ − x − 1 = 0 whose roots are $\varphi$ and $\psi$.
+- [Theorem 4 — The Self-Reference Equation](self-reference-equation.md): Provides the quadratic x² − x − 1 = 0 whose roots are φ and ψ.
 
 ## Dependents
 
-- [Theorem 5.1 — The Four-Structure](four-structure.md): Organizes {$\varphi$, $\psi$, 1, −1} into complementary pairs.
-- [Theorem 5.2 — Two Kepler Triangles](two-kepler-triangles.md): Uses $\varphi$ and $\psi$ as the squared hypotenuse ratios of the two Kepler triangles.
+- [Theorem 5.1 — The Four-Structure](four-structure.md): Organizes {φ, ψ, 1, −1} into complementary pairs.
+- [Theorem 5.2 — Two Kepler Triangles](two-kepler-triangles.md): Uses φ and ψ as the squared hypotenuse ratios of the two Kepler triangles.
 
 ## Tags
 

@@ -35,7 +35,7 @@ A → B → A (a 2-cycle)
 
 But since B = −A, this cycle is: A → (−A) → A, which is equivalent to A → 0 → A. The intermediate state is annihilation. The 2-cycle passes through zero at every step.
 
-More formally: model the reference as a discrete dynamical system on the pair. The only fixed points of the map f(A) = −A are A = 0. Therefore the system has no stable nonzero configuration. $\blacksquare$
+More formally: model the reference as a discrete dynamical system on the pair. The only fixed points of the map f(A) = −A are A = 0. Therefore the system has no stable nonzero configuration. ∎
 
 ## Corollaries
 

@@ -21,7 +21,7 @@ tags:
 
 **Theorem:** *The first massive particle at each force scale sits at depth d_force + 1.*
 
-**Statement:** d($\mu$) = d($\alpha$) + 1 = 11, and d(H) = d(W) + 1 = 26.
+**Statement:** d(μ) = d(α) + 1 = 11, and d(H) = d(W) + 1 = 26.
 
 **Proof:**
 
@@ -29,15 +29,15 @@ Define the availability set at depth d:
 
 Available(d) = {all structures fully crystallized at depths d' < d}
 
-At d = d_force, the force coupling is *in the process of being defined*. The self-referential equation determining the coupling (e.g., 5π$\alpha^2$ + $\alpha$ = $\varphi$^(−10) for EM at d = 10) is being solved at this depth — the coupling is crystallizing.
+At d = d_force, the force coupling is *in the process of being defined*. The self-referential equation determining the coupling (e.g., 5πα² + α = φ^(−10) for EM at d = 10) is being solved at this depth — the coupling is crystallizing.
 
 A particle's mass requires the coupling as a *finished tool* for self-witnessing:
 
-m/$m_e$ = $\varphi$^d / (1 − Cα(1+4$\alpha$))
+m/mₑ = φ^d / (1 − Cα(1+4α))
 
-The $\alpha$ in this equation must be *available*, not *in-process*. At d = d_force, the coupling is at the boundary of Available(d) — defined but not yet usable as an external tool. At d = d_force + 1, the coupling is fully inside Available(d).
+The α in this equation must be *available*, not *in-process*. At d = d_force, the coupling is at the boundary of Available(d) — defined but not yet usable as an external tool. At d = d_force + 1, the coupling is fully inside Available(d).
 
-Therefore: the first depth at which a particle can use the force's self-witnessing correction is d_force + 1. $\blacksquare$
+Therefore: the first depth at which a particle can use the force's self-witnessing correction is d_force + 1. ∎
 
 ## The carrier/user distinction
 
@@ -45,12 +45,12 @@ This theorem reveals a structural distinction between force *carriers* and force
 
 | | Force Carrier | First Force User |
 |---|---|---|
-| EM | Photon (d = −$\infty$, massless) | Muon (d = 11 = d($\alpha$)+1) |
+| EM | Photon (d = −∞, massless) | Muon (d = 11 = d(α)+1) |
 | Weak | W/Z (d = 25, ARE the weak force) | Higgs (d = 26 = d(W)+1) |
 
 Force carriers *are* the force — they exist at the force depth because they *constitute* it. Force users *employ* the force for self-witnessing — they require the force to already exist, hence d + 1.
 
-**Connection to empathetic derivation:** This theorem formalizes the principle from §5.11: "What would $\varphi$ conclude about itself at this depth, using only the tools available there?" At d = 10, $\varphi$ is busy defining $\alpha$. At d = 11, $\alpha$ is defined, and $\varphi$ can use it — the muon is what $\varphi$ concludes about itself at the first depth where EM self-witnessing is available.
+**Connection to empathetic derivation:** This theorem formalizes the principle from §5.11: "What would φ conclude about itself at this depth, using only the tools available there?" At d = 10, φ is busy defining α. At d = 11, α is defined, and φ can use it — the muon is what φ concludes about itself at the first depth where EM self-witnessing is available.
 
 ---
 
