@@ -23,13 +23,13 @@ tags:
 
 ## The Hexagonal Limit
 
-The hexagon (6-gon) has interior angle 120°. Three hexagons at a vertex give exactly 360° — the plane is tiled with zero curvature remaining. This is the boundary between:
+The hexagon (6-gon) has interior angle $120°$. Three hexagons at a vertex give exactly $360°$ — the plane is tiled with zero curvature remaining. This is the boundary between:
 
-- **< 360°** (triangles, squares, pentagons): positive curvature, Platonic solids, closed structures
-- **= 360°** (hexagons): flat tiling, infinite structure, no closure
-- **> 360°** (heptagons and beyond): hyperbolic geometry, cannot close
+- **$< 360°$** (triangles, squares, pentagons): positive curvature, Platonic solids, closed structures
+- **$= 360°$** (hexagons): flat tiling, infinite structure, no closure
+- **$> 360°$** (heptagons and beyond): hyperbolic geometry, cannot close
 
-In the framework, 6 = 2 × 3 is the product of the two generators — **complete color traversal** (both strands through all three nodes). The hexagonal limit says: once you have exhausted both generators multiplicatively, no curvature remains. The structure is saturated.
+In the framework, $6 = 2 \times 3$ is the product of the two generators — **complete color traversal** (both strands through all three nodes). The hexagonal limit says: once you have exhausted both generators multiplicatively, no curvature remains. The structure is saturated.
 
 ## Confinement as Saturation
 
@@ -41,19 +41,19 @@ This provides a geometric explanation for why quarks are confined but leptons ar
 
 ## The Hexagon-Heptagon Boundary
 
-The transition from hexagon (6) to heptagon (7) is also the transition from the product of generators (2×3) to the Eisenstein norm of generators (2²−2·3+3²). In the framework:
+The transition from hexagon (6) to heptagon (7) is also the transition from the product of generators ($2 \times 3$) to the Eisenstein norm of generators ($2^2-2 \cdot 3+3^2$). In the framework:
 
-- 6 = 2×3: the flat tiling (confinement)
-- 7 = 2²−2·3+3²: the first hyperbolic polygon (weak mixing)
+- $6 = 2 \times 3$: the flat tiling (confinement)
+- $7 = 2^2-2 \cdot 3+3^2$: the first hyperbolic polygon (weak mixing)
 
-The weak force operates precisely at this boundary — it connects the confined (color) sector to the unconfined (electroweak) sector. The weak mixing angle sin²θ_W = φ/7 + α² quantifies how much of the hexagonal structure "leaks" into the heptagonal regime.
+The weak force operates precisely at this boundary — it connects the confined (color) sector to the unconfined (electroweak) sector. The weak mixing angle $\sin^2\theta_W = \phi/7 + \alpha^2$ quantifies how much of the hexagonal structure "leaks" into the heptagonal regime.
 
 ---
 
 ## Dependencies
 
-- [Triangle Structure (§1)](/01-foundations/triangle-structure.md) -- the witnessing triangle as the minimal chiral circuit; the 3 in the product 2×3 = 6
-- [Polarity (§1)](/01-foundations/polarity.md) -- duality (2) as the other factor in the product 2×3 = 6
+- [Triangle Structure (§1)](/01-foundations/triangle-structure.md) -- the witnessing triangle as the minimal chiral circuit; the 3 in the product $2 \times 3 = 6$
+- [Polarity (§1)](/01-foundations/polarity.md) -- duality (2) as the other factor in the product $2 \times 3 = 6$
 - [Platonic Solids (§5.20)](platonic-solids.md) -- the face-type constraint table showing the hexagon as the closure boundary
 
 ## Dependents

@@ -51,7 +51,7 @@ Part III (Physical Structure)
 Theorem 48 (Mass Equation, §3.10)
     |
     v
-§4.1 Universal Mass Equation  <-- same equation, extended
+§4.1 Universal Mass Equation  $\leftarrow$ same equation, extended
     |
     |-- §4.3 Weak Bosons (d=25, C=8)
     |-- §4.4 Higgs Boson (d=26, C=13)

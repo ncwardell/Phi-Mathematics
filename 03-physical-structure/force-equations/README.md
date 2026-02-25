@@ -30,9 +30,9 @@ The four fundamental force coupling constants are determined by the self-referen
 
 ## Contents
 
-1. [Strong Coupling](strong-coupling.md) -- Section 3.9.1: alpha_s = 1/(2phi^3 + alpha) (Depth 3)
+1. [Strong Coupling](strong-coupling.md) -- Section 3.9.1: $\alpha_s = 1/(2\phi^3 + \alpha)$ (Depth 3)
 2. [Electromagnetic Coupling](electromagnetic-coupling.md) -- Section 3.9.2: The self-referential EM equation (Depth 10)
-3. [Weak Mixing Angle](weak-mixing-angle.md) -- Section 3.9.3: sin^2(theta_W) = phi/7 + alpha^2 (Geometric)
+3. [Weak Mixing Angle](weak-mixing-angle.md) -- Section 3.9.3: $\sin^2(\theta_W) = \phi/7 + \alpha^2$ (Geometric)
 
 ## The Hierarchy of Complexity
 
@@ -40,20 +40,20 @@ The force equations form a hierarchy of structural complexity, each reflecting t
 
 | Force | Depth | Available Structure | Equation Form | Structural Character |
 |-------|-------|-------------------|---------------|---------------------|
-| Strong | 3 (shallowest) | Triangle, two strands, minimal bridge | 1/(winding + perturbation) | Simple inverse -- first force, minimal tools |
-| EM | 10 (middle) | sqrt(5), pi, Kepler area, L(3), full self-reference | Implicit quadratic self-consistency | Self-referential -- the bridge examining itself |
+| Strong | 3 (shallowest) | Triangle, two strands, minimal bridge | $1/(\text{winding} + \text{perturbation})$ | Simple inverse -- first force, minimal tools |
+| EM | 10 (middle) | $\sqrt{5}$, $\pi$, Kepler area, $L(3)$, full self-reference | Implicit quadratic self-consistency | Self-referential -- the bridge examining itself |
 | Weak mixing | Geometric | Strand symmetry, minimal EM correction | Ratio + minimal self-loop | Geometric angle -- relationship between symmetries |
 
 **The progression of forms is not arbitrary -- it is forced by the unfolding:**
-1. At depth 3, only simple tools exist --> simple equation
-2. At depth 10, rich self-referential structure exists --> self-consistent implicit equation
-3. The mixing angle is geometric, not depth-localized --> ratio equation
+1. At depth 3, only simple tools exist $\rightarrow$ simple equation
+2. At depth 10, rich self-referential structure exists $\rightarrow$ self-consistent implicit equation
+3. The mixing angle is geometric, not depth-localized $\rightarrow$ ratio equation
 
 ## Dependencies
 
 - [Gauge Structure (Theorem 46)](../gauge-structure.md) -- the gauge groups within which the couplings operate
-- [Golden Ratio (Theorem 5)](../../01-foundations/golden-ratio.md) -- phi as the fundamental constant
-- Theorem 24 (Hopf Fibration) -- pi from the fiber geometry
+- [Golden Ratio (Theorem 5)](../../01-foundations/golden-ratio.md) -- $\phi$ as the fundamental constant
+- Theorem 24 (Hopf Fibration) -- $\pi$ from the fiber geometry
 - Theorem 29 (Breathing Torus) -- the depth structure
 
 ## Dependents

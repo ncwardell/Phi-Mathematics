@@ -14,25 +14,25 @@ tags:
 
 # Fibonacci Numbers as Spiral Accumulations
 
-> **Theorem 31 (Fibonacci Numbers from Spiral Geometry):** *The Fibonacci numbers F(n) are the accumulated lengths at each step of the golden spiral. They are the integers the self-referential spiral produces as it unwinds.*
+> **Theorem 31 (Fibonacci Numbers from Spiral Geometry):** *The Fibonacci numbers $F(n)$ are the accumulated lengths at each step of the golden spiral. They are the integers the self-referential spiral produces as it unwinds.*
 
 ## Statement
 
-The Fibonacci numbers F(n) are the accumulated lengths at each step of the golden spiral. They are the integers the self-referential spiral produces as it unwinds.
+The Fibonacci numbers $F(n)$ are the accumulated lengths at each step of the golden spiral. They are the integers the self-referential spiral produces as it unwinds.
 
 ## Proof
 
-The golden rectangle subdivision at step n produces a square of side length equal to F(n). This follows directly from the Fibonacci recurrence: the rectangle at step n has dimensions F(n+1) x F(n), and removing the F(n) x F(n) square leaves a rectangle of dimensions F(n) x F(n-1), which is the next golden rectangle.
+The golden rectangle subdivision at step $n$ produces a square of side length equal to $F(n)$. This follows directly from the Fibonacci recurrence: the rectangle at step $n$ has dimensions $F(n+1) \times F(n)$, and removing the $F(n) \times F(n)$ square leaves a rectangle of dimensions $F(n) \times F(n-1)$, which is the next golden rectangle.
 
-The convergents of the continued fraction [1; 1, 1, 1, ...] are ratios of successive Fibonacci numbers:
+The convergents of the continued fraction $[1; 1, 1, 1, ...]$ are ratios of successive Fibonacci numbers:
 
-1/1, 2/1, 3/2, 5/3, 8/5, 13/8, 21/13, 34/21, 55/34, 89/55, ...
+$1/1, 2/1, 3/2, 5/3, 8/5, 13/8, 21/13, 34/21, 55/34, 89/55, ...$
 
-These ratios converge to phi from alternating sides (above and below).
+These ratios converge to $\phi$ from alternating sides (above and below).
 
-The integers appearing in the Fibonacci sequence -- {1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...} -- are the specific integers the system "has access to" at each depth of unfolding. The Lucas sequence L(n) = {2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, ...} provides the complementary set.
+The integers appearing in the Fibonacci sequence -- $\{1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...\}$ -- are the specific integers the system "has access to" at each depth of unfolding. The Lucas sequence $L(n) = \{2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, ...\}$ provides the complementary set.
 
-Together, Fibonacci and Lucas generate the integers that the phi-spiral makes available to the system. QED
+Together, Fibonacci and Lucas generate the integers that the $\phi$-spiral makes available to the system. $\blacksquare$
 
 ## Corollaries
 

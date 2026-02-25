@@ -13,7 +13,7 @@ The phi-Mathematics Framework begins from the sparsest possible foundation:
 
 Conservation without existence is trivially satisfied by the empty set. Existence without conservation is unconstrained. Together, they are the minimal foundation from which all structure must follow.
 
-From these two statements alone, the framework derives -- without fitting parameters or empirical input -- the golden ratio phi = (1 + sqrt(5))/2 as the unique self-referential eigenvalue of recursive structure, the breathing torus as the minimal stable topology, the full set of metallic mean meeting points that correspond to the known particle spectrum, and closed-form expressions for the fundamental constants of nature with sub-0.01% agreement with measured values.
+From these two statements alone, the framework derives -- without fitting parameters or empirical input -- the golden ratio $\phi = (1 + \sqrt{5})/2$ as the unique self-referential eigenvalue of recursive structure, the breathing torus as the minimal stable topology, the full set of metallic mean meeting points that correspond to the known particle spectrum, and closed-form expressions for the fundamental constants of nature with sub-0.01% agreement with measured values.
 
 The original monolithic document is preserved as [Initial Phi Math Framework.md](Initial%20Phi%20Math%20Framework.md).
 
@@ -82,17 +82,17 @@ For the full unstructured derivation in a single document, see [Initial Phi Math
 
 ## Key Predictions
 
-All quantities below are derived from phi = (1 + sqrt(5))/2 and the framework's axioms, with no fitted parameters. Errors are computed against CODATA/PDG experimental values.
+All quantities below are derived from $\phi = (1 + \sqrt{5})/2$ and the framework's axioms, with no fitted parameters. Errors are computed against CODATA/PDG experimental values.
 
 | Quantity | Equation | Error |
 |----------|----------|-------|
-| Fine structure constant alpha | 5*pi*alpha^2 + alpha*(1 - (phi^2 + 4)*phi^(-20)) = phi^(-10) | 0.0001% |
-| Weak mixing angle sin^2(theta_W) | phi/7 + alpha^2 | 0.004% |
-| Strong coupling alpha_s | 1/(2*phi^3 + alpha) | 0.027% |
-| Muon mass (m_mu / m_e) | phi^11 / (1 - 5*alpha*(1 + 4*alpha)) | 0.0006% |
-| Tau mass (m_tau / m_e) | phi^17 / (1 + 4*alpha*(1 + 4*alpha)/(1 + 5*pi*alpha)) | 0.0015% |
-| Planck mass (M_P / m_e) | phi^(107 + 1/(4*pi)) | 0.0004% |
-| Gravity hierarchy (alpha / alpha_G) | phi^(204 - 1/(4*pi)) | 0.007% |
+| Fine structure constant $\alpha$ | $5\pi\alpha^2 + \alpha(1 - (\phi^2 + 4)\phi^{-20}) = \phi^{-10}$ | 0.0001% |
+| Weak mixing angle $\sin^2(\theta_W)$ | $\phi/7 + \alpha^2$ | 0.004% |
+| Strong coupling $\alpha_s$ | $1/(2\phi^3 + \alpha)$ | 0.027% |
+| Muon mass $(m_\mu / m_e)$ | $\phi^{11} / (1 - 5\alpha(1 + 4\alpha))$ | 0.0006% |
+| Tau mass $(m_\tau / m_e)$ | $\phi^{17} / (1 + 4\alpha(1 + 4\alpha)/(1 + 5\pi\alpha))$ | 0.0015% |
+| Planck mass $(M_P / m_e)$ | $\phi^{107 + 1/(4\pi)}$ | 0.0004% |
+| Gravity hierarchy $(\alpha / \alpha_G)$ | $\phi^{204 - 1/(4\pi)}$ | 0.007% |
 
 ---
 
@@ -101,28 +101,28 @@ All quantities below are derived from phi = (1 + sqrt(5))/2 and the framework's 
 The entire framework rests on a short logical chain:
 
 ```
-Sigma = 0  +  There Exists
+Σ = 0  +  There Exists
        |
        v
-  Polarity: 0 -> E + (-E)
+  Polarity: 0 → E + (-E)
        |
        v
-  Collapse pressure -> need for witnessing
+  Collapse pressure → need for witnessing
        |
        v
   Triangle = minimal stable structure
        |
        v
-  Self-reference eigenvalue -> phi = (1+sqrt(5))/2
+  Self-reference eigenvalue → φ = (1+√5)/2
        |
        v
   Breathing torus = minimal topology
        |
        v
-  Meeting points on torus -> particle spectrum
+  Meeting points on torus → particle spectrum
        |
        v
-  Projection geometry -> forces, masses, constants
+  Projection geometry → forces, masses, constants
 ```
 
 Nothing is assumed beyond the two starting statements. Every step is a theorem with a proof.

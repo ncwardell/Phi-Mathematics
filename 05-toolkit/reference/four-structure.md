@@ -16,17 +16,17 @@ tags:
 
 # 5.5 The Four-Structure
 
-{φ, ψ, 1, −1} where:
-- φ + ψ = 1
-- φ × ψ = −1
-- φ − ψ = √5
-- i = √(φψ) = √(−1)
+$\{\phi, \psi, 1, -1\}$ where:
+- $\phi + \psi = 1$
+- $\phi \times \psi = -1$
+- $\phi - \psi = \sqrt{5}$
+- $i = \sqrt{\phi\psi} = \sqrt{-1}$
 
 ## Cross-References
 
 - [The Four-Structure (Theorem 5.1)](../../01-foundations/four-structure.md) -- foundational derivation from the golden ratio
-- [Golden Ratio Properties](golden-ratio-properties.md) -- φ and ψ as eigenvalues of self-reference
-- [Additional Tools from φ-Algebra](phi-algebra.md) -- the φ-Euler identity encoding e^(iπ)+1=0
+- [Golden Ratio Properties](golden-ratio-properties.md) -- $\phi$ and $\psi$ as eigenvalues of self-reference
+- [Additional Tools from $\phi$-Algebra](phi-algebra.md) -- the $\phi$-Euler identity encoding $e^{i\pi}+1=0$
 
 ## Tags
 

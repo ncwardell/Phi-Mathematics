@@ -19,9 +19,9 @@ tags:
 
 ## Statement
 
-**Axiom (Conservation):** Σ = 0 — the sum of all that exists is zero.
+**Axiom (Conservation):** $\Sigma = 0$ — the sum of all that exists is zero.
 
-**Postulate (Existence):** ∃ — something exists; structure is observed.
+**Postulate (Existence):** $\exists$ — something exists; structure is observed.
 
 These are irreducible. Conservation without existence is trivially satisfied by the empty set. Existence without conservation is unconstrained. Together, they are the minimal foundation.
 
@@ -29,8 +29,8 @@ These are irreducible. Conservation without existence is trivially satisfied by 
 
 No proof is given or needed — these are the two irreducible starting assumptions of the framework. Every subsequent theorem derives from these two statements alone.
 
-- **Conservation (Σ = 0)** asserts that the total content of reality sums to zero. This is the strongest possible symmetry constraint: nothing net exists.
-- **Existence (∃)** asserts that structure is observed despite the total being zero. This prevents the trivial solution (the empty set) from being the only one.
+- **Conservation ($\Sigma = 0$)** asserts that the total content of reality sums to zero. This is the strongest possible symmetry constraint: nothing net exists.
+- **Existence ($\exists$)** asserts that structure is observed despite the total being zero. This prevents the trivial solution (the empty set) from being the only one.
 
 The tension between these two statements — that the total is zero yet something exists — drives all subsequent derivations.
 

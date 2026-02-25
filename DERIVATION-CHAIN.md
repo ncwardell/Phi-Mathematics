@@ -1,8 +1,8 @@
 # Derivation Chain: Full Theorem Dependency Tree
 
 The complete logical flow from axiom and postulate through all five parts of the
-phi-Mathematics Framework. Every result traces back to the two starting points:
-**Sigma = 0** (Conservation Axiom) and **Exists** (Existence Postulate).
+$\phi$-Mathematics Framework. Every result traces back to the two starting points:
+**$\Sigma = 0$** (Conservation Axiom) and **Exists** (Existence Postulate).
 
 Each node links to the section of the framework where the theorem is stated and
 proved. File paths reference the planned reorganization directories.

@@ -26,7 +26,7 @@ Can {1, 2, 3, 5, 29, 34} be proven complete using Baker's theorem or related res
 
 ## 2. Birth Depth Constraints
 
-Does the depth at which a metallic family is born constrain where its meeting points can appear? For instance, the silver mean is born at depth F(3) = 2 -- does this restrict its Pell sequence to only produce meeting points at depths that are themselves related to Fibonacci indices?
+Does the depth at which a metallic family is born constrain where its meeting points can appear? For instance, the silver mean is born at depth $F(3) = 2$ -- does this restrict its Pell sequence to only produce meeting points at depths that are themselves related to Fibonacci indices?
 
 ## 3. Meeting Point Multiplicity
 
@@ -38,7 +38,7 @@ If a meeting point represents constructive interference between metallic modes, 
 
 ## 5. The 4th Generation Uniqueness
 
-The predicted 4th generation at d = 34 is unique in that its temporal depth IS a meeting point (F(9) intersection PL(4)). For all other particles, the spatial resonance (C) and temporal depth (d) are independent. What physical consequences follow from this spatial-temporal coincidence? Does it affect the particle's stability or decay properties?
+The predicted 4th generation at $d = 34$ is unique in that its temporal depth IS a meeting point ($F(9) \cap PL(4)$). For all other particles, the spatial resonance ($C$) and temporal depth ($d$) are independent. What physical consequences follow from this spatial-temporal coincidence? Does it affect the particle's stability or decay properties?
 
 ## Cross-Links
 

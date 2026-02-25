@@ -17,23 +17,23 @@ tags:
 # 5.2 Fibonacci and Lucas Identities
 
 **Recurrences:**
-F(n) = F(n−1) + F(n−2), F(0) = 0, F(1) = 1
-L(n) = L(n−1) + L(n−2), L(0) = 2, L(1) = 1
+$F(n) = F(n-1) + F(n-2)$, $F(0) = 0$, $F(1) = 1$
+$L(n) = L(n-1) + L(n-2)$, $L(0) = 2$, $L(1) = 1$
 
 **Binet formulas:**
-F(n) = (φⁿ − ψⁿ)/√5
-L(n) = φⁿ + ψⁿ
+$F(n) = (\phi^n - \psi^n)/\sqrt{5}$
+$L(n) = \phi^n + \psi^n$
 
 **Key relationships:**
-- L(n) = F(n−1) + F(n+1)
-- F(n)² + F(n+1)² = F(2n+1)
-- F(n) × F(n+2) = F(n+1)² + (−1)^(n+1) (Cassini identity)
-- F(2n) = F(n) × L(n)
-- L(n)² − 5F(n)² = 4(−1)ⁿ
+- $L(n) = F(n-1) + F(n+1)$
+- $F(n)^2 + F(n+1)^2 = F(2n+1)$
+- $F(n) \times F(n+2) = F(n+1)^2 + (-1)^{n+1}$ (Cassini identity)
+- $F(2n) = F(n) \times L(n)$
+- $L(n)^2 - 5F(n)^2 = 4(-1)^n$
 
 **NegaFibonacci/NegaLucas:**
-F(−n) = (−1)^(n+1) × F(n)
-L(−n) = (−1)^n × L(n)
+$F(-n) = (-1)^{n+1} \times F(n)$
+$L(-n) = (-1)^n \times L(n)$
 
 **Key negative values used in the framework:**
 
@@ -46,7 +46,7 @@ L(−n) = (−1)^n × L(n)
 
 ## Cross-References
 
-- [Golden Ratio Properties](golden-ratio-properties.md) -- powers of φ expressed through Fibonacci and Lucas numbers
+- [Golden Ratio Properties](golden-ratio-properties.md) -- powers of $\phi$ expressed through Fibonacci and Lucas numbers
 - [Meeting Points Reference](meeting-points-reference.md) -- meeting points as Fibonacci/Lucas values
 - [Patterns and Observations](../../04-extensions/patterns-and-observations.md) -- Fibonacci progression of boson coefficients
 - [Correction Factor Anatomy](correction-factor-anatomy.md) -- L(3) = 4 as the witnessing quantum coefficient

@@ -32,26 +32,26 @@ The meeting points, with their physical assignments:
 | Meeting Point | Metallic Intersections | Role in Framework | Physical Correspondence |
 |--------------|----------------------|-------------------|------------------------|
 | **1** | All sequences | Universal resonance | Photon -- the bridge element, axis of observation |
-| **2** | F(3) intersection L(0) intersection P(2) intersection PL(1) | Quadruple resonance | Duality -- strand divergence point |
-| **3** | F(4) intersection L(2) intersection B(1) | Triple resonance | Three forces, three colors, three generations; strong force crystallizes (confinement = triangular witnessing) |
-| **5** | F(5) intersection P(3) | Golden intersection Silver | Self-understanding -- algebraic completion (sqrt(5)); muon's coefficient C = 5 |
-| **29** | L(7) intersection P(5) | Lucas intersection Pell | 4th generation coefficient C = 29; Lucas-Pell bridge |
-| **34** | F(9) intersection PL(4) | Fibonacci intersection Pell-Lucas | 4th generation depth d = 34; last meeting point |
+| **2** | $F(3) \cap L(0) \cap P(2) \cap PL(1)$ | Quadruple resonance | Duality -- strand divergence point |
+| **3** | $F(4) \cap L(2) \cap B(1)$ | Triple resonance | Three forces, three colors, three generations; strong force crystallizes (confinement = triangular witnessing) |
+| **5** | $F(5) \cap P(3)$ | Golden $\cap$ Silver | Self-understanding -- algebraic completion ($\sqrt{5}$); muon's coefficient $C = 5$ |
+| **29** | $L(7) \cap P(5)$ | Lucas $\cap$ Pell | 4th generation coefficient $C = 29$; Lucas-Pell bridge |
+| **34** | $F(9) \cap PL(4)$ | Fibonacci $\cap$ Pell-Lucas | 4th generation depth $d = 34$; last meeting point |
 
 ## Corollaries
 
 **Corollary 35.1 (Finite Particle Spectrum):** Since no meeting points exist beyond 34, the particle spectrum is finite. At most four lepton generations can exist. This is not a parameter -- it is a number-theoretic consequence of the divergence of metallic harmonics.
 
-**Corollary 35.2 (Generation Structure):** The three known lepton generations correspond to the coincidence of a spatial resonance (meeting-point coefficient C) and a temporal address (depth d):
+**Corollary 35.2 (Generation Structure):** The three known lepton generations correspond to the coincidence of a spatial resonance (meeting-point coefficient $C$) and a temporal address (depth $d$):
 
-| Generation | Particle | Depth d (temporal) | C (spatial) | sigma (breath phase) | d source | C source |
+| Generation | Particle | Depth $d$ (temporal) | $C$ (spatial) | $\sigma$ (breath phase) | $d$ source | $C$ source |
 |-----------|----------|-------------------|-------------|------------------|----------|----------|
 | 1 | Electron | 0 | -- | -- | Ground state | -- |
-| 2 | Muon | 11 = \|L(-5)\| | 5 = F(5) | +1 (unfold) | NegaLucas temporal marker | Meeting point (Golden intersection Silver) |
-| 3 | Tau | 17 | 4 = L(3) = \|L(-3)\| | -1 (fold) | Gravity connection (12 x 17 = 204) | NegaLucas / witnessing structure |
-| 4 | Predicted | 34 = F(9) | 29 = L(7) = \|L(-7)\| | +1 (unfold) | Meeting point AND temporal depth | Meeting point (Lucas intersection Pell) |
+| 2 | Muon | $11 = |L(-5)|$ | $5 = F(5)$ | +1 (unfold) | NegaLucas temporal marker | Meeting point (Golden $\cap$ Silver) |
+| 3 | Tau | 17 | $4 = L(3) = |L(-3)|$ | $-1$ (fold) | Gravity connection ($12 \times 17 = 204$) | NegaLucas / witnessing structure |
+| 4 | Predicted | $34 = F(9)$ | $29 = L(7) = |L(-7)|$ | +1 (unfold) | Meeting point AND temporal depth | Meeting point (Lucas $\cap$ Pell) |
 
-A particle crystallizes when both conditions are met: the temporal unfolding has reached a depth where a spatial rung can be engaged. The mass equation m/m_e = phi^d / (1 - sigma*C*alpha*(1+4*alpha)) encodes both: phi^d is the temporal winding, C is the spatial coupling, and sigma is the breath phase at crystallization.
+A particle crystallizes when both conditions are met: the temporal unfolding has reached a depth where a spatial rung can be engaged. The mass equation $m/m_e = \phi^d / (1 - \sigma \cdot C \cdot \alpha \cdot (1+4\alpha))$ encodes both: $\phi^d$ is the temporal winding, $C$ is the spatial coupling, and $\sigma$ is the breath phase at crystallization.
 
 ## Dependencies
 

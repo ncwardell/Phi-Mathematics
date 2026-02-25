@@ -23,22 +23,22 @@ Particles cluster at specific depths, not randomly:
 |--------|-------|-----------|------------------------|
 | Origin | 0 | Electron | Ground state |
 | Triangle | 3-5 | Up, Down | Strong force crystallization |
-| Muon region | 11 | Muon, Strange | |L(−5)| depth, algebraic closure |
-| Charm/Proton | 16 | Charm, Proton | φ¹⁶ = L(16) ≈ 2207 |
-| Tau region | 17 | Tau | Gravitational connection (12×17=204) |
+| Muon region | 11 | Muon, Strange | $\|L(-5)\|$ depth, algebraic closure |
+| Charm/Proton | 16 | Charm, Proton | $\phi^{16} = L(16) \approx 2207$ |
+| Tau region | 17 | Tau | Gravitational connection ($12 \times 17=204$) |
 | Bottom | 19 | Bottom | |
-| Electroweak | 25 | W, Z | F(5)² = 25 |
+| Electroweak | 25 | W, Z | $F(5)^2 = 25$ |
 | Higgs/Top | 26 | Higgs, Top | Mass mechanism depth |
 | Generation 4 | 34 | Predicted lepton | Last meeting point F(9) |
 | Planck | 107 | Planck mass | Gravitational closure |
 
 ## Conjugate Pairs
 
-| Pair | Same d | Opposite σ | Interpretation |
+| Pair | Same d | Opposite $\sigma$ | Interpretation |
 |------|--------|------------|----------------|
-| W / Z | 25 | +8α / −8α | SU(2) doublet: strand exchange directions |
-| Muon / Strange | 11 | −5α / +10α | Lepton-quark partnership at same depth |
-| Top / Higgs | 26 | Partners | Heaviest fermion ↔ mass mechanism |
+| W / Z | 25 | $+8\alpha$ / $-8\alpha$ | SU(2) doublet: strand exchange directions |
+| Muon / Strange | 11 | $-5\alpha$ / $+10\alpha$ | Lepton-quark partnership at same depth |
+| Top / Higgs | 26 | Partners | Heaviest fermion $\leftrightarrow$ mass mechanism |
 
 ## The Fibonacci Progression of Boson Coefficients
 
@@ -56,7 +56,7 @@ The correction coefficients step through the Fibonacci/Lucas sequences as we mov
 - [The Complete Phase Space Map](phase-space-map.md) -- source data for all particle coordinates
 - [Open Questions for Part IV](open-questions.md) -- unresolved questions arising from these patterns
 - [Fibonacci and Lucas Identities](../05-toolkit/reference/fibonacci-lucas-identities.md) -- mathematical identities underlying the Fibonacci progression
-- [Golden Ratio Properties](../05-toolkit/reference/golden-ratio-properties.md) -- powers of φ at framework depths
+- [Golden Ratio Properties](../05-toolkit/reference/golden-ratio-properties.md) -- powers of $\phi$ at framework depths
 
 ## Tags
 

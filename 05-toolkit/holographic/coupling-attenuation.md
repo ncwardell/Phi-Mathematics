@@ -20,18 +20,18 @@ tags:
 In the holographic picture, coupling constants are witnessing attenuation across depth:
 
 **EM coupling:**
-alpha ~ phi^(-d(alpha)) = phi^(-10) = 1/122.99 = 0.008131
-Actual: alpha = 1/137.036 = 0.007297
-The 11.4% discrepancy is the 2L(4) = 14 correction from Section 5.14.
+$\alpha \sim \phi^{-d(\alpha)} = \phi^{-10} = 1/122.99 = 0.008131$
+Actual: $\alpha = 1/137.036 = 0.007297$
+The 11.4% discrepancy is the $2L(4) = 14$ correction from Section 5.14.
 
-The self-referential structure: alpha ~ phi^(-d(alpha)) means "the EM coupling IS the witnessing cost of reaching the EM depth." The coupling constant and the depth it lives at are the SAME information viewed from different perspectives -- classic holographic duality.
+The self-referential structure: $\alpha \sim \phi^{-d(\alpha)}$ means "the EM coupling IS the witnessing cost of reaching the EM depth." The coupling constant and the depth it lives at are the SAME information viewed from different perspectives -- classic holographic duality.
 
 **Strong coupling:**
-alpha_s(M_Z) ~ 0.118
-phi^(-d(down)) = phi^(-4.5) = 0.114698
+$\alpha_s(M_Z) \sim 0.118$
+$\phi^{-d(\text{down})} = \phi^{-4.5} = 0.114698$
 Agreement: 102.9%
 
-The strong coupling at the Z mass scale approximately equals the witnessing attenuation to the first quark. The down quark (d = 4.5) is the lightest particle that carries color charge -- the first entity you encounter when looking down from the electroweak scale toward the strong sector.
+The strong coupling at the Z mass scale approximately equals the witnessing attenuation to the first quark. The down quark ($d = 4.5$) is the lightest particle that carries color charge -- the first entity you encounter when looking down from the electroweak scale toward the strong sector.
 
 ---
 

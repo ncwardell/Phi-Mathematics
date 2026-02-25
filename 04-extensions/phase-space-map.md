@@ -18,25 +18,25 @@ tags:
 
 # 4.8 The Complete Phase Space Map
 
-All particles organized by their (d, n) coordinates on the torus:
+All particles organized by their (d, n) coordinates on the torus $T^2 = S^1_{depth} \times S^1_{time}$:
 
-| Particle | Type | d | n | C | σ | m/mₑ | Error | Status |
+| Particle | Type | d | n | C | $\sigma$ | $m/m_e$ | Error | Status |
 |----------|------|---|---|---|---|-------|-------|--------|
 | Electron | Lepton | 0 | 0 | — | — | 1 | 0% | Reference |
-| Up | Quark | 3 | 3 | 5 | −1 | 4.4 | ~2% | Conjecture |
-| Down | Quark | 4.5 | 4 | 13 | −1 | 9.4 | ~2% | Conjecture |
-| Muon | Lepton | 11 | 5 | 5 | −1 | 206.77 | <0.01% | **Verified** |
-| Strange | Quark | 11 | 6 | 10 | +1 | 185 | ~2% | Conjecture |
-| Charm | Quark | 16 | 8 | 15 | −1 | 2490 | ~2% | Conjecture |
-| Proton | Composite | 16 | 8 | 24 | +1 | 1878 | ~2% | Conjecture |
-| Tau | Lepton | 17 | 7 | 4 | +1 | 3477 | <0.01% | **Verified** |
-| Bottom | Quark | 19 | 9 | 18 | +1 | 8270 | ~3% | Conjecture |
-| W | Boson | 25 | 8 | 8 | +1 | 158,500 | 0.7% | High confidence |
-| Z | Boson | 25 | 8 | 8 | −1 | 178,100 | 0.2% | High confidence |
-| Higgs | Boson | 26 | 9 | 13 | +1 | 248,000 | ~1% | High confidence |
-| Top | Quark | 26 | 11 | 29 | −1 | 344,500 | ~2% | Conjecture |
-| Gen 4 | Lepton | 34 | 11 | 29 | +1 | ~5 TeV | — | **Prediction** |
-| Planck | Scale | 107 | ? | ? | ? | 2.4×10²² | <0.1% | **Verified** |
+| Up | Quark | 3 | 3 | 5 | $-1$ | 4.4 | ~2% | Conjecture |
+| Down | Quark | 4.5 | 4 | 13 | $-1$ | 9.4 | ~2% | Conjecture |
+| Muon | Lepton | 11 | 5 | 5 | $-1$ | 206.77 | <0.01% | **Verified** |
+| Strange | Quark | 11 | 6 | 10 | $+1$ | 185 | ~2% | Conjecture |
+| Charm | Quark | 16 | 8 | 15 | $-1$ | 2490 | ~2% | Conjecture |
+| Proton | Composite | 16 | 8 | 24 | $+1$ | 1878 | ~2% | Conjecture |
+| Tau | Lepton | 17 | 7 | 4 | $+1$ | 3477 | <0.01% | **Verified** |
+| Bottom | Quark | 19 | 9 | 18 | $+1$ | 8270 | ~3% | Conjecture |
+| W | Boson | 25 | 8 | 8 | $+1$ | 158,500 | 0.7% | High confidence |
+| Z | Boson | 25 | 8 | 8 | $-1$ | 178,100 | 0.2% | High confidence |
+| Higgs | Boson | 26 | 9 | 13 | $+1$ | 248,000 | ~1% | High confidence |
+| Top | Quark | 26 | 11 | 29 | $-1$ | 344,500 | ~2% | Conjecture |
+| Gen 4 | Lepton | 34 | 11 | 29 | $+1$ | ~5 TeV | — | **Prediction** |
+| Planck | Scale | 107 | ? | ? | ? | $2.4 \times 10^{22}$ | <0.1% | **Verified** |
 
 ## Cross-References
 

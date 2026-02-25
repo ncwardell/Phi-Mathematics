@@ -30,7 +30,7 @@ By Theorem 1.3, stability requires witnessing that cannot be reduced to a single
 
 A meeting point, by contrast, is an integer where two or more independent self-referential processes agree. The structure at that depth is witnessed from multiple independent modes simultaneously. This is the higher-order analog of the triangle: just as three nodes are the minimum for stable witnessing (Theorem 1.3), multiple metallic resonances are the minimum for stable particle formation.
 
-A single-mode structure is to a meeting-point structure as a two-node pair is to a triangle: the former has no independent confirmation and is subject to collapse; the latter is self-reinforcing from multiple directions. QED
+A single-mode structure is to a meeting-point structure as a two-node pair is to a triangle: the former has no independent confirmation and is subject to collapse; the latter is self-reinforcing from multiple directions. $\blacksquare$
 
 ## Corollaries
 

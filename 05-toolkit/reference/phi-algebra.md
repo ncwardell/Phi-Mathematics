@@ -19,31 +19,31 @@ tags:
 
 # 5.11 Additional Tools from φ-Algebra
 
-**π from φ:**
-π = 5·arccos(φ/2) — derived from pentagonal geometry (cos(π/5) = φ/2)
+**$\pi$ from $\phi$:**
+$\pi = 5 \cdot \arccos(\phi/2)$ — derived from pentagonal geometry ($\cos(\pi/5) = \phi/2$)
 
-**The φ-Euler identity:**
-φ⁵ − 5φ³ + 5φ + 2 = 0 (encodes e^(iπ)+1=0 in pure φ-form)
+**The $\phi$-Euler identity:**
+$\phi^5 - 5\phi^3 + 5\phi + 2 = 0$ (encodes $e^{i\pi}+1=0$ in pure $\phi$-form)
 
 **Reciprocal sum:**
-Σ(1/φⁿ, n=1..∞) = φ — the sum of all reciprocal powers reconstitutes φ
+$\Sigma(1/\phi^n, n=1..\infty) = \phi$ — the sum of all reciprocal powers reconstitutes $\phi$
 
 **Witnessing function:**
-W(Δd) = φ^(−|Δd|) — coupling cost across depth difference Δd
+$W(\Delta d) = \phi^{-|\Delta d|}$ — coupling cost across depth difference $\Delta d$
 
 **Round-trip witnessing (cross-section):**
-σ₁₂ ∝ φ^(−2|Δd|) — mutual witnessing squares the one-way coupling
+$\sigma_{12} \propto \phi^{-2|\Delta d|}$ — mutual witnessing squares the one-way coupling
 
 **Aetheric density function:**
-ρ(n) = Σ_{k=1}^{n} F(k)·φ^(−k) — cumulative Fibonacci-weighted density at depth n. Particle formation at resonance peaks.
+$\rho(n) = \Sigma_{k=1}^{n} F(k) \cdot \phi^{-k}$ — cumulative Fibonacci-weighted density at depth n. Particle formation at resonance peaks.
 
 **The empathetic derivation method (Theorem 37):**
-"What would φ conclude about itself at this depth, using only the tools available there?" Each force equation uses only the structure crystallized at or before its depth.
+"What would $\phi$ conclude about itself at this depth, using only the tools available there?" Each force equation uses only the structure crystallized at or before its depth.
 
 ## Cross-References
 
-- [Golden Ratio Properties](golden-ratio-properties.md) -- powers and reciprocals of φ
-- [The Four-Structure](four-structure.md) -- {φ, ψ, 1, −1} underlying the φ-Euler identity
+- [Golden Ratio Properties](golden-ratio-properties.md) -- powers and reciprocals of $\phi$
+- [The Four-Structure](four-structure.md) -- $\{\phi, \psi, 1, -1\}$ underlying the $\phi$-Euler identity
 - [Force Equation Toolkit](force-equation-toolkit.md) -- the structural principle underlying empathetic derivation
 - [Fibonacci and Lucas Identities](fibonacci-lucas-identities.md) -- F(k) in the aetheric density function
 

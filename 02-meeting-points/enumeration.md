@@ -57,29 +57,29 @@ We establish this by bounding the growth rates.
 
 ### Growth Rate Analysis
 
-The metallic Fibonacci sequence M_k(n) grows asymptotically as:
+The metallic Fibonacci sequence $M_k(n)$ grows asymptotically as:
 
-M_k(n) ~ ((k + sqrt(k^2 + 4))/2)^n / sqrt(k^2 + 4)
+$M_k(n) \sim ((k + \sqrt{k^2 + 4})/2)^n / \sqrt{k^2 + 4}$
 
 Growth rates by family:
 
 | Family | Dominant eigenvalue | Growth per step |
 |--------|-------------------|-----------------|
-| Golden (k=1) | phi ~ 1.618 | ~1.618x |
-| Silver (k=2) | 1 + sqrt(2) ~ 2.414 | ~2.414x |
-| Bronze (k=3) | (3+sqrt(13))/2 ~ 3.303 | ~3.303x |
-| k=4 | 2+sqrt(5) ~ 4.236 | ~4.236x |
-| k=5 | (5+sqrt(29))/2 ~ 5.193 | ~5.193x |
+| Golden ($k=1$) | $\phi \approx 1.618$ | $\sim 1.618\times$ |
+| Silver ($k=2$) | $1 + \sqrt{2} \approx 2.414$ | $\sim 2.414\times$ |
+| Bronze ($k=3$) | $(3+\sqrt{13})/2 \approx 3.303$ | $\sim 3.303\times$ |
+| $k=4$ | $2+\sqrt{5} \approx 4.236$ | $\sim 4.236\times$ |
+| $k=5$ | $(5+\sqrt{29})/2 \approx 5.193$ | $\sim 5.193\times$ |
 
-For k >= 2, the growth rate exceeds phi. For k >= 3, it exceeds the silver ratio. The higher the family, the faster the sequence grows.
+For $k \geq 2$, the growth rate exceeds $\phi$. For $k \geq 3$, it exceeds the silver ratio. The higher the family, the faster the sequence grows.
 
 ### Divergence Bound
 
-For two families with growth rates r_1 < r_2, the equation M_{k_1}(n) = M_{k_2}(m) requires:
+For two families with growth rates $r_1 < r_2$, the equation $M_{k_1}(n) = M_{k_2}(m)$ requires:
 
-r_1^n ~ r_2^m --> m ~ n * ln(r_1)/ln(r_2) < n
+$r_1^n \sim r_2^m \rightarrow m \sim n \cdot \ln(r_1)/\ln(r_2) < n$
 
-Since r_2 > r_1, the faster-growing sequence "outruns" the slower one. The gap between consecutive terms of M_{k_2} grows exponentially, while M_{k_1} can only hit values at its own (slower) exponential rate. Beyond a finite threshold, the sequences can never coincide.
+Since $r_2 > r_1$, the faster-growing sequence "outruns" the slower one. The gap between consecutive terms of $M_{k_2}$ grows exponentially, while $M_{k_1}$ can only hit values at its own (slower) exponential rate. Beyond a finite threshold, the sequences can never coincide.
 
 ### Explicit Verification
 
@@ -94,7 +94,7 @@ After the meeting point at 34:
 - The next Pell number is P(6) = 70. It does not appear in Fibonacci, Lucas, or any other family.
 - The gaps between consecutive terms in each sequence grow exponentially, making future coincidences impossible.
 
-A rigorous proof of finiteness follows from the theory of S-units and linear forms in logarithms (Baker's theorem), which establishes that equations of the form r_1^n = r_2^m + c (where r_1, r_2 are algebraic numbers and c is bounded) have at most finitely many solutions. The metallic sequence intersection problem is a special case. QED
+A rigorous proof of finiteness follows from the theory of S-units and linear forms in logarithms (Baker's theorem), which establishes that equations of the form $r_1^n = r_2^m + c$ (where $r_1$, $r_2$ are algebraic numbers and $c$ is bounded) have at most finitely many solutions. The metallic sequence intersection problem is a special case. $\blacksquare$
 
 ## Remark (Computational vs. Analytic)
 

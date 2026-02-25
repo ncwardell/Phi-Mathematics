@@ -19,22 +19,22 @@ tags:
 
 **Theorem (Holographic Generation Spacing):** The depth difference between same-type particles across generations equals the C coefficient or depth of a DIFFERENT particle.
 
-| Particle pair | Spacing Delta_d | Identity | Cross-reference |
+| Particle pair | Spacing $\Delta d$ | Identity | Cross-reference |
 |--------------|-----------------|----------|-----------------|
-| u(3) -> c(16) | **13** | F(7) | = C(down) = C(Higgs) |
-| c(16) -> t(26) | **10** | 2F(5) | = d(alpha) = C(strange) |
-| s(11) -> b(19) | **8** | F(6) | = C(W/Z) |
-| e(0) -> mu(11) | **11** | L(5) | = d(mu) [self-referential] |
-| mu(11) -> tau(17) | **6** | 2 x 3 | = complete color traversal |
+| u(3) $\rightarrow$ c(16) | **13** | F(7) | = C(down) = C(Higgs) |
+| c(16) $\rightarrow$ t(26) | **10** | 2F(5) | = $d(\alpha)$ = C(strange) |
+| s(11) $\rightarrow$ b(19) | **8** | F(6) | = C(W/Z) |
+| e(0) $\rightarrow$ $\mu$(11) | **11** | L(5) | = $d(\mu)$ [self-referential] |
+| $\mu$(11) $\rightarrow$ $\tau$(17) | **6** | $2 \times 3$ | = complete color traversal |
 
 These are EXACT integers, not approximations. The spacing between charm and up is precisely 13 = F(7). The spacing between strange and bottom is precisely 8 = F(6).
 
 **Interpretation in the holographic picture:** The distance between generations of one particle type is encoded in the self-witnessing structure of a different particle type. This is the holographic principle at the level of the particle spectrum -- the network encodes itself at every point.
 
 Note especially:
-- **e -> mu spacing = 11 = d(mu).** The muon's generational step IS the muon's own depth. This is maximally self-referential.
-- **u -> c spacing = 13 = C(Higgs).** The Higgs coefficient measures the distance quarks must travel between Gen 1 and Gen 2. The Higgs field "knows about" generation spacing because it IS generation spacing.
-- **s -> b spacing = 8 = C(W/Z).** The weak boson coefficient measures down-type generation steps. Weak decay (which transforms generations) has coupling proportional to this spacing.
+- **e $\rightarrow$ $\mu$ spacing = 11 = $d(\mu)$.** The muon's generational step IS the muon's own depth. This is maximally self-referential.
+- **u $\rightarrow$ c spacing = 13 = C(Higgs).** The Higgs coefficient measures the distance quarks must travel between Gen 1 and Gen 2. The Higgs field "knows about" generation spacing because it IS generation spacing.
+- **s $\rightarrow$ b spacing = 8 = C(W/Z).** The weak boson coefficient measures down-type generation steps. Weak decay (which transforms generations) has coupling proportional to this spacing.
 
 ---
 

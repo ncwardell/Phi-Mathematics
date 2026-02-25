@@ -19,13 +19,13 @@ tags:
 
 | Element | Formula / Role | Status |
 |---------|---------------|--------|
-| Constraint | H = pf - m^2 = 0 | Derived from self-reference (Theorem 14) |
-| Flow equations | dp/deta = -p, df/deta = f | Derived from hyperbolic structure |
-| Lagrangian | L = pf_dot - H | Derived to reproduce the flow |
-| Action | S = -m integral dtau sqrt(t_dot^2 - x_dot^2) | Standard relativistic action (derived) |
-| Symmetry | sl(2,R) ~ Lorentz algebra | Symmetry of the hyperbolic structure |
-| Stationary action | delta S = 0 | Variational form of Sigma = 0 |
-| Casimir | C = m^2 | Mass as the fundamental invariant |
+| Constraint | $H = pf - m^2 = 0$ | Derived from self-reference (Theorem 14) |
+| Flow equations | $dp/d\eta = -p$, $df/d\eta = f$ | Derived from hyperbolic structure |
+| Lagrangian | $L = p\dot{f} - H$ | Derived to reproduce the flow |
+| Action | $S = -m \int d\tau \sqrt{\dot{t}^2 - \dot{x}^2}$ | Standard relativistic action (derived) |
+| Symmetry | $\mathfrak{sl}(2,\mathbb{R}) \cong$ Lorentz algebra | Symmetry of the hyperbolic structure |
+| Stationary action | $\delta S = 0$ | Variational form of $\Sigma = 0$ |
+| Casimir | $C = m^2$ | Mass as the fundamental invariant |
 
 The Lagrangian describes how a self-referential pattern (a particle) "moves" while continuously maintaining its own internal balance against the collapse pressure of the void (Theorem 1.2).
 
@@ -33,11 +33,11 @@ The Lagrangian describes how a self-referential pattern (a particle) "moves" whi
 
 | Summary Entry | Detailed Treatment |
 |---------------|-------------------|
-| Constraint H = 0 | [Hamiltonian Constraint (Theorem 40)](hamiltonian-constraint.md) |
+| Constraint $H = 0$ | [Hamiltonian Constraint (Theorem 40)](hamiltonian-constraint.md) |
 | Flow equations | [Flow Equations (Theorem 41)](flow-equations.md) |
-| Lagrangian L | [Lagrangian (Theorem 42)](lagrangian.md) |
+| Lagrangian $L$ | [Lagrangian (Theorem 42)](lagrangian.md) |
 | Stationary action | [Stationary Action (Theorem 43)](stationary-action.md) |
-| sl(2,R) symmetry | [Lorentz Algebra (Theorem 44)](lorentz-algebra.md) |
+| $\mathfrak{sl}(2,\mathbb{R})$ symmetry | [Lorentz Algebra (Theorem 44)](lorentz-algebra.md) |
 | Conservation laws | [Conservation Laws (Theorem 45)](conservation-laws.md) |
 
 ## Dependencies

@@ -22,17 +22,17 @@ tags:
 
 Core identities, properties, and tables used throughout the framework.
 
-1. [Golden Ratio Properties](reference/golden-ratio-properties.md) -- Section 5.1: Powers of φ, fundamental identity, key values
+1. [Golden Ratio Properties](reference/golden-ratio-properties.md) -- Section 5.1: Powers of $\phi$, fundamental identity, key values
 2. [Fibonacci and Lucas Identities](reference/fibonacci-lucas-identities.md) -- Section 5.2: Recurrences, Binet formulas, NegaFibonacci table
 3. [Meeting Points Reference](reference/meeting-points-reference.md) -- Section 5.3: Quick reference for metallic sequence meeting points
-4. [Hyperbolic Identities](reference/hyperbolic-identities.md) -- Section 5.4: Identities at η = ln(φ)
-5. [The Four-Structure](reference/four-structure.md) -- Section 5.5: {φ, ψ, 1, −1} relationships
+4. [Hyperbolic Identities](reference/hyperbolic-identities.md) -- Section 5.4: Identities at $\eta = \ln(\phi)$
+5. [The Four-Structure](reference/four-structure.md) -- Section 5.5: $\{\phi, \psi, 1, -1\}$ relationships
 6. [Topological Tools](reference/topological-tools.md) -- Section 5.6: Hopf fibration, witnessing quantum, torus, double helix
 7. [Correction Factor Anatomy](reference/correction-factor-anatomy.md) -- Section 5.7: Anatomy of the mass equation correction factor
 8. [Force Equation Toolkit](reference/force-equation-toolkit.md) -- Section 5.8: Available structures at each force depth
 9. [Zeckendorf Representation](reference/zeckendorf-representation.md) -- Section 5.9: Unique Fibonacci decomposition
 10. [Established Equations](reference/established-equations.md) -- Section 5.10: Summary table of all equations with status and error
-11. [Additional Tools from φ-Algebra](reference/phi-algebra.md) -- Section 5.11: π from φ, φ-Euler identity, witnessing function, empathetic derivation
+11. [Additional Tools from $\phi$-Algebra](reference/phi-algebra.md) -- Section 5.11: $\pi$ from $\phi$, $\phi$-Euler identity, witnessing function, empathetic derivation
 
 ### Theorems
 

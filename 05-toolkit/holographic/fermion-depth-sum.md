@@ -28,8 +28,8 @@ Total: 28 + 45 + 34 = **107** = d(Planck)
 This gives the Planck depth a new interpretation: d(Planck) is the TOTAL witnessing cost of the entire fermion spectrum. The Planck scale is not some arbitrary high energy -- it is the depth at which the network has "used up" all the witnessing capacity distributed among the fermions.
 
 The sub-sums are individually meaningful:
-- **28 = L(3) x L(4):** the lepton contribution is the product of the two Lucas numbers governing particle structure
-- **45 = F(5) x 3^2:** the up-type contribution is algebraic completion x triangle^2
+- **28 = L(3) $\times$ L(4):** the lepton contribution is the product of the two Lucas numbers governing particle structure
+- **45 = F(5) $\times$ $3^2$:** the up-type contribution is algebraic completion $\times$ triangle$^2$
 - **34 = F(9):** the down-type contribution IS the last meeting point
 
 Note: this requires using floor(d(down)) = 4 rather than the exact d = 4.5. The half-integer part of the down quark depth (Section 4.10, Q2) is the "fractional witnessing cost" that sits outside the integer accounting.

@@ -41,9 +41,9 @@ The holographic scale network (Section 5.27) provides the deepest reframing of t
 This reframing dissolves several foundational problems:
 
 - **Spacetime emergence:** 3+1D arises from the witnessing triangle (3 spatial) plus breath oscillation (1 temporal)
-- **Hierarchy problem:** m_e/M_Pl = phi^(-107) to 3.7% -- gravity is weak because the Planck scale is 107 witnessing steps away
-- **Euler characteristic objection:** The torus T^2 is internal structure; the network between particles curves freely
-- **Dark matter:** Orphan self-referencing nodes in the desert d in (34, 107) gravitate but do not interact via forces
+- **Hierarchy problem:** $m_e/M_{Pl} = \phi^{-107}$ to 3.7% -- gravity is weak because the Planck scale is 107 witnessing steps away
+- **Euler characteristic objection:** The torus $T^2$ is internal structure; the network between particles curves freely
+- **Dark matter:** Orphan self-referencing nodes in the desert $d \in (34, 107)$ gravitate but do not interact via forces
 
 Sections 5.28.1 through 5.28.8 develop consequences of this holographic structure that were not visible in the earlier formulation.
 

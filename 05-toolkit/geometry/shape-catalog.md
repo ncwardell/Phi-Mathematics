@@ -29,7 +29,7 @@ tags:
 Particles are specific locations on the depth circle where structure crystallizes. Meeting points (where F and L share values) mark the boundaries of the framework.
 
 **1-dimensional: Lines, Circles, Spirals**
-The line is raw φ-growth (unbounded). The circle is periodicity (return). The spiral combines both — the golden spiral grows by φ per quarter turn, embedding exponential growth in circular geometry. On the torus, a particle's trajectory through depth-space is a spiral.
+The line is raw $\phi$-growth (unbounded). The circle is periodicity (return). The spiral combines both — the golden spiral grows by $\phi$ per quarter turn, embedding exponential growth in circular geometry. On the torus, a particle's trajectory through depth-space is a spiral.
 
 **2-dimensional: Polygons, Torus, Sphere**
 
@@ -37,21 +37,21 @@ The line is raw φ-growth (unbounded). The circle is periodicity (return). The s
 |-------|--------|------|
 | Triangle | 3 | Chirality, witnessing, color |
 | Square | 4 | Orthogonality, independence |
-| Pentagon | 5 | Self-reference, φ made visible |
+| Pentagon | 5 | Self-reference, $\phi$ made visible |
 | Hexagon | 6 | Saturation, confinement boundary |
-| Torus T² | — | The arena (χ = 0, locally flat) |
-| Sphere S² | — | Closure, observation (χ = 2) |
+| Torus $T^2$ | — | The arena ($\chi = 0$, locally flat) |
+| Sphere $S^2$ | — | Closure, observation ($\chi = 2$) |
 
-The triangle and pentagon are *active* shapes — they create new structure (chirality and self-reference respectively). The square and hexagon are *passive* — they arise from combining the active shapes with duality: 4 = L(3), the Lucas value at the triangle index; 6 = 2×3, the exhaustion of both generators.
+The triangle and pentagon are *active* shapes — they create new structure (chirality and self-reference respectively). The square and hexagon are *passive* — they arise from combining the active shapes with duality: 4 = L(3), the Lucas value at the triangle index; $6 = 2 \times 3$, the exhaustion of both generators.
 
 **3-dimensional: Platonic solids, S³, trefoil**
 
 | Shape | Role |
 |-------|------|
 | Tetrahedron | Gen 1 (self-dual ground state) |
-| Cube ↔ Octahedron | Gen 2 (duality pair) |
-| Dodecahedron ↔ Icosahedron | Gen 3 (φ-pair) |
-| S³ | Gauge structure (SU(2) ≅ S³) |
+| Cube $\leftrightarrow$ Octahedron | Gen 2 (duality pair) |
+| Dodecahedron $\leftrightarrow$ Icosahedron | Gen 3 ($\phi$-pair) |
+| $S^3$ | Gauge structure ($\text{SU}(2) \cong S^3$) |
 | Trefoil (2,3) torus knot | The witnessing circuit topologized |
 
 ## Forces and Their Shapes
@@ -71,7 +71,7 @@ The strong force is a trefoil knot. The EM force is a (3,5) torus knot whose cro
 
 ## Dependencies
 
-- [Golden Ratio (§1)](/01-foundations/golden-ratio.md) -- φ governs the golden spiral and appears in dodecahedron/icosahedron construction
+- [Golden Ratio (§1)](/01-foundations/golden-ratio.md) -- $\phi$ governs the golden spiral and appears in dodecahedron/icosahedron construction
 - [Triangle Structure (§1)](/01-foundations/triangle-structure.md) -- the triangle as the minimal witnessing circuit and active shape
 - [Platonic Solids (§5.20)](platonic-solids.md) -- the five Platonic solids and their generation structure
 - [Forces as Torus Knots (§5.21)](torus-knots.md) -- force-shape correspondences via torus knot topology

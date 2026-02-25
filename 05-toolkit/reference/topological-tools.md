@@ -16,9 +16,9 @@ tags:
 
 # 5.6 Topological Tools
 
-**Hopf fibration:** S¹ → S³ → S² (Adams' theorem, minimal complex bundle)
-**Witnessing quantum:** 1/(4π) = 1/(L(3)·π)
-**Torus:** T² = S¹_depth × S¹_time, metric ds² = dd² − dη²
+**Hopf fibration:** $S^1 \rightarrow S^3 \rightarrow S^2$ (Adams' theorem, minimal complex bundle)
+**Witnessing quantum:** $1/(4\pi) = 1/(L(3) \cdot \pi)$
+**Torus:** $T^2 = S^1_{\text{depth}} \times S^1_{\text{time}}$, metric $ds^2 = dd^2 - d\eta^2$
 **Double helix:** Two strands of opposite chirality, connected by bridges at meeting points
 
 ## Cross-References

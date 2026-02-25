@@ -27,9 +27,9 @@ tags:
 | top/Higgs | 26 | 81 | = 3^4 (triangle to the 4th power) |
 | Gen4 | 34 | 73 | = 21st prime |
 
-The conjugate depths factorize into framework constants. Most notable: 107 - d(top) = 81 = 3^4, meaning the top quark's conjugate position in the network is the triangle raised to its own power.
+The conjugate depths factorize into framework constants. Most notable: $107 - d(\text{top}) = 81 = 3^4$, meaning the top quark's conjugate position in the network is the triangle raised to its own power.
 
-**Physical meaning:** d* measures how much of the network lies ABOVE the particle. A particle's coupling to gravity (the full network) depends on BOTH d and d*. The product d x d* measures the particle's "cross-capacity" -- its ability to mediate between the scales above and below it. This product is maximized at the network midpoint (d ~ 53.5), which lies in the desert -- no particle sits at maximum cross-capacity.
+**Physical meaning:** $d^*$ measures how much of the network lies ABOVE the particle. A particle's coupling to gravity (the full network) depends on BOTH $d$ and $d^*$. The product $d \times d^*$ measures the particle's "cross-capacity" -- its ability to mediate between the scales above and below it. This product is maximized at the network midpoint ($d \sim 53.5$), which lies in the desert -- no particle sits at maximum cross-capacity.
 
 ---
 

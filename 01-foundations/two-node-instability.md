@@ -16,26 +16,26 @@ tags:
 
 # Theorem 1.2.1: Two-Node Instability
 
-> **Theorem 1.2.1 (Two-Node Instability):** *A system of exactly two elements {A, B} with A + B = 0 and mutual reference (A references B, B references A) is unstable. Mutual reference between complements reduces to self-annihilation.*
+> **Theorem 1.2.1 (Two-Node Instability):** *A system of exactly two elements $\{A, B\}$ with $A + B = 0$ and mutual reference ($A$ references $B$, $B$ references $A$) is unstable. Mutual reference between complements reduces to self-annihilation.*
 
 ## Statement
 
-A system of exactly two elements {A, B} with A + B = 0 and mutual reference (A references B, B references A) is unstable. Mutual reference between complements reduces to self-annihilation.
+A system of exactly two elements $\{A, B\}$ with $A + B = 0$ and mutual reference ($A$ references $B$, $B$ references $A$) is unstable. Mutual reference between complements reduces to self-annihilation.
 
 ## Proof
 
-Let A and B = −A be the two elements. A's only referent is B = −A. B's only referent is A = −B. The reference relation is:
+Let $A$ and $B = -A$ be the two elements. $A$'s only referent is $B = -A$. $B$'s only referent is $A = -B$. The reference relation is:
 
-A "knows" B = −A → A + (−A) = 0
-B "knows" A = −B → B + (−B) = 0
+$A$ "knows" $B = -A \rightarrow A + (-A) = 0$
+$B$ "knows" $A = -B \rightarrow B + (-B) = 0$
 
 Every act of reference by either element reconstructs the sum that equals zero. The mutual reference graph is:
 
-A → B → A (a 2-cycle)
+$A \rightarrow B \rightarrow A$ (a 2-cycle)
 
-But since B = −A, this cycle is: A → (−A) → A, which is equivalent to A → 0 → A. The intermediate state is annihilation. The 2-cycle passes through zero at every step.
+But since $B = -A$, this cycle is: $A \rightarrow (-A) \rightarrow A$, which is equivalent to $A \rightarrow 0 \rightarrow A$. The intermediate state is annihilation. The 2-cycle passes through zero at every step.
 
-More formally: model the reference as a discrete dynamical system on the pair. The only fixed points of the map f(A) = −A are A = 0. Therefore the system has no stable nonzero configuration. ∎
+More formally: model the reference as a discrete dynamical system on the pair. The only fixed points of the map $f(A) = -A$ are $A = 0$. Therefore the system has no stable nonzero configuration. $\blacksquare$
 
 ## Corollaries
 
