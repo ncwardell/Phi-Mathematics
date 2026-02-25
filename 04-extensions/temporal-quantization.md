@@ -21,11 +21,11 @@ tags:
 **Conjecture (Temporal Quantization):**
 *The temporal coordinate n is restricted to Fibonacci or Lucas values. Time is not continuous on the torus -- it is a stepped ladder of discrete witnessable nodes.*
 
-n ∈ {F(k)} ∪ {L(k)} = {0, 1, 1, 2, 3, 4, 5, 7, 8, 11, 13, 18, 21, 29, 34, ...}
+n $\in$ {F(k)} ∪ {L(k)} = {0, 1, 1, 2, 3, 4, 5, 7, 8, 11, 13, 18, 21, 29, 34, ...}
 
 **Motivation:** If witnessing is required for existence (Theorem 1.2), and the witnessing structure unfolds through Fibonacci dynamics (Theorem 11), then only Fibonacci/Lucas indices correspond to stable witnessing configurations. Intermediate values represent incomplete breath cycles where the self-referential structure cannot close.
 
-**Consequence:** This explains why particles exist at discrete masses rather than a continuum. A particle requires *both* coordinates to be "integers of φ":
+**Consequence:** This explains why particles exist at discrete masses rather than a continuum. A particle requires *both* coordinates to be "integers of $\varphi$":
 - d (depth) must be an integer (or related to one) in the φ-logarithmic scale
 - n (time) must be a Fibonacci or Lucas number
 

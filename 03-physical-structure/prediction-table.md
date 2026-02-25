@@ -21,28 +21,28 @@ tags:
 
 | Quantity | Equation | Error | vs. Exp. Unc. | Grade |
 |----------|----------|-------|---------------|-------|
-| Fine structure α | 5πα² + α(1−(φ²+4)φ⁻²⁰) = φ⁻¹⁰ | **0.0001%** | ~10⁻⁷% | ✓✓✓ |
-| Weak mixing angle | sin²θ_W = φ/7 + α² | 0.004% | ~0.02% | ✓✓ |
-| Strong coupling | α_s = 1/(2φ³ + α) | 0.027% | ~0.5% | ✓✓✓ |
-| Muon mass | φ¹¹/(1 − 5α(1+4α)) | **0.0006%** | ~10⁻⁵% | ✓✓✓ |
-| Tau mass | φ¹⁷/(1 + 4α(1+4α)/(1+5πα)) | **0.0015%** | ~0.01% | ✓✓✓ |
-| Planck mass | M_P/m_e = φ^(107 + 1/(4π)) | **0.0004%** | -- | ✓✓✓ |
-| Gravity hierarchy | α/α_G = φ^(204 − 1/(4π)) | 0.007% | ~0.002% | ✓✓ |
+| Fine structure $\alpha$ | 5π$\alpha^2$ + $\alpha$(1−($\varphi^2$+4)$\varphi^{-20}$) = $\varphi^{-10}$ | **0.0001%** | ~10⁻⁷% | ✓✓✓ |
+| Weak mixing angle | si$n^2$θ_W = $\varphi$/7 + $\alpha^2$ | 0.004% | ~0.02% | ✓✓ |
+| Strong coupling | α_s = 1/(2$\varphi^3$ + $\alpha$) | 0.027% | ~0.5% | ✓✓✓ |
+| Muon mass | $\varphi^{11}$/(1 − 5$\alpha$(1+4$\alpha$)) | **0.0006%** | ~10⁻⁵% | ✓✓✓ |
+| Tau mass | $\varphi^{17}$/(1 + 4$\alpha$(1+4$\alpha$)/(1+5π$\alpha$)) | **0.0015%** | ~0.01% | ✓✓✓ |
+| Planck mass | M_P/m_e = $\varphi$^(107 + 1/(4$\pi$)) | **0.0004%** | -- | ✓✓✓ |
+| Gravity hierarchy | $\alpha$/α_G = $\varphi$^(204 − 1/(4$\pi$)) | 0.007% | ~0.002% | ✓✓ |
 
 **ALL predictions < 0.03%. Most at or beyond experimental precision.**
 
 Comparison:
 - Standard Model: 19 free parameters, predicts NONE of these mass ratios or coupling constants.
-- This framework: ONE number (φ), predicts ALL of them.
+- This framework: ONE number ($\varphi$), predicts ALL of them.
 
 ---
 
 ## Dependencies
 
-- [Electromagnetic Coupling](force-equations/electromagnetic-coupling.md) -- §3.9.2: fine structure constant α
-- [Weak Mixing Angle](force-equations/weak-mixing-angle.md) -- §3.9.3: sin²θ_W
+- [Electromagnetic Coupling](force-equations/electromagnetic-coupling.md) -- §3.9.2: fine structure constant $\alpha$
+- [Weak Mixing Angle](force-equations/weak-mixing-angle.md) -- §3.9.3: si$n^2$θ_W
 - [Strong Coupling](force-equations/strong-coupling.md) -- §3.9.1: α_s
-- [Gravitational Coupling](force-equations/gravitational-coupling.md) -- §3.9.4: Planck mass, α/α_G
+- [Gravitational Coupling](force-equations/gravitational-coupling.md) -- §3.9.4: Planck mass, $\alpha$/α_G
 - [Mass Equation (Theorem 48)](mass-equation.md) -- §3.10: muon and tau mass predictions
 
 ## Cross-References

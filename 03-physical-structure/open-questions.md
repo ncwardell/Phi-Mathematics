@@ -15,13 +15,13 @@ tags:
 
 # 3.12 Open Questions for Part III
 
-1. **~~Derivation of 107:~~** RESOLVED in §5.15 (Depth Derivation Theorem). The Planck exponent is d(Pl) = 3F(9) + F(5) = 3 × 34 + 5 = 107. Three times the last meeting point plus the algebraic completion.
+1. **~~Derivation of 107:~~** RESOLVED in §5.15 (Depth Derivation Theorem). The Planck exponent is d(Pl) = 3F(9) + F(5) = 3 $\times$ 34 + 5 = 107. Three times the last meeting point plus the algebraic completion.
 
-2. **~~Derivation of 12 in 204 = 12 × 17:~~** RESOLVED differently than expected (§5.15). The gravity exponent is 204 = 6F(9) = 6 × 34. The factor 12 in 204 = 12 × 17 is not an independent structural constant -- it follows from the midpoint theorem d(τ) = F(9)/2: since 6F(9) = 12 × (F(9)/2) = 12 × d(τ), the 12 is a derived ratio. The original "witnessing edges" conjecture was a pattern match to a quantity that has a simpler origin.
+2. **~~Derivation of 12 in 204 = 12 $\times$ 17:~~** RESOLVED differently than expected (§5.15). The gravity exponent is 204 = 6F(9) = 6 $\times$ 34. The factor 12 in 204 = 12 $\times$ 17 is not an independent structural constant -- it follows from the midpoint theorem d($\tau$) = F(9)/2: since 6F(9) = 12 $\times$ (F(9)/2) = 12 $\times$ d($\tau$), the 12 is a derived ratio. The original "witnessing edges" conjecture was a pattern match to a quantity that has a simpler origin.
 
 3. **~~Interaction vertices:~~** LARGELY RESOLVED (§5.25). The interaction Lagrangian is a three-part structure on the breathing torus. Coupling between particles and force knots determined by topological compatibility and linking numbers.
 
-4. **W and Z boson masses:** Addressed in [§4.3](../04-extensions/weak-bosons.md). M_Z and M_W predicted from d = 25 with C = 8. The electroweak scale at d = F(5)² = 25 is derived in §5.15. Remaining: derive the W-Z mass splitting from the framework rather than using sin²θ_W from standard physics.
+4. **W and Z boson masses:** Addressed in [§4.3](../04-extensions/weak-bosons.md). M_Z and M_W predicted from d = 25 with C = 8. The electroweak scale at d = F(5)² = 25 is derived in §5.15. Remaining: derive the W-Z mass splitting from the framework rather than using si$n^2$θ_W from standard physics.
 
 5. **The Higgs mechanism:** Partially addressed in [§4.4](../04-extensions/higgs-boson.md). The Higgs at d = 26 = d(W/Z)+1 follows the Force+1 rule (§5.17). Its mass is predicted. The deeper question -- whether the Higgs field IS the collapse pressure (Theorem 1.2) -- remains open.
 
@@ -29,9 +29,9 @@ tags:
 
 7. **The anomalous magnetic moment (g−2):** The muon g−2 is one of the most precisely measured quantities in physics, with a persistent tension between Standard Model prediction and experiment. If the self-witnessing corrections in the mass equation (Cα terms) are related to the self-energy that generates g−2, the framework may naturally produce the correct value.
 
-8. **~~Quantization -- the path integral:~~** LARGELY RESOLVED (§5.26). The path integral is a sum over torus knots weighted by φ^(−length) × (−1)^winding. i comes from the ψ-strand alternation (−1)^n -> e^(iθ). ℏ = one trefoil traversal action. Remaining: compute scattering amplitudes and compare to data.
+8. **~~Quantization -- the path integral:~~** LARGELY RESOLVED (§5.26). The path integral is a sum over torus knots weighted by $\varphi$^(−length) $\times$ (−1)^winding. i comes from the $\psi$-strand alternation (−1)^n -> e^(iθ). $\hbar$ = one trefoil traversal action. Remaining: compute scattering amplitudes and compare to data.
 
-9. **Why EM is quadratic and strong is linear:** The argument that the strong force equation is linear in α because EM hasn't fully crystallized at depth 3, while EM is quadratic because it self-references at its own depth, needs to be formalized. Can we show that the *order* of each equation (linear, quadratic, etc.) is determined by the self-referential depth available at that force's crystallization point?
+9. **Why EM is quadratic and strong is linear:** The argument that the strong force equation is linear in $\alpha$ because EM hasn't fully crystallized at depth 3, while EM is quadratic because it self-references at its own depth, needs to be formalized. Can we show that the *order* of each equation (linear, quadratic, etc.) is determined by the self-referential depth available at that force's crystallization point?
 
 ---
 

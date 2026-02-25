@@ -18,13 +18,13 @@ tags:
 
 **Status: HIGH CONFIDENCE**
 
-**(d, n) = (26, 9), C = 13 = F(7), σ = +1 (fold)**
+**(d, n) = (26, 9), C = 13 = F(7), $\sigma$ = +1 (fold)**
 
-m_H/mₑ = φ²⁶ / (1 + 13α) = 271,443 / 1.0949 ≈ 248,000
+m_H/$m_e$ = $\varphi^{26}$ / (1 + 13$\alpha$) = 271,443 / 1.0949 $\approx$ 248,000
 
 | Quantity | Predicted | Measured | Error |
 |----------|-----------|----------|-------|
-| m_H/mₑ | 248,000 | 245,100 | **~1%** |
+| m_H/$m_e$ | 248,000 | 245,100 | **~1%** |
 
 ## Structural Interpretation
 
@@ -32,15 +32,15 @@ m_H/mₑ = φ²⁶ / (1 + 13α) = 271,443 / 1.0949 ≈ 248,000
 
 **Why C = 13 = F(7):** The seventh Fibonacci number. The progression of correction coefficients through the boson sector: F(5) = 5 (leptons), F(6) = 8 (W, Z), F(7) = 13 (Higgs). Each boson at the next Fibonacci step.
 
-**The Higgs-Top partnership:** The top quark also lives near d = 26 (bare depth ≈ 26.46). They share a depth because the Higgs mechanism and the most massive fermion are structurally linked -- the Higgs is the collapse pressure (Theorem 1.2) made dynamical, and the top quark is the fermion that most strongly couples to it.
+**The Higgs-Top partnership:** The top quark also lives near d = 26 (bare depth $\approx$ 26.46). They share a depth because the Higgs mechanism and the most massive fermion are structurally linked -- the Higgs is the collapse pressure (Theorem 1.2) made dynamical, and the top quark is the fermion that most strongly couples to it.
 
 ---
 
 ## Dependencies
 
-- [Universal Mass Equation (§4.1)](universal-mass-equation.md) -- m/mₑ = φᵈ / (1 + σ·C·α)
+- [Universal Mass Equation (§4.1)](universal-mass-equation.md) -- m/$m_e$ = $\varphi$ᵈ / (1 + $\sigma$·C·$\alpha$)
 - [Weak Bosons (§4.3)](weak-bosons.md) -- d=25 establishes the electroweak scale
-- [Electromagnetic Coupling](../03-physical-structure/force-equations/electromagnetic-coupling.md) -- α entering the correction
+- [Electromagnetic Coupling](../03-physical-structure/force-equations/electromagnetic-coupling.md) -- $\alpha$ entering the correction
 
 ## Cross-References
 

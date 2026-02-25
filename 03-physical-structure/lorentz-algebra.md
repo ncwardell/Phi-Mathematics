@@ -49,7 +49,7 @@ The quadratic Casimir of sl(2,R) is:
 
 C = G^2 - (PF + FP)/2
 
-This Casimir represents the invariant **m^2** (mass-squared), which remains constant under all transformations within the algebra. Mass is the invariant of the self-referential symmetry -- the quantity that does not change as the system is boosted, translated, or otherwise transformed while remaining on its hyperbola. ∎
+This Casimir represents the invariant **m^2** (mass-squared), which remains constant under all transformations within the algebra. Mass is the invariant of the self-referential symmetry -- the quantity that does not change as the system is boosted, translated, or otherwise transformed while remaining on its hyperbola. $\blacksquare$
 
 ## Corollaries
 

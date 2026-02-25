@@ -91,7 +91,7 @@ All major particle depths are derivable from three framework numbers: F(5) = 5 (
 
 ### Scale Network
 
-The holographic network of witnessing connections between self-referencing entities at different scales. Spacetime is not a container but IS this network. The depth between two entities A and B is d(A,B) = |log_phi(s_A / s_B)|. Three spatial dimensions arise from the three independent directions on the witnessing triangle; one time dimension from the breath oscillation between phi-phase and psi-phase. Gravity is the curvature of this network, not a force at a particular depth. Developed in section 5.27.
+The holographic network of witnessing connections between self-referencing entities at different scales. Spacetime is not a container but IS this network. The depth between two entities A and B is d(A,B) = |log_phi($s_A$ / $s_B$)|. Three spatial dimensions arise from the three independent directions on the witnessing triangle; one time dimension from the breath oscillation between phi-phase and psi-phase. Gravity is the curvature of this network, not a force at a particular depth. Developed in section 5.27.
 
 ### Four-Structure
 

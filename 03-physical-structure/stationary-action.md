@@ -39,7 +39,7 @@ The logic is:
 
 Physical paths are those that *conserve* the self-referential balance. Any path "off" the hyperbola would violate the zero-sum totality -- it would require a net surplus or deficit of past/future intensity, contradicting Sigma = 0.
 
-The principle of stationary action is therefore not an independent postulate -- it is the Conservation axiom expressed in the language of calculus of variations. ∎
+The principle of stationary action is therefore not an independent postulate -- it is the Conservation axiom expressed in the language of calculus of variations. $\blacksquare$
 
 ## Dependencies
 

@@ -17,11 +17,11 @@ tags:
 # 1.14 The NegaFibonacci Extension and Two Strands
 
 > **Theorem 13 (NegaFibonacci and NegaLucas — The ψ-Strand):**
-> *The Fibonacci and Lucas recurrences extend to negative indices, producing the ψ-strand. The sign alternation in the negative extension corresponds to the complex branch (second Kepler triangle).*
+> *The Fibonacci and Lucas recurrences extend to negative indices, producing the $\psi$-strand. The sign alternation in the negative extension corresponds to the complex branch (second Kepler triangle).*
 
 ## Statement
 
-The recurrence F(n) = F(n−1) + F(n−2) can be rearranged to compute backward: F(n−2) = F(n) − F(n−1). The resulting sequences for negative n exhibit sign alternation governed by the relations F(−n) = (−1)^(n+1) × F(n) and L(−n) = (−1)^n × L(n). This sign alternation is the algebraic manifestation of the ψ-strand (the second Kepler triangle).
+The recurrence F(n) = F(n−1) + F(n−2) can be rearranged to compute backward: F(n−2) = F(n) − F(n−1). The resulting sequences for negative n exhibit sign alternation governed by the relations F(−n) = (−1)^(n+1) $\times$ F(n) and L(−n) = (−1)^n $\times$ L(n). This sign alternation is the algebraic manifestation of the $\psi$-strand (the second Kepler triangle).
 
 ## Proof
 
@@ -44,21 +44,21 @@ The recurrence F(n) = F(n−1) + F(n−2) can be rearranged: F(n−2) = F(n) −
 
 The general relations are:
 
-F(−n) = (−1)^(n+1) × F(n)
-L(−n) = (−1)^n × L(n)
+F(−n) = (−1)^(n+1) $\times$ F(n)
+L(−n) = (−1)^n $\times$ L(n)
 
-The alternating signs in the negative extension are not a convention — they are the algebraic consequence of ψ < 0. The Binet formulas are:
+The alternating signs in the negative extension are not a convention — they are the algebraic consequence of $\psi$ < 0. The Binet formulas are:
 
-F(n) = (φⁿ − ψⁿ) / √5
-L(n) = φⁿ + ψⁿ
+F(n) = ($\varphi$ⁿ − $\psi$ⁿ) / $\sqrt{5}$
+L(n) = $\varphi$ⁿ + $\psi$ⁿ
 
-For negative indices, ψⁿ with n < 0 produces the sign alternation. This is the ψ-strand manifesting through the recurrence — the second Kepler triangle's contribution oscillates in sign, reflecting the imaginary component i = √(φψ). ∎
+For negative indices, $\psi$ⁿ with n < 0 produces the sign alternation. This is the $\psi$-strand manifesting through the recurrence — the second Kepler triangle's contribution oscillates in sign, reflecting the imaginary component i = $\sqrt{$\varphi$ψ}$. $\blacksquare$
 
 ## Corollaries
 
 **Corollary 13.1:** Specific negaLucas values that appear in the physical structure:
-- |L(−3)| = 4 — the coefficient C for the tau lepton, and the factor in the 4α correction
-- L(−4) = 7 — the denominator in the weak mixing angle: sin²θ_W = φ/7 + α²
+- |L(−3)| = 4 — the coefficient C for the tau lepton, and the factor in the 4$\alpha$ correction
+- L(−4) = 7 — the denominator in the weak mixing angle: si$n^2$θ_W = $\varphi$/7 + $\alpha^2$
 - |L(−5)| = 11 — the depth d for the muon
 - |L(−7)| = 29 — the coefficient C for the 4th generation
 

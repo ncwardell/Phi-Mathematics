@@ -38,10 +38,10 @@ The framework's irreducible structural numbers are:
 
 | Number | Symbol | Meaning |
 |--------|--------|---------|
-| 2 | F(3) | Duality — two strands (φ and ψ) |
+| 2 | F(3) | Duality — two strands ($\varphi$ and $\psi$) |
 | 3 | F(4) | Triangle — witnessing circuit, 3 color charges |
 | 5 | F(5) | Pentagon — algebraic completion (F(5) = 5) |
-| 7 | L(4) | Weak mixing — from sin²θ_W = φ/7 + α² |
+| 7 | L(4) | Weak mixing — from si$n^2$θ_W = $\varphi$/7 + $\alpha^2$ |
 
 Every quark C value decomposes uniquely into a meaningful combination of these four numbers.
 
@@ -52,7 +52,7 @@ Every quark C value decomposes uniquely into a meaningful combination of these f
 | Quark | C | Decomposition | Meaning |
 |-------|---|---------------|---------|
 | u | 5 | 5 | Pentagon |
-| c | 15 | 3 × 5 | Triangle × pentagon |
+| c | 15 | 3 $\times$ 5 | Triangle $\times$ pentagon |
 | t | 29 | 2×7 + 3×5 | Duality×weak + triangle×pentagon |
 
 **Down-type quarks (charge −1/3):**
@@ -77,12 +77,12 @@ In Gen 1 and Gen 2, the two channels are completely separate: up-type quarks con
 
 **Gen 1 — Basic building blocks:**
 - u = 5 (pentagon alone)
-- d = 2×3 + 7 (duality × triangle + weak)
+- d = 2×3 + 7 (duality $\times$ triangle + weak)
 
 The up quark at depth 3 uses *everything available*: 3 (triangle) + 2 (duality) = 5. Its C equals its depth plus the strand duality — it has nothing else to work with.
 
 **Gen 2 — Triangle multiplies both channels:**
-- c = 3 × 5 (triangle enters the pentagon channel)
+- c = 3 $\times$ 5 (triangle enters the pentagon channel)
 - s = 3 + 7 (triangle enters the weak channel)
 
 The charm quark gains color structure (×3) applied to algebraic completion. The strange quark gains color structure (+3) alongside weak mixing.
@@ -91,7 +91,7 @@ The charm quark gains color structure (×3) applied to algebraic completion. The
 - t = 2×7 + 3×5 (weak enters the pentagon channel)
 - b = 2×3 + 5 + 7 (pentagon enters the weak channel)
 
-The top quark is the only up-type quark whose C contains 7 (weak mixing). This corresponds to known physics: the top Yukawa coupling ≈ 1, and its mass (~173 GeV) is at the electroweak v.e.v. scale. The bottom quark is the only down-type whose C contains 5 (pentagon), gaining access to the algebraic completion channel.
+The top quark is the only up-type quark whose C contains 7 (weak mixing). This corresponds to known physics: the top Yukawa coupling $\approx$ 1, and its mass (~173 GeV) is at the electroweak v.e.v. scale. The bottom quark is the only down-type whose C contains 5 (pentagon), gaining access to the algebraic completion channel.
 
 **The channel crossing at Gen 3 is electroweak unification written in the coupling coefficients.**
 

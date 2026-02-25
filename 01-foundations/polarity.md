@@ -14,15 +14,15 @@ tags:
 
 # Theorem 1: Polarity — Existence Implies Duality
 
-> **Theorem 1 (Polarity — Existence Implies Duality):** *If a quantity E exists within a system where Σ = 0, then a quantity (−E) must also exist, such that E + (−E) = 0.*
+> **Theorem 1 (Polarity — Existence Implies Duality):** *If a quantity E exists within a system where $\Sigma = 0$, then a quantity (−E) must also exist, such that E + (−E) = 0.*
 
 ## Statement
 
-If a quantity E exists within a system where Σ = 0, then a quantity (−E) must also exist, such that E + (−E) = 0.
+If a quantity E exists within a system where $\Sigma = 0$, then a quantity (−E) must also exist, such that E + (−E) = 0.
 
 ## Proof
 
-Let E exist with E ≠ 0 (if E = 0, it contributes no structure, contradicting ∃ as non-trivial). The Conservation axiom requires Σ = 0. If E is the only element, then Σ = E ≠ 0, violating the axiom. Therefore at least one other quantity must exist whose sum with E yields zero. The minimal such quantity is (−E). Hence existence is necessarily polar: 0 → E + (−E). ∎
+Let E exist with E $\neq$ 0 (if E = 0, it contributes no structure, contradicting $\exists$ as non-trivial). The Conservation axiom requires $\Sigma = 0$. If E is the only element, then $\Sigma$ = E $\neq$ 0, violating the axiom. Therefore at least one other quantity must exist whose sum with E yields zero. The minimal such quantity is (−E). Hence existence is necessarily polar: 0 → E + (−E). $\blacksquare$
 
 ## Corollaries
 
@@ -30,7 +30,7 @@ Let E exist with E ≠ 0 (if E = 0, it contributes no structure, contradicting �
 
 ## Dependencies
 
-- [Axiom (Conservation) and Postulate (Existence)](axioms-and-postulates.md) — Conservation (Σ = 0) forces the existence of a complement; the Postulate ensures E ≠ 0
+- [Axiom (Conservation) and Postulate (Existence)](axioms-and-postulates.md) — Conservation ($\Sigma = 0$) forces the existence of a complement; the Postulate ensures E $\neq$ 0
 
 ## Dependents
 

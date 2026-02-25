@@ -21,7 +21,7 @@ tags:
 
 Neutrinos are structures with minimal depth but finite temporal coordinate. They carry the "temporal wake" of the particle they're associated with but lack the spatial resonance (depth/winding) that gives charged leptons their mass.
 
-**(d, n) ≈ (small, finite η)**
+**(d, n) $\approx$ (small, finite $\eta$)**
 
 ## The Metallic Stripping Picture
 
@@ -32,23 +32,23 @@ When a charged lepton at depth d with meeting-point resonance C loses its spatia
 
 | Neutrino | Parent | Carries | Mass |
 |----------|--------|---------|------|
-| νₑ | Electron (d=0) | Base temporal η ≈ 0 | Lightest |
-| νμ | Muon (d=11) | η from muon's temporal address | Middle |
-| ντ | Tau (d=17) | η from tau's temporal address | Heaviest |
+| $\nu$ₑ | Electron (d=0) | Base temporal $\eta$ $\approx$ 0 | Lightest |
+| $\nu$μ | Muon (d=11) | $\eta$ from muon's temporal address | Middle |
+| ν$\tau$ | Tau (d=17) | $\eta$ from tau's temporal address | Heaviest |
 
 ## Neutrino Mass Ratio Prediction
 
 The ratio of neutrino mass states:
 
-mν₃/mν₂ ≈ φ^(17/5) / φ^(11/5) = φ^(6/5) ≈ 1.95
+mν₃/mν₂ $\approx$ $\varphi$^(17/5) / $\varphi$^(11/5) = $\varphi$^(6/5) $\approx$ 1.95
 
 Or alternatively, from the full depth ratio:
 
-mν₃/mν₂ ≈ φ^(17−11) = φ⁶ ≈ 17.9 (if neutrinos access depth directly)
+mν₃/mν₂ $\approx$ $\varphi$^(17−11) = $\varphi^6$ $\approx$ 17.9 (if neutrinos access depth directly)
 
-The experimental ratio from oscillation data (√(Δm²₃₂/Δm²₂₁)) ≈ √(2.5×10⁻³/7.5×10⁻⁵) ≈ 5.8.
+The experimental ratio from oscillation data ($\sqrt{Δm²₃₂/Δm²₂₁}$) $\approx$ $\sqrt{2.5×10⁻³/7.5×10⁻⁵}$ $\approx$ 5.8.
 
-**Note:** φ^(17/5) / φ^(11/5) doesn't give 5.8. But φ^((17-11)·ln(φ)/ln(5)) ≈ φ^3.6 ≈ 5.7 does. The precise relationship between neutrino masses and the framework requires further work. The /5 factor (F(5), the algebraic completion) entering the neutrino mass formula is suggestive of the stripping mechanism removing the √5 discriminant contribution.
+**Note:** $\varphi$^(17/5) / $\varphi$^(11/5) doesn't give 5.8. But $\varphi$^((17-11)·ln($\varphi$)/ln(5)) $\approx$ $\varphi$^3.6 $\approx$ 5.7 does. The precise relationship between neutrino masses and the framework requires further work. The /5 factor (F(5), the algebraic completion) entering the neutrino mass formula is suggestive of the stripping mechanism removing the $\sqrt{5}$ discriminant contribution.
 
 ## Neutrino Oscillation
 

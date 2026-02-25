@@ -20,7 +20,7 @@ tags:
 
 All particles organized by their (d, n) coordinates on the torus:
 
-| Particle | Type | d | n | C | σ | m/mₑ | Error | Status |
+| Particle | Type | d | n | C | $\sigma$ | m/$m_e$ | Error | Status |
 |----------|------|---|---|---|---|-------|-------|--------|
 | Electron | Lepton | 0 | 0 | — | — | 1 | 0% | Reference |
 | Up | Quark | 3 | 3 | 5 | −1 | 4.4 | ~2% | Conjecture |

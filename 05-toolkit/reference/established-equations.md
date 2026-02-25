@@ -20,21 +20,21 @@ tags:
 
 | Equation | Status | Error |
 |----------|--------|-------|
-| x = 1 + 1/x → φ = (1+√5)/2 | **Proven** | exact |
-| 5πα² + α(1−(φ²+4)φ⁻²⁰) = φ⁻¹⁰ | Verified | 0.0001% |
-| sin²θ_W = φ/7 + α² | Verified | 0.004% |
-| α_s = 1/(2φ³ + α) | Verified | 0.027% |
-| M_P/mₑ = φ^(107+1/(4π)) | Verified | 0.0004% |
-| α/α_G = φ^(204−1/(4π)) | Verified | 0.007% |
-| m_μ/mₑ = φ¹¹/(1−5α(1+4α)) | **Verified** | 0.0006% |
-| m_τ/mₑ = φ¹⁷/(1+4α(1+4α)/(1+5πα)) | **Verified** | 0.0015% |
-| m_Z/mₑ = φ²⁵/(1−8α) | High confidence | 0.2% |
-| m_W/mₑ = φ²⁵/(1+8α) | High confidence | 0.7% |
-| m_H/mₑ = φ²⁶/(1+13α) | High confidence | ~1% |
+| x = 1 + 1/x → $\varphi$ = (1+$\sqrt{5}$)/2 | **Proven** | exact |
+| 5π$\alpha^2$ + $\alpha$(1−($\varphi^2$+4)$\varphi^{-20}$) = $\varphi^{-10}$ | Verified | 0.0001% |
+| si$n^2$θ_W = $\varphi$/7 + $\alpha^2$ | Verified | 0.004% |
+| α_s = 1/(2$\varphi^3$ + $\alpha$) | Verified | 0.027% |
+| M_P/$m_e$ = $\varphi$^(107+1/(4$\pi$)) | Verified | 0.0004% |
+| $\alpha$/α_G = $\varphi$^(204−1/(4$\pi$)) | Verified | 0.007% |
+| m_$\mu$/$m_e$ = $\varphi^{11}$/(1−5$\alpha$(1+4$\alpha$)) | **Verified** | 0.0006% |
+| m_$\tau$/$m_e$ = $\varphi^{17}$/(1+4$\alpha$(1+4$\alpha$)/(1+5π$\alpha$)) | **Verified** | 0.0015% |
+| m_Z/$m_e$ = $\varphi^{25}$/(1−8$\alpha$) | High confidence | 0.2% |
+| m_W/$m_e$ = $\varphi^{25}$/(1+8$\alpha$) | High confidence | 0.7% |
+| m_H/$m_e$ = $\varphi^{26}$/(1+13$\alpha$) | High confidence | ~1% |
 
 ## Cross-References
 
-- [Golden Ratio Properties](golden-ratio-properties.md) -- φ powers appearing in every equation
+- [Golden Ratio Properties](golden-ratio-properties.md) -- $\varphi$ powers appearing in every equation
 - [Correction Factor Anatomy](correction-factor-anatomy.md) -- structure of the mass equation denominators
 - [The Complete Phase Space Map](../../04-extensions/phase-space-map.md) -- particle masses predicted by these equations
 - [Force Equation Toolkit](force-equation-toolkit.md) -- available tools at each depth

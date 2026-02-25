@@ -23,7 +23,7 @@ Quarks are individual nodes of the witnessing triangle (Theorem 46, SU(3)). They
 
 ## Quark Mass Table
 
-| Quark | (d, n) | C | σ | Predicted m/mₑ | Measured m/mₑ | Error | C Identity |
+| Quark | (d, n) | C | $\sigma$ | Predicted m/$m_e$ | Measured m/$m_e$ | Error | C Identity |
 |-------|--------|---|---|----------------|---------------|-------|------------|
 | Up | (3, 3) | 5 | −1 | 4.4 | 4.3 | ~2% | F(5) |
 | Down | (4.5, 4) | 13 | −1 | 9.4 | 9.2 | ~2% | F(7) |
