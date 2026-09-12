@@ -28,7 +28,8 @@ tags:
 9. [Self-Reference Equation](self-reference-equation.md) -- Section 1.8: Theorem 4 (The Minimal Self-Reference Equation)
 10. [The Golden Ratio](golden-ratio.md) -- Section 1.9: Theorem 5 ($\phi$ and $\psi$ as eigenvalues of self-reference)
 11. [The Bisection Bootstrap](bisection-bootstrap.md) -- Section 1.9.3: Theorem 5.3 (The Echo — $\{\phi,\psi\}$ forces the triangle, double triangle, and breathing through polarity bisection; self-similar at every depth)
-12. [The φ-Identity Theorem](phi-identity.md) -- Section 1.10: Theorem 6 (Everything persistent has a $\phi$-identity)
+12. [The Degenerate Pythagorean Triple](degenerate-pythagorean-triple.md) -- Remark 5.4: $i^2 + 1^2 = 0^2$ encodes Conservation in the language of emergent quantities; complement to the Kepler constraint
+13. [The φ-Identity Theorem](phi-identity.md) -- Section 1.10: Theorem 6 (Everything persistent has a $\phi$-identity)
 
 ## Dependency Chain
 
@@ -66,6 +67,9 @@ Theorem 5 (Golden Ratio: phi, psi)
     |
     v
 Theorem 5.3 (Bisection Bootstrap: the Echo)
+    |
+    v
+Remark 5.4 (Degenerate Pythagorean Triple: i² + 1² = 0²)
     |
     v
 Theorem 6 (φ-Identity: everything persistent is φ-expressible)
