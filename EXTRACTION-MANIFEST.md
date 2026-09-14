@@ -21,7 +21,7 @@ Assessment basis: [`FRAMEWORK-ASSESSMENT.md`](FRAMEWORK-ASSESSMENT.md), which te
 
 ## I. Current Extraction State
 
-The Nothingness Generator has gone **foundations-first and stopped at the physics boundary.**
+The Nothingness Generator was written **after** this repository, as a deliberate restart from the foundations under a stricter standard. It is not a run that stalled at the physics boundary — it is a rebuild that has not yet reached the physics this quarry already contains.
 
 | Experiment | Status there |
 |-----------|-------------|
@@ -44,7 +44,7 @@ Concept presence in the Nothingness Generator:
 | knots | 6 (1 incidental hit each) | **no** |
 | **Pisot, icosahedron, E₈, Jones polynomials, quasicrystals, depth-crystallization** | **0** | **no** |
 
-**The order was right.** Foundations before physics is correct, and the foundations that landed are the sound ones. But it means the *most extractable* material — the pure-mathematics results — is still sitting here, stranded behind physics it does not need.
+**The rebuild order was right.** Rebuilding foundations first is correct, and what landed there is sound and bootstrap-verified. But it means the *most extractable* material — the pure-mathematics results — is still sitting in this quarry, stranded behind physics it does not need.
 
 ---
 
@@ -68,22 +68,9 @@ Concept presence in the Nothingness Generator:
 
 **What survives:** 11 is a genuine non-trivial coincidence under every finite variant, and 3 never is (it is $M_3(2)$, self-defining). Since $11 = L(5) = d(\mu)$, the published lattice omits the value the framework's strongest mass fit needs and includes an artifact. That is worth knowing; it is not worth porting.
 
+**The two original defects**, which stand regardless: (i) $M_k(2) = k$ for every $k$, so every integer is in its own family for free — under the stated method this trivially admits **8, 13, 21, 55**, which are excluded, by exactly the mechanism that admits 3 and 34, which are included; (ii) under the literal reading (all $k$ from 1 to 55) the set is infinite, with $k=1$ and $k=4$ sharing $1, 2, 4, 18, 76, 322, 1364, 5778, \ldots$ without bound.
+
 **If it is ever revisited**, the prerequisite is a principled reason — from the postulates, not from convenience — why $k$ ranges over one produced sequence and not another. Absent that, there is no theorem to prove.
-
-Theorem 34 claims the complete set of integers appearing in two or more distinct metallic families is $\{1,2,3,5,29,34\}$. Two defects:
-
-1. $M_k(2) = k$ for every $k$, so every integer is in its own family for free. Any $k$ that is also a Fibonacci or Lucas number is a "meeting point" with no coincidence involved. Under the stated method this trivially admits **8, 13, 21, 55** — which are excluded — by exactly the mechanism that admits 3 and 34, which are included.
-2. Under the literal reading (all $k$ from 1 to 55) the set is **infinite**: $k=1$ and $k=4$ share $1, 2, 4, 18, 76, 322, 1364, 5778, \ldots$ without bound.
-
-**Corrected criterion:** $v$ appears in at least two distinct families $k$, *excluding the trivial case $v = k$*, with $k$ over Fibonacci values. Result:
-
-$$\{1,\ 2,\ 5,\ \mathbf{11},\ 29,\ 34\}$$
-
-One swap from the published set: **3 drops** (trivial), **11 enters** (genuine — Lucas $k=1$ and Bronze-Lucas $k=3$).
-
-**Why this is the best gem:** $11 = L(5) = d(\mu)$ is the muon depth. The *corrected* lattice contains the number the framework independently needs for its single strongest empirical result; the published lattice does not. The correction makes the theorem both true and more useful.
-
-**What it needs:** a precise criterion statement, then a proof attempt. The framework's own note points the right way — Skolem–Mahler–Lech for zeros of linear recurrences, Baker bounds on linear forms in logarithms. This is a self-contained, publishable-shaped number theory problem that requires **no physics commitments at all**.
 
 ---
 
