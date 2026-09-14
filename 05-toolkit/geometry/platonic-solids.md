@@ -126,6 +126,8 @@ Both solids require $\phi$ for their construction. The pentagon's diagonal-to-si
 - [Shape Catalog (§5.23)](shape-catalog.md) -- Platonic solids appear in the 3D shape catalog
 - [Hexagon and Confinement (§5.22)](hexagon-confinement.md) -- the hexagonal limit is the boundary where Platonic closure fails
 - [Forces as Torus Knots (§5.21)](torus-knots.md) -- the trefoil knot lives on the torus that the icosahedron's dual structure generates
+- [Magnetic Order (§5.24.4)](magnetic-order.md) -- the icosahedron $\to$ McKay $\to E_8$ chain, met experimentally in CoNb$_2$O$_6$
+- [Crystalline Lattices (§5.24.5)](crystalline-lattices.md) -- the $\{3,4,5\}$ closure constraint complements the $\{3,4,6\}$ crystallographic restriction
 
 ## Related Concepts
 

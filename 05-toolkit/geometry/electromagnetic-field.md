@@ -396,6 +396,7 @@ The electroweak linking number $11$ being the muon depth is not a coincidence �
 
 - [The Knot Spectrum (§5.24)](knot-spectrum.md) -- the EM field interpretation grounds all torus knots as field configurations
 - [Chirality and Linkage (§5.24.1)](chirality-and-linkage.md) -- chirality of knots = chirality of field configurations
+- [Magnetic Order (§5.24.4)](magnetic-order.md) -- extends the field identification from vacuum fields to ordered matter
 - [Remaining Problems (§5.29)](/05-toolkit/remaining-problems.md) -- scattering amplitudes require explicit field equations
 
 ## Related Concepts

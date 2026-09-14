@@ -46,7 +46,7 @@ New mathematical results derived within the framework.
 
 Geometric structures and constructions.
 
-- [geometry/](geometry/) -- Kepler triangle extensions, pentagonal geometry, torus constructions, knot spectrum, chirality and linkage, electromagnetic field from breathing torus, metallic Jones polynomials
+- [geometry/](geometry/) -- Kepler triangle extensions, pentagonal geometry, torus constructions, knot spectrum, chirality and linkage, electromagnetic field from breathing torus, metallic Jones polynomials, magnetic order, crystalline lattices
 
 ### Holographic
 
@@ -54,7 +54,14 @@ Holographic and self-similar structure results.
 
 - [holographic/](holographic/) -- Self-similar encodings, holographic properties, scale relations
 
-### Meta-Analysis
+#### Magnetism and Matter
+
+Application of the framework to condensed matter, with null results reported alongside positive ones.
+
+- [Magnetic Order and the Golden Threshold (§5.24.4)](geometry/magnetic-order.md) -- $E_8$ golden pairs in CoNb$_2$O$_6$, frustration on the triangle, Fibonacci anyons; rejected: Curie temperatures, moments, Bethe-Slater
+- [Crystalline Lattices and the Periodic Table (§5.24.5)](geometry/crystalline-lattices.md) -- $\phi$ as the obstruction to five-fold periodicity; rejected: golden structure in shell capacities
+
+## Meta-Analysis
 
 - [Assumptions Audit](assumptions-audit.md) -- Section 5.30: Tracking what is proven vs. assumed across the entire framework
 

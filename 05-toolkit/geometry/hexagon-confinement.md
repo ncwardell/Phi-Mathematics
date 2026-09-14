@@ -60,6 +60,7 @@ The weak force operates precisely at this boundary — it connects the confined 
 
 - [Forces as Torus Knots (§5.21)](torus-knots.md) -- confinement of the (2,3) trefoil explained via hexagonal saturation
 - [Shape Catalog (§5.23)](shape-catalog.md) -- the hexagon's role as saturation/confinement boundary in the 2D shape table
+- [Crystalline Lattices (§5.24.5)](crystalline-lattices.md) -- hexagonal saturation seen from the tiling side; pentagon/hexagon complementarity
 
 ## Related Concepts
 

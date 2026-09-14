@@ -14,6 +14,8 @@ depends_on:
   - /05-toolkit/geometry/knot-spectrum.md
   - /05-toolkit/geometry/chirality-and-linkage.md
   - /05-toolkit/geometry/electromagnetic-field.md
+  - /05-toolkit/geometry/magnetic-order.md
+  - /05-toolkit/geometry/crystalline-lattices.md
 tags:
   - assumptions
   - audit
@@ -336,6 +338,63 @@ If Theorem 6 is correct, then every physical quantity IS a $\phi$-expression. Nu
 
 ---
 
+### A-M1. "$\phi$ governs magnetic ordering"
+
+**Location:** §5.24.4
+**Claim:** The golden ratio structures magnetic order in matter.
+**Status:** SPLIT — PROVEN in part, REJECTED in part
+
+**What is proven (exact, zero free parameters):**
+- The $E_8$ mass spectrum of the field-perturbed critical Ising model contains four exact golden pairs, $m_2/m_1 = m_6/m_3 = m_7/m_4 = m_8/m_5 = \phi$. Measured in CoNb$_2$O$_6$ as $1.64 \pm 0.03$ (Coldea et al. 2010).
+- The Fibonacci anyon quantum dimension satisfies $d^2 = d+1$, i.e. $d = \phi$ — the framework's own self-reference equation.
+- The triangle is the minimal frustrated antiferromagnetic unit (minimal odd cycle).
+- $\phi$ is the most irrational winding (Hurwitz constant $\sqrt 5$); the golden KAM torus is last to break.
+
+**What is REJECTED (tested and failed):**
+- Curie/Néel temperature ratios show no $\phi$-power structure (15 pairs tested; hit rate below chance).
+- Saturation moments show no $\phi$-power structure (only Ni at 1.95%, within the 8.2% chance rate).
+- The Bethe–Slater ferromagnetic threshold $\approx \phi$ is NOT admitted: the conventional threshold is an empirically assumed 1.5, the bracket is 0.16 wide, and the single-ratio mechanism is refuted by Cardias et al. (2017).
+
+**Impact:** The framework may claim $\phi$ at magnetic critical points and frustrated ground states. It may NOT claim $\phi$ in ordering temperatures, moments, or exchange thresholds.
+
+---
+
+### A-M2. "The periodic table encodes $\phi$"
+
+**Location:** §5.24.5
+**Claim:** Tested directly at user request.
+**Status:** REJECTED
+
+Orbital capacities $2,6,10,14$ are arithmetic with difference 4; shell capacities are $2n^2$; period lengths follow Madelung $(n+\ell)$ ordering. None is Fibonacci. The generators are $\mathrm{SO}(3)$ representation dimensions, Pauli exclusion, and the $\mathrm{SO}(4)$ Coulomb degeneracy — integer group theory with no golden ratio. Crystallographic and magnetic group counts (7, 14, 32, 230, 122, 1651) likewise show only the expected rate of accidental Fibonacci/Lucas coincidence (1 in 7).
+
+**Impact:** Any future claim of golden structure in shell counting should be treated as suspect. This entry exists to prevent its rediscovery.
+
+---
+
+### A-M3. "$\phi$ is the obstruction to five-fold periodicity"
+
+**Location:** §5.24.5
+**Status:** PROVEN
+
+The crystallographic restriction theorem requires $2\cos(2\pi/n) \in \mathbb{Z}$. At $n=5$ this equals $1/\phi = 0.6180\ldots$, which is not an integer. $\phi$ is therefore the exact algebraic reason five-fold order cannot tile periodically, and consequently the number governing all quasiperiodic order (Penrose inflation factor, Ammann bar ratios, Fibonacci chain, icosahedral $\phi^3$ diffraction scaling).
+
+This is one of the few places in the framework where $\phi$ is *forced by an elementary theorem* rather than identified by pattern match.
+
+---
+
+### A-M4. "Pattern matches require a stated null rate"
+
+**Location:** §5.24.4 Section I
+**Status:** METHODOLOGICAL STANDARD
+
+Powers of $\phi$ are spaced $\ln\phi = 0.4812$ apart in log space, so a randomly drawn ratio lands within $\pm 2\%$ of some $\phi^n$ with probability **8.2%** (analytic; confirmed by Monte Carlo). A single agreement at the few-percent level is therefore not evidence.
+
+**Standard adopted:** a $\phi$ claim is admitted only if it is (a) exact — an algebraic identity with zero tolerance — or (b) multiple — several independent quantities agreeing simultaneously.
+
+This standard should be applied retroactively to existing framework claims. The constants in the prediction table (e.g. $\alpha$ at 0.0001%) pass comfortably; looser pattern matches elsewhere in Parts IV-V may not.
+
+---
+
 ## Summary Count
 
 | Status | Count |
@@ -346,6 +405,7 @@ If Theorem 6 is correct, then every physical quantity IS a $\phi$-expression. Nu
 | CHOICE | 5 (A4, A5, A6, A12, A13) |
 | CIRCULAR RISK | 1 (A7) |
 | META | 1 (A17, partially addressed) |
+| MAGNETISM/LATTICES | 4 (A-M1 split, A-M2 rejected, A-M3 proven, A-M4 methodological) |
 
 **The $\phi$-Identity Theorem (Theorem 6) is the strongest new result.** It proves that the framework's use of $\phi$ is not a choice but a necessity: nothing else can self-sustain in a $\Sigma = 0$ void. The physical identifications (force-knot mappings) remain the framework's weakest links — they are well-motivated patterns, not forced derivations.
 
