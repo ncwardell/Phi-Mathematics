@@ -173,19 +173,101 @@ Separating original contributions from restatements of known mathematics:
 
 ---
 
+## V-B. Cross-Repository Finding: The Parent Framework Is Stricter Than This One
+
+`ncwardell/The-Nothingness-Generator` is the generator of which this repository is an *experiment* (a lens). Reading it changes the assessment above in one direction: **the parent framework already states the discipline this repository departs from.**
+
+### The parent carries three postulates; this one carries two
+
+| | The Nothingness Generator | phi-Mathematics |
+|---|---|---|
+| Conservation $\Sigma = 0$ | yes | yes |
+| Existence $\exists$ | yes | yes |
+| **Internality** (no outside reference) | **yes** | **absent** |
+
+Internality is what forces Self-Reference in the parent. This repository derives self-reference by other means and never states Internality as a postulate. Whether anything downstream depends on the missing postulate is worth checking.
+
+### The parent explicitly labels as CHOSEN what this repository presents as derived
+
+From `10-experiments/physics/forces/forces.md`, under **Forced vs. chosen**:
+
+> **Chosen:** ... Specific depth assignments for each force (3 for strong, 10 for EM, etc.). **These are hypotheses** based on structural features.
+
+From `10-experiments/physics/spectrum/spectrum.md`:
+
+> **Chosen:** ... Specific particle assignments to $(d, C, \sigma)$ triples (e.g., muon = $(11, 5, +1)$). **These are hypotheses, revisable.**
+
+> The discipline of the articulation determines whether the agreements count as positive evidence **or as post-hoc fits**.
+
+Against this repository's README:
+
+> ...derives — **without fitting parameters or empirical input** — ... closed-form expressions for the fundamental constants of nature.
+
+**These are in direct conflict, and the parent is correct.** The depth assignments are chosen. Section II.1 above reached the parent framework's own position independently and by a different route (statistical testing); the parent reached it by discipline. Two independent arrivals at the same conclusion.
+
+### Genre mismatch
+
+The parent states its genre explicitly: *"It is not a falsifiable physics theory,"* it belongs to structural metaphysics, and its audit says plainly: **"No quantitative predictions. The generator does not predict numbers."** It asks to be evaluated by *internal coherence, cross-domain productivity, and generative depth* — **"not against the standards of empirical physics."**
+
+This repository is presented as physics with a prediction table and error column. It therefore invites exactly the standards its parent declines. That is a choice this repository makes on its own, and Section II is the result of taking it at its word.
+
+### Testing the parent's own universal mass equation
+
+The parent commits (SP3) to a single form, with $C$ drawn from the meeting-point lattice $\{1,2,3,5,29,34\}$ (SP1):
+
+$$\frac{m}{m_e} = \frac{\phi^d}{1 - \sigma C \alpha(1 + 4\alpha)}$$
+
+Enumerating all 468 combinations ($d$ to 40, $C$ in the lattice, $\sigma = \pm 1$):
+
+| Particle | Best fit | Error | Alternatives within 1% |
+|----------|----------|-------|----------------------|
+| **muon** | $(11, 5, +1)$ | **0.0006%** | **1 of 468** |
+| tau | $(17, 3, -1)$ | 0.43% | 1 |
+| proton | $(15, 34, +1)$ | 0.24% | 1 |
+| W | $(25, 5, -1)$ | 2.80% | 0 |
+| Z | $(25, 5, +1)$ | 2.32% | 0 |
+
+**The muon result is genuinely strong** — unique to 0.1% in a 468-element space, and it is the parent's own stated assignment. That deserves to be credited.
+
+**But the equation is universal for exactly one particle.** Everything else requires departing from the committed form, and this repository does depart, differently each time:
+
+| Particle | $C$ used here | In the lattice $\{1,2,3,5,29,34\}$? | Correction form |
+|----------|--------------|-----------------------------------|----------------|
+| muon | 5 | **yes** | SP3 |
+| tau | 4 | no | SP3 **plus** an extra $1/(1+5\pi\alpha)$ |
+| W/Z | 8 | no | SP3 |
+| Higgs | 13 | no | SP3 |
+| Gen-4 | 29 | **yes** | SP3 |
+
+Three of five use a $C$ outside the lattice the framework commits to, and the tau additionally needs a correction factor no other particle needs. Each departure is individually motivated by depth-crystallization (§5.13) — but collectively they mean **the universal mass equation is not universal**, and the per-particle freedom is larger than the $\alpha$-equation analysis in Section II.2 suggested.
+
+This is the most actionable finding in this document. The muon is a real result. Extending SP3 to a second particle *without* changing its form would be worth more than any number of additional depth matches.
+
+### Net effect on the assessment
+
+- Section II.1 (depth hypothesis weak) — **reinforced**, now with the parent framework's agreement.
+- Section II.2 (correction factors sharply selected) — **qualified downward**. That analysis held the *form* fixed and varied parameters. Across particles the form itself varies, which is additional freedom not counted there.
+- Section III (inverted confidence profile) — **reinforced**. The parent's careful epistemics are the strongest thing in either repository, and this repository does not inherit them.
+
+**Recommendation:** import the parent's forced-vs-chosen tables into Part III verbatim, and revise the README sentence "without fitting parameters or empirical input." That sentence is not supportable, the parent framework says so, and removing it costs nothing that the mathematics actually earns.
+
+---
+
 ## VI. Highest-Value Next Steps
 
 In descending order of what each would change.
 
 1. **Derive the crystallization schedule** (§IV.2). Converts the 207,360 result from suggestive to strong. Nothing else changes the framework's evidential status as much.
 
-2. **Publish the depth-34 fourth-generation prediction explicitly, with a mass and an uncertainty.** It is the only unfittable claim in the theory. Stated sharply, it makes the framework falsifiable in a way nothing else does.
+2. **Extend SP3 to a second particle without changing its form** (§V-B). The muon fit is unique in 468; a second one under the same committed lattice would be the strongest single result in either repository.
 
-3. **Derive Step 2 of §5.24.8** (exchange = $2\pi$ rotation) from the witnessing triangle. Would give spin-statistics from the axioms.
+3. **Publish the depth-34 fourth-generation prediction explicitly, with a mass and an uncertainty.** It is the only unfittable claim in the theory. Stated sharply, it makes the framework falsifiable in a way nothing else does.
 
-4. **Attack A7 — bound states from the Lagrangian.** The hardest and the most transformative; it is what separates a pattern from a theory.
+4. **Derive Step 2 of §5.24.8** (exchange = $2\pi$ rotation) from the witnessing triangle. Would give spin-statistics from the axioms.
 
-5. **Restate every depth claim with its null rate.** Cheap, immediate, and it would let readers weigh the results correctly. Several existing claims will not survive this and should be retired.
+5. **Attack A7 — bound states from the Lagrangian.** The hardest and the most transformative; it is what separates a pattern from a theory.
+
+6. **Restate every depth claim with its null rate.** Cheap, immediate, and it would let readers weigh the results correctly. Several existing claims will not survive this and should be retired.
 
 ---
 
@@ -201,7 +283,7 @@ The most honest description is **a research program with one strong mathematical
 
 ## Method Note
 
-All statistics here are reproducible: depth test over 14 particles with PDG masses; Monte Carlo $2\times10^5$ trials; $\alpha$ grammar enumeration over 207,360 expressions; muon grammar over 9,375. Null rates for $\phi$-power proximity are derived in §5.24.4 Section I.
+Cross-repository claims in §V-B were read from a clone of `ncwardell/The-Nothingness-Generator` at commit `e4e27c8`. All statistics here are reproducible: depth test over 14 particles with PDG masses; SP3 enumeration over 468 combinations; Monte Carlo $2\times10^5$ trials; $\alpha$ grammar enumeration over 207,360 expressions; muon grammar over 9,375. Null rates for $\phi$-power proximity are derived in §5.24.4 Section I.
 
 ## Tags
 
