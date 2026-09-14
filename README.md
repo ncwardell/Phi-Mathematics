@@ -63,6 +63,7 @@ The original monolithic document is preserved as [Initial Phi Math Framework.md]
 | Document | Description |
 |----------|-------------|
 | [GLOSSARY.md](GLOSSARY.md) | Definitions of all symbols, terms, and conventions used throughout the framework |
+| [FRAMEWORK-ASSESSMENT.md](FRAMEWORK-ASSESSMENT.md) | Whole-theory evaluation: the depth hypothesis and correction factors tested statistically, structural problems, next steps |
 | [DERIVATION-CHAIN.md](DERIVATION-CHAIN.md) | Linear dependency map showing the logical chain from axioms to each prediction |
 
 ---

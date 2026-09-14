@@ -229,6 +229,7 @@ The proposal's content is a relocation: magnetism in matter does not enter this 
 - [EM Field from Torus (§5.24.2)](electromagnetic-field.md) -- the field account this section argues is insufficient for matter
 - [Forces as Torus Knots (§5.21)](torus-knots.md) -- the $(3,5)$ knot and its actual role
 - [Magnetic Order (§5.24.4)](magnetic-order.md) -- the triangle/frustration result Section VI connects to
+- [Witnessing State (§5.24.8)](witnessing-state.md) -- supplies the definition this section names as its blocking step
 
 ## Tags
 

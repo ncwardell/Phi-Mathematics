@@ -62,10 +62,12 @@ Application of the framework to condensed matter, with null results reported alo
 - [Crystalline Lattices and the Periodic Table (§5.24.5)](geometry/crystalline-lattices.md) -- $\phi$ as the obstruction to five-fold periodicity; rejected: golden structure in shell capacities
 - [Permanent Magnets: Where the Lens Points (§5.24.6)](geometry/permanent-magnets.md) -- the framework as search heuristic for rare-earth-free magnets; metastability and path, not composition
 - [Magnetism in the Framework: A Theoretical Proposal (§5.24.7)](geometry/magnetism-proposal.md) -- CONJECTURE: exclusion from Two-Node Instability as the route to ferromagnetism
+- [Defining the Witnessing State (§5.24.8)](geometry/witnessing-state.md) -- CONJECTURE: exclusion derived from polarity via the strand swap; the factor 2 in $2(2\ell+1)$
 
 ## Meta-Analysis
 
 - [Assumptions Audit](assumptions-audit.md) -- Section 5.30: Tracking what is proven vs. assumed across the entire framework
+- [Framework Assessment](../FRAMEWORK-ASSESSMENT.md) -- whole-theory evaluation with the load-bearing claims tested numerically
 
 ---
 
