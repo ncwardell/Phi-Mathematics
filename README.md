@@ -64,6 +64,7 @@ The original monolithic document is preserved as [Initial Phi Math Framework.md]
 |----------|-------------|
 | [GLOSSARY.md](GLOSSARY.md) | Definitions of all symbols, terms, and conventions used throughout the framework |
 | [FRAMEWORK-ASSESSMENT.md](FRAMEWORK-ASSESSMENT.md) | Whole-theory evaluation: the depth hypothesis and correction factors tested statistically, structural problems, next steps |
+| [EXTRACTION-MANIFEST.md](EXTRACTION-MANIFEST.md) | Quarry map for porting into The-Nothingness-Generator: the gems, the clutter, and what each gem still needs |
 | [DERIVATION-CHAIN.md](DERIVATION-CHAIN.md) | Linear dependency map showing the logical chain from axioms to each prediction |
 
 ---

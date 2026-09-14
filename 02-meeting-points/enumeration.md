@@ -20,6 +20,20 @@ tags:
 
 # Enumeration of Meeting Points
 
+> ⚠️ **CORRECTION (see [EXTRACTION-MANIFEST.md](/EXTRACTION-MANIFEST.md), Gem 1).** Theorem 34 as stated below is **false**, for two reasons — and the corrected result is *better* for the framework.
+>
+> **(a) The criterion is incomplete.** $M_k(2) = k$ for every $k$, so every integer sits in its own family automatically. Any $k$ that is also a Fibonacci or Lucas number is therefore a "meeting point" for free, with no coincidence involved. Under the stated method ($k$ restricted to Fibonacci values) this trivially admits **8, 13, 21, 55** — excluded below — by *exactly* the mechanism that admits 3 and 34, which are included. The published set is not self-consistent.
+>
+> **(b) Under the literal reading** ("$k = 1$ through $k = 55$", all integers) the shared set is **infinite**: families $k=1$ and $k=4$ share $1, 2, 4, 18, 76, 322, 1364, 5778, \ldots$ without bound.
+>
+> **Corrected statement.** Requiring $v$ to appear in the sequences of at least two distinct families $k$, **excluding the trivial appearance where $v = k$**, with $k$ ranging over Fibonacci values:
+>
+> $$\{1,\ 2,\ 5,\ \mathbf{11},\ 29,\ 34\}$$
+>
+> This differs from the published set by a single swap: **3 drops out** (trivial — it is $M_3(2)$), and **11 enters** (genuine — Lucas $k=1$: $2,1,3,4,7,\mathbf{11}$ and Bronze-Lucas $k=3$: $2,3,\mathbf{11},36$).
+>
+> **11 is the muon depth**, $d(\mu) = L(5) = 11$. The corrected lattice contains the number the framework independently requires for its single strongest mass fit; the published lattice does not. Downstream assignments — the meeting-point lattice and the $C$ values of §5.13 — should be re-derived against the corrected set.
+
 > **Theorem 34 (The Complete Set of Meeting Points):** *The complete set of meeting points is {1, 2, 3, 5, 29, 34}. No integer beyond 34 appears in the recurrence sequences of two or more distinct metallic families.*
 
 ## Statement
