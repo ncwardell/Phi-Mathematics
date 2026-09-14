@@ -350,6 +350,7 @@ The null results in Section VIII are not embarrassments to be explained away. Th
 ## Dependents
 
 - [Crystalline Lattices (§5.24.5)](crystalline-lattices.md) -- the lattice side of the same question; the crystallographic restriction
+- [Permanent Magnets (§5.24.6)](permanent-magnets.md) -- applies the rejections recorded here as hard limits on magnet design
 - [Assumptions Audit (§5.30)](/05-toolkit/assumptions-audit.md) -- entries A-M1 through A-M4 record the status claims made here
 
 ## Related Concepts

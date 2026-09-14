@@ -205,6 +205,7 @@ Where the framework predicts $\phi$, it is found and exact. Where the framework 
 ## Dependents
 
 - [Assumptions Audit (§5.30)](/05-toolkit/assumptions-audit.md) -- entries A-M1 through A-M4
+- [Permanent Magnets (§5.24.6)](permanent-magnets.md) -- symmetry-breaking as the anisotropy resource; quasicrystal caveat
 
 ## Related Concepts
 

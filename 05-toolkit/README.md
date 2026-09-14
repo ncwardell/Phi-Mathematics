@@ -60,6 +60,7 @@ Application of the framework to condensed matter, with null results reported alo
 
 - [Magnetic Order and the Golden Threshold (§5.24.4)](geometry/magnetic-order.md) -- $E_8$ golden pairs in CoNb$_2$O$_6$, frustration on the triangle, Fibonacci anyons; rejected: Curie temperatures, moments, Bethe-Slater
 - [Crystalline Lattices and the Periodic Table (§5.24.5)](geometry/crystalline-lattices.md) -- $\phi$ as the obstruction to five-fold periodicity; rejected: golden structure in shell capacities
+- [Permanent Magnets: Where the Lens Points (§5.24.6)](geometry/permanent-magnets.md) -- the framework as search heuristic for rare-earth-free magnets; metastability and path, not composition
 
 ## Meta-Analysis
 

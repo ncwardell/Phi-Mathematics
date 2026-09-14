@@ -16,6 +16,7 @@ depends_on:
   - /05-toolkit/geometry/electromagnetic-field.md
   - /05-toolkit/geometry/magnetic-order.md
   - /05-toolkit/geometry/crystalline-lattices.md
+  - /05-toolkit/geometry/permanent-magnets.md
 tags:
   - assumptions
   - audit
@@ -357,6 +358,8 @@ If Theorem 6 is correct, then every physical quantity IS a $\phi$-expression. Nu
 
 **Impact:** The framework may claim $\phi$ at magnetic critical points and frustrated ground states. It may NOT claim $\phi$ in ordering temperatures, moments, or exchange thresholds.
 
+**Downstream consequence (§5.24.6):** because these three rejected quantities are exactly what determines permanent magnet performance, the framework cannot compute or design a magnet. §5.24.6 uses it only as a search heuristic and states this limit at its head. The exchange-spring optimum was additionally tested for $\phi$ and REJECTED (optima span 0.001-0.597, tracking $K_1$).
+
 ---
 
 ### A-M2. "The periodic table encodes $\phi$"
@@ -406,6 +409,7 @@ This standard should be applied retroactively to existing framework claims. The 
 | CIRCULAR RISK | 1 (A7) |
 | META | 1 (A17, partially addressed) |
 | MAGNETISM/LATTICES | 4 (A-M1 split, A-M2 rejected, A-M3 proven, A-M4 methodological) |
+| APPLIED (heuristic only) | 1 (§5.24.6 permanent magnets — no derivation claimed) |
 
 **The $\phi$-Identity Theorem (Theorem 6) is the strongest new result.** It proves that the framework's use of $\phi$ is not a choice but a necessity: nothing else can self-sustain in a $\Sigma = 0$ void. The physical identifications (force-knot mappings) remain the framework's weakest links — they are well-motivated patterns, not forced derivations.
 
