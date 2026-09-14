@@ -17,6 +17,7 @@ depends_on:
   - /05-toolkit/geometry/magnetic-order.md
   - /05-toolkit/geometry/crystalline-lattices.md
   - /05-toolkit/geometry/permanent-magnets.md
+  - /05-toolkit/geometry/magnetism-proposal.md
 tags:
   - assumptions
   - audit
@@ -410,6 +411,7 @@ This standard should be applied retroactively to existing framework claims. The 
 | META | 1 (A17, partially addressed) |
 | MAGNETISM/LATTICES | 4 (A-M1 split, A-M2 rejected, A-M3 proven, A-M4 methodological) |
 | APPLIED (heuristic only) | 1 (§5.24.6 permanent magnets — no derivation claimed) |
+| CONJECTURE | 1 (§5.24.7 M1: Pauli exclusion as Two-Node Instability — central, unproven) |
 
 **The $\phi$-Identity Theorem (Theorem 6) is the strongest new result.** It proves that the framework's use of $\phi$ is not a choice but a necessity: nothing else can self-sustain in a $\Sigma = 0$ void. The physical identifications (force-knot mappings) remain the framework's weakest links — they are well-motivated patterns, not forced derivations.
 
