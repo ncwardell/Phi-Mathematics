@@ -81,6 +81,50 @@ This connects directly to §5.24.4 Section VI: the first quasicrystals shown to 
 
 ---
 
+## I-B. STRONG: The Metallic Means Are Exactly the Admissible Inflation Factors
+
+The framework's metallic mean family (Theorem 32) is $\sigma_k = (k + \sqrt{k^2+4})/2$, the positive root of $x^2 = kx + 1$, with continued fraction $[k; k, k, \ldots]$. The framework generates this family from self-reference and assigns the members to particle-physics meeting points. It has not previously been noted that **the same family is exactly a family of admissible quasicrystal inflation factors.**
+
+### Every metallic mean is a quadratic Pisot unit
+
+A **Pisot number** is a real algebraic integer $> 1$ all of whose other conjugates lie strictly inside the unit circle. For $x^2 - kx - 1 = 0$ the two roots satisfy $r_1 r_2 = -1$, so
+
+$$|r_2| = \frac{1}{r_1} < 1 \quad \text{whenever } r_1 > 1$$
+
+which holds for every $k \ge 1$. The Pisot property is therefore **automatic** for the whole family — it is the same reciprocal relation $pf = 1$ the framework already uses.
+
+| $k$ | $\sigma_k$ | conjugate | Pisot |
+|-----|-----------|-----------|-------|
+| 1 (golden) | 1.618034 | −0.618034 | yes |
+| 2 (silver) | 2.414214 | −0.414214 | yes |
+| 3 (bronze) | 3.302776 | −0.302776 | yes |
+| 4 | 4.236068 | −0.236068 | yes |
+
+### Why Pisot is the relevant property
+
+A substitution (inflation) tiling has **pure-point diffraction** — sharp Bragg peaks, the experimental signature of a genuine quasicrystal — essentially only when its inflation factor is Pisot. A non-Pisot inflation factor gives diffuse scattering instead: aperiodic, but not a quasicrystal.
+
+So the condition that makes a self-referential inflation *physically observable as sharp diffraction* is the same reciprocal condition the framework imposes for a structure to be self-sustaining. The framework's family is not merely compatible with quasicrystal inflation; it is drawn from the admissible set by construction.
+
+### Score against observed quasicrystals
+
+| Observed symmetry | Inflation factor | Minimal polynomial | Framework member? |
+|------------------|------------------|--------------------|-------------------|
+| 5-fold / 10-fold (icosahedral, decagonal) | 1.618034 | $x^2 = 1x + 1$ | **golden, $k=1$** |
+| 8-fold (octagonal, Ammann–Beenker) | 2.414214 | $x^2 = 2x + 1$ | **silver, $k=2$** |
+| 12-fold (dodecagonal) | 3.732051 | $x^2 = 4x - 1$ | **no** — wrong sign |
+
+Two of the three observed quasicrystal families are framework metallic means, and the silver/octagonal identification is exact. But the correspondence fails in both directions:
+
+- **Misses:** dodecagonal quasicrystals are real and well characterized, and $2+\sqrt 3$ satisfies $x^2 - 4x + 1 = 0$, not $x^2 - kx - 1 = 0$. It is Pisot, but it is not a metallic mean.
+- **Over-generates:** the bronze mean $k=3$ ($3.302776$) corresponds to no observed quasicrystal symmetry at all, and neither do $k \ge 4$.
+
+**Status: STRONG for the Pisot theorem** (exact, one line, no fitting); **PARTIAL for the physical correspondence** (2 of 3, with failures in both directions). The metallic family appears to be a *subset* of the admissible inflation factors rather than the whole of it — the framework should not claim it enumerates quasicrystal symmetries.
+
+**Open question:** the framework's own logic says structures stabilize only where multiple independent self-referential modes reinforce (Theorem 33), which is why most golden-convergent knots are "deep desert." Does that same criterion explain why $k = 1$ and $k = 2$ are realized in matter while $k \ge 3$ is not? If so, the over-generation is a feature and the criterion is testable against crystallography rather than only against particle depths.
+
+---
+
 ## II. The Closure/Tiling Complementarity
 
 §5.20 established the **Platonic face constraint**: regular $n$-gons form a closed solid iff three of them subtend less than $360°$, giving $n \in \{3, 4, 5\}$, with the hexagon exactly flat and excluded.
