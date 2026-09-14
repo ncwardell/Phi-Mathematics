@@ -26,13 +26,20 @@ tags:
 >
 > **(b) Under the literal reading** ("$k = 1$ through $k = 55$", all integers) the shared set is **infinite**: families $k=1$ and $k=4$ share $1, 2, 4, 18, 76, 322, 1364, 5778, \ldots$ without bound.
 >
-> **Corrected statement.** Requiring $v$ to appear in the sequences of at least two distinct families $k$, **excluding the trivial appearance where $v = k$**, with $k$ ranging over Fibonacci values:
+> **(c) There is no stable corrected set.** Excluding trivial occurrences and varying the admissible range of $k$:
 >
-> $$\{1,\ 2,\ 5,\ \mathbf{11},\ 29,\ 34\}$$
+> | Definition | Result |
+> |---|---|
+> | drop self-occurrence ($v=k$), $k$ over Fibonacci | $\{1, 2, 5, \mathbf{11}, 29, 34\}$ |
+> | also drop universal seeds ($M_k(1)=1$, $ML_k(0)=2$) | $\{2, 5, \mathbf{11}, 29, 34\}$ |
+> | $k$ over Fibonacci **and Lucas** | 34+ values, apparently unbounded |
+> | $k$ over all integers | **infinite** |
 >
-> This differs from the published set by a single swap: **3 drops out** (trivial — it is $M_3(2)$), and **11 enters** (genuine — Lucas $k=1$: $2,1,3,4,7,\mathbf{11}$ and Bronze-Lucas $k=3$: $2,3,\mathbf{11},36$).
+> **Finiteness depends entirely on admitting Fibonacci-valued $k$ while excluding Lucas-valued $k$.** There is no principled reason within this repository to do so — §5.13 uses Lucas numbers throughout ($L(3)=4$, $L(4)=7$, $L(5)=11$). Admit them as $k$ and the set explodes.
 >
-> **11 is the muon depth**, $d(\mu) = L(5) = 11$. The corrected lattice contains the number the framework independently requires for its single strongest mass fit; the published lattice does not. Downstream assignments — the meeting-point lattice and the $C$ values of §5.13 — should be re-derived against the corrected set.
+> One observation survives the instability and is worth keeping: **11 appears as a genuine non-trivial coincidence under every finite variant** (Lucas $k=1$: $2,1,3,4,7,\mathbf{11}$ and Bronze-Lucas $k=3$: $2,3,\mathbf{11},36$), while **3 never does** (it is $M_3(2)$, self-defining). Since $11 = L(5) = d(\mu)$ is the muon depth, the published set both omits the one value the framework's strongest mass fit requires and includes one that is an artifact.
+>
+> **Status: the theorem is withdrawn, not repaired.** Any downstream use of the meeting-point lattice — the $C$ values of §5.13, the SP1 commitment in the parent framework — currently rests on a set that does not survive its own definition.
 
 > **Theorem 34 (The Complete Set of Meeting Points):** *The complete set of meeting points is {1, 2, 3, 5, 29, 34}. No integer beyond 34 appears in the recurrence sequences of two or more distinct metallic families.*
 

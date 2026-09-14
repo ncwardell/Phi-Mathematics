@@ -50,11 +50,25 @@ Concept presence in the Nothingness Generator:
 
 ## II. The Gems
 
-### Gem 1 — The Meeting-Point Theorem, corrected ★ highest value
+### Gem 1 — The Meeting-Point Theorem ⛔ WITHDRAWN — do not port
 
 **Where:** [`02-meeting-points/enumeration.md`](02-meeting-points/enumeration.md) (Theorem 34)
-**Destination:** `10-experiments/mathematics/` — this is **number theory, not physics**
-**Status:** published statement is **false**; the corrected statement is stronger
+**Status:** **false as published, and not repairable into a stable result. Tested and rejected for porting.**
+
+> **Revision note.** An earlier draft of this manifest listed Gem 1 as the highest-value extraction, on the strength of a corrected set $\{1,2,5,11,29,34\}$. Stress-testing across definitional variants showed that set is **not stable**, and the recommendation is withdrawn. The defects below stand; the proposed repair does not.
+
+| Admissible $k$ | Trivial occurrences dropped | Result |
+|---|---|---|
+| Fibonacci | self-occurrence $v=k$ | $\{1,2,5,11,29,34\}$ |
+| Fibonacci | also universal seeds | $\{2,5,11,29,34\}$ |
+| Fibonacci **and Lucas** | both | 34+ values, apparently unbounded |
+| all integers | both | **infinite** |
+
+**Finiteness is contingent on admitting Fibonacci-valued $k$ while excluding Lucas-valued $k$** — and this repository uses Lucas numbers throughout ($L(3)=4$, $L(4)=7$, $L(5)=11$ in §5.13). There is no principled basis here for the asymmetry. A result that survives only because a substrate happens to omit one sequence is not a theorem, and does not belong in a bootstrap-verified chain.
+
+**What survives:** 11 is a genuine non-trivial coincidence under every finite variant, and 3 never is (it is $M_3(2)$, self-defining). Since $11 = L(5) = d(\mu)$, the published lattice omits the value the framework's strongest mass fit needs and includes an artifact. That is worth knowing; it is not worth porting.
+
+**If it is ever revisited**, the prerequisite is a principled reason — from the postulates, not from convenience — why $k$ ranges over one produced sequence and not another. Absent that, there is no theorem to prove.
 
 Theorem 34 claims the complete set of integers appearing in two or more distinct metallic families is $\{1,2,3,5,29,34\}$. Two defects:
 
@@ -77,7 +91,7 @@ One swap from the published set: **3 drops** (trivial), **11 enters** (genuine �
 
 **Where:** [`05-toolkit/geometry/crystalline-lattices.md`](05-toolkit/geometry/crystalline-lattices.md) §I-B
 **Destination:** `10-experiments/mathematics/algebra/`
-**Status:** theorem, one line, and the physical correspondence is real
+**Status:** ✅ **PORTED** — `algebra/construction/11-metallic-means-are-pisot-units.md`, with prerequisite topic 10. Theorem is forced; the quasicrystal correspondence is carried under Comparison with its failures stated.
 
 For $x^2 - kx - 1 = 0$ the roots satisfy $r_1 r_2 = -1$, so $|r_2| = 1/r_1 < 1$ whenever $r_1 > 1$. **Every metallic mean is a quadratic Pisot unit, automatically** — via the same reciprocal relation $pf = 1$ the framework already uses.
 
@@ -177,13 +191,13 @@ Physics is where the commitments pile up (F1–F3, SP1–SP3, plus a $(d, C, \si
 
 **Suggested order:**
 
-1. **Gem 1** into mathematics — correct the theorem, state the criterion precisely, attempt the proof. Self-contained, and the correction hands you $11 = d(\mu)$.
-2. **Gem 2** into mathematics/algebra — already proved, and it connects to a real experimental science.
+1. ~~Gem 1~~ — **withdrawn**, see above. Not portable.
+2. **Gem 2** — ✅ **PORTED** to `10-experiments/mathematics/algebra/` as Phase II topics 10–11.
 3. **Gem 4** into `02-the-process/` — a method, not a result; strengthens the generator itself.
 4. **Gem 5** into dynamics — the host theorem is already there.
 5. **Gem 3** into spectrum, last, when the physics chain is written, with its limits attached.
 
-Gems 1, 2 and 4 need **no physics commitments whatsoever**. That is the shortest path from this quarry to something that does real work.
+Gems 2 and 4 need **no physics commitments whatsoever**. That is the shortest path from this quarry to something that does real work.
 
 ---
 
