@@ -68,7 +68,7 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>The charge's loop: once around the axis and once through the centre, in one turn</span>
+      <span><i class="sw" style="background:var(--elec)"></i>The charge's path: each turn goes around and through at once, then moves on to the next line, covering every line continuously</span>
       <span><i class="sw" style="background:var(--mag)"></i>Every line has the same shape as the charge's loop (around and through at once); together they fill the torus. Dots turn white after passing the centre.</span>
                   <span><i class="dot" style="background:var(--elec)"></i>The charge</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
@@ -182,8 +182,8 @@ const NPOL=36;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.45))
 const qLine=makeLine(97,COL.mag,1);   // the charge's own field line: the circle through the charge and the centre
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
-const NWIND=1;   // each loop: once around the axis AND once through the centre (Hopf fibre)
-const loopPath=makeLine(161,COL.elec,1);
+const NWIND=NPOL;   // each turn: around the axis AND through the centre; the path steps to the next line every turn and covers all of them
+const loopPath=makeLine(NWIND*48+1,COL.elec,0.5);
 // field 2: the rim charge's own magnetic circles, wrapped around the rim on the outside.
 // The charge passes through the centre of every circle.
 const NSEC=18, SEC_R=0.32;
@@ -347,11 +347,11 @@ function frame(now){
   // ONE continuous path: the charge runs along the field, through the centre and back out,
   // stepping to the next line each pass, until it has covered every line and closes.
   const prevQ=qDot.position.clone();
-  const kt=((tau/(NWIND/2))%1+1)%1;                   // fraction of the full winding path
-  const qU=2*Math.PI*kt, qV=2*Math.PI*NWIND*kt;
+  const kt=((tau/NWIND)%1+1)%1;                       // one turn per clock period; NWIND turns to cover every line
+  const qU=2*Math.PI*(NWIND+1)*kt, qV=2*Math.PI*NWIND*kt;
   tp(qU,qV,r,qDot.position);
   { const a=loopPath.geometry.attributes.position.array;const n=a.length/3;
-    for(let i=0;i<n;i++){const f=i/(n-1);tp(2*Math.PI*f,2*Math.PI*NWIND*f,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
+    for(let i=0;i<n;i++){const f=i/(n-1);tp(2*Math.PI*(NWIND+1)*f,2*Math.PI*NWIND*f,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
     loopPath.geometry.attributes.position.needsUpdate=true; }
   pushTrail(eTrail,eDot.position);pushTrail(qTrail,qDot.position);
   // magnetic particles: up through the waist, flip colour each time they pass the inner edge
