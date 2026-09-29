@@ -54,6 +54,12 @@ Each pass through the waist multiplies the state by −1:
 
 $$\psi \to (-1)^n \psi, \qquad 2\pi: -1, \qquad 4\pi: +1 \quad\text{(spin ½)}$$
 
+**Flip as an Aharonov–Bohm phase.** The flip is a phase of π, which requires the flux through the waist to be Φ = h/2e. The rim current (I = e/T, thickness a) supplies only
+
+$$\frac{\Phi_{\text{rim}}}{h/2e} = \frac{2\alpha}{\pi}\big(\ln(8R/a) - 2\big) \approx 0.01\text{–}0.27$$
+
+for any thickness from r_e down to below the Planck length. So the half flux quantum must be the magnetic loop's own flux, not something the charge induces. Its field energy, Φ²/2L, equals mc² when the rim thickness is 1.8 × 10⁻³⁶ m (0.11 Planck lengths). See `scripts/08_waist_flux.py`.
+
 ## 7. Self-witnessing and g − 2
 
 The charge meets its own light after one loop (distance L):
