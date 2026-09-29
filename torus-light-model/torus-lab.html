@@ -13,6 +13,7 @@
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   color-scheme:dark;
 }
+[hidden]{display:none!important}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.45}
 .wrap{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;padding-block:16px;padding-inline:16px;min-height:100%;box-sizing:border-box}
@@ -57,7 +58,7 @@ svg text{font-family:var(--mono);font-size:11px}
 <div class="wrap">
   <header>
     <h1>Torus Light Lab</h1>
-    <p>A closed loop of light on a breathing horn torus. The charge circles the rim; its magnetic field forms nested loops around it, the largest reaching through the centre. Every number on the right is computed from the geometry you set.</p>
+    <p>One loop of light on a breathing horn torus: the charge goes around the outside, then through the centre and back out, carrying its own magnetic field. Every number on the right is computed from the geometry you set.</p>
   </header>
 
   <div class="stage">
@@ -67,9 +68,9 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), rim only</span>
+      <span><i class="sw" style="background:var(--elec)"></i>The one loop (outside lap + pass through the centre)</span>
       <span><i class="sw" style="background:linear-gradient(90deg,var(--mag2),var(--mag))"></i>The charge's own magnetic field: nested circles centred on the charge, moving with it</span>
-                  <span><i class="dot" style="background:var(--elec)"></i>The charge, going around the rim</span>
+                  <span><i class="dot" style="background:var(--elec)"></i>The charge: one loop, around the outside, then through the centre and back out</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
     </div>
   </div>
@@ -92,10 +93,10 @@ svg text{font-family:var(--mono);font-size:11px}
       </div>
       <div class="row" style="margin-bottom:12px;gap:16px">
         <label><input type="checkbox" id="showF1"> Show the field averaged over a full loop</label>
-        <label><input type="checkbox" id="showE"> Show the energy path (spin bookkeeping)</label>
+        <input type="checkbox" id="showE" hidden>
         <input type="checkbox" id="showF2" hidden>
       </div>
-      <div class="ctl">
+      <div class="ctl" hidden>
         <label for="kring">Charge ring radius ÷ core radius</label><output id="kOut"></output>
         <input id="kring" type="range" min="1" max="3" step="0.05" value="2">
         <small>Both loops share one period. At 2 the charge sits on the torus rim and moves at c (at rest shape).</small>
@@ -179,6 +180,7 @@ const elecLines=elecV.map((v,i)=>makeLine(129,COL.elec,i===0?1:0.45));
 const NPOL=10;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.55));
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
+const loopPath=makeLine(129+97,COL.elec,0.9);
 // field 2: the rim charge's own magnetic circles, wrapped around the rim on the outside.
 // The charge passes through the centre of every circle.
 const NSEC=18, SEC_R=0.32;
@@ -277,8 +279,7 @@ function render(){
   const spinOk=Math.abs(o.L/K.hbar-0.5)<1e-9, gOk=Math.abs(o.g-2)<1e-9, vOk=Math.abs(o.vq/K.c-1)<1e-9;
   $('outTable').innerHTML=`
    <tr><td>Rest energy mc²</td><td class="v">${fmt(o.E/K.eV/1e6,6)} MeV</td><td class="s"></td></tr>
-   <tr><td>Core radius ħ/2mc (energy, 4π)</td><td class="v">${fmt(o.rE)} m</td><td class="s"></td></tr>
-   <tr><td>Charge ring radius (2π)</td><td class="v">${fmt(o.rq)} m</td><td class="s"></td></tr>
+   <tr><td>Outside lap radius ħ/mc</td><td class="v">${fmt(o.rq)} m</td><td class="s"></td></tr>
    <tr><td>Loop length (Compton wavelength)</td><td class="v">${fmt(o.lam)} m</td><td class="s"></td></tr>
    <tr><td>Clock: one loop per</td><td class="v">${fmt(o.T*o.gam)} s</td><td class="s"></td></tr>
    <tr><td>Energy × period ÷ h</td><td class="v">${(o.E*o.T/K.h).toFixed(6)}</td><td class="s">${chip(true)}</td></tr>
@@ -340,7 +341,15 @@ function frame(now){
   const ph=2*Math.PI*tau;                            // one loop period = 1 time unit
   // energy: two turns on core circle; charge: one turn on rim
   eDot.position.set(R*Math.cos(2*ph),0,R*Math.sin(2*ph));
-  qDot.position.set(rim*Math.cos(ph),0,rim*Math.sin(ph));
+  // ONE loop: around the outside (rim) for most of the cycle, then over the top, through the centre, and back out underneath
+  const DIVE=0.12, cyc=((tau%1)+1)%1, prevQ=qDot.position.clone();
+  if(cyc<1-DIVE){const u=2*Math.PI*cyc/(1-DIVE);qDot.position.set(rim*Math.cos(u),0,rim*Math.sin(u));}
+  else {const v=2*Math.PI*(cyc-(1-DIVE))/DIVE;tp(0,v,r,qDot.position);}
+  { // the loop's path: rim circle + the pass through the centre
+    const a=loopPath.geometry.attributes.position.array;let n=0;
+    for(let i=0;i<=128;i++){const u=i/128*2*Math.PI;a[n++]=rim*Math.cos(u);a[n++]=0;a[n++]=rim*Math.sin(u);}
+    for(let i=0;i<=96;i++){tp(0,i/96*2*Math.PI,r,tmp);a[n++]=tmp.x;a[n++]=tmp.y;a[n++]=tmp.z;}
+    loopPath.geometry.attributes.position.needsUpdate=true; }
   pushTrail(eTrail,eDot.position);pushTrail(qTrail,qDot.position);
   // magnetic particles: up through the waist, flip colour each time they pass the inner edge
   magParts.forEach(m=>{const d=m.userData;const vPrev=d.v;d.v-=(S.paused?0:dt*S.rate/gam)*2.4;
@@ -355,10 +364,10 @@ function frame(now){
     const now=rfPoint(d.i,0,d.s,1,new THREE.Vector3());
     if(prev.x<1&&now.x<1&&prev.y<0&&now.y>=0){d.flip=!d.flip;m.material.color.copy(d.flip?cWhite:d.base);}});
   { // attach the field to the single charge, oriented along its direction of motion
-    const tang=new THREE.Vector3(-Math.sin(ph),0,Math.cos(ph));
+    const tang=qDot.position.clone().sub(prevQ);if(tang.lengthSq()<1e-12)tang.set(0,0,1);tang.normalize();
     qField.position.copy(qDot.position);qField.lookAt(qDot.position.clone().add(tang));
     qfParts.forEach(m=>{const d=m.userData;d.w+=(S.paused?0:dt*S.rate/gam)*3;m.position.set(d.rad*Math.cos(d.w),d.rad*Math.sin(d.w),0);}); }
-  elParts.forEach(m=>m.visible=false);   // one charge only
+  elParts.forEach(m=>m.visible=false);elecLines.forEach(l=>l.visible=false);   // one charge, one loop
   eTrail.visible=false;qTrail.visible=false;
   {const ve=$('showE').checked;eDot.visible=ve;core.visible=ve;}
   const v1=$('showF1').checked;
