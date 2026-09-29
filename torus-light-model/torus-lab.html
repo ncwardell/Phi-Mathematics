@@ -93,7 +93,7 @@ svg text{font-family:var(--mono);font-size:11px}
       <div class="ctl">
         <label for="kring">Charge ring radius ÷ core radius</label><output id="kOut"></output>
         <input id="kring" type="range" min="1" max="3" step="0.05" value="2">
-        <small>Both loops share one period. Only 2 lets the charge move at exactly c.</small>
+        <small>Both loops share one period. At 2 the charge sits on the torus rim and moves at c (at rest shape).</small>
       </div>
       <div class="ctl">
         <label for="beta">Speed of the whole torus (v/c)</label><output id="betaOut"></output>
@@ -226,7 +226,11 @@ function compute(){
   const gam=1/Math.sqrt(1-S.beta*S.beta);
   const f=K.alpha/(2*Math.PI);
   const aModel=S.g2==='a'?f:S.g2==='b'?f/(1-f):f/(1+f);
-  return {p,E,lam,rE,T,rq,vq,L,mu,muB,g,gam,f,aModel,zb:2*E/hb/(2*Math.PI)};
+  // breath-averaged: rim ratio k(t) = 1 + (k-1)(1 + eps sin), same period T
+  let s2=0,kmax=0;const N=720;for(let i=0;i<N;i++){const kt=1+(S.k-1)*(1+S.breath*Math.sin(2*Math.PI*i/N));s2+=kt*kt;kmax=Math.max(kmax,kt);}
+  const gAvg=(s2/N)/2, aBreath=gAvg/2-1, vmax=kmax/2;
+  const epsNeeded=Math.sqrt(4*K.alpha/Math.PI);
+  return {p,E,lam,rE,T,rq,vq,L,mu,muB,g,gam,f,aModel,zb:2*E/hb/(2*Math.PI),gAvg,aBreath,vmax,epsNeeded};
 }
 function render(){
   const o=compute();
@@ -244,6 +248,10 @@ function render(){
    <tr><td>Charge speed ÷ c</td><td class="v">${(o.vq/K.c).toFixed(4)}</td><td class="s">${chip(vOk?true:(o.vq>K.c?false:'warn'),vOk?'✓':o.vq>K.c?'> c':'< c')}</td></tr>
    <tr><td>Magnetic moment ÷ magneton</td><td class="v">${(o.mu/o.muB).toFixed(6)}</td><td class="s"></td></tr>
    <tr><td>g-factor (target 2)</td><td class="v">${o.g.toFixed(6)}</td><td class="s">${chip(gOk)}</td></tr>
+   <tr><td>Breath-averaged g (charge rides the rim)</td><td class="v">${o.gAvg.toFixed(6)}</td><td class="s"></td></tr>
+   <tr><td>Anomaly from breathing alone, ⟨g⟩/2 − 1</td><td class="v">${o.aBreath.toFixed(6)}</td><td class="s"></td></tr>
+   <tr><td>Breath depth that gives exactly α/2π</td><td class="v">${o.epsNeeded.toFixed(4)}</td><td class="s"></td></tr>
+   <tr><td>Peak charge speed ÷ c during the breath</td><td class="v">${o.vmax.toFixed(4)}</td><td class="s">${chip(o.vmax<=1+1e-9?true:false,o.vmax<=1+1e-9?'✓':'> c')}</td></tr>
    <tr><td>Breath (Zitterbewegung) frequency 2mc²/h</td><td class="v">${fmt(o.zb)} Hz</td><td class="s"></td></tr>
    <tr><td>Moving: path per loop ÷ rest (γ)</td><td class="v">${o.gam.toFixed(5)}</td><td class="s"></td></tr>
    <tr><td>Moving: clock rate</td><td class="v">${(1/o.gam).toFixed(5)}</td><td class="s"></td></tr>
@@ -288,7 +296,7 @@ function frame(now){
   const gam=1/Math.sqrt(1-S.beta*S.beta);
   const tau=t/gam;                                   // internal (proper) time: moving loops tick slower
   const r=R*(1+S.breath*Math.sin(2*Math.PI*tau*2));  // breathes twice per loop period (Zitterbewegung 2mc^2/hbar)
-  const rim=S.k*R;
+  const rim=R+(S.k-1)*r;                            // charge rides the breathing rim
   buildGeometry(r,rim);
   const ph=2*Math.PI*tau;                            // one loop period = 1 time unit
   // energy: two turns on core circle; charge: one turn on rim

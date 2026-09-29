@@ -79,6 +79,12 @@ $$r(t) = r_E\,\big(1 + \varepsilon \sin \omega_b t\big), \qquad \omega_b = \frac
 
 Breath frequency 2mc²/h = 2.4712 × 10²⁰ Hz, with amplitude scale ħ/2mc (the Zitterbewegung values).
 
+**The charge rides the breathing rim.** The rim radius is R + r(t), so the ring ratio is k(t) = 2 + ε sin ω_b t. Over one breath, with the period fixed:
+
+$$\langle g\rangle = \frac{\langle k^2\rangle}{2} = 2 + \frac{\varepsilon^2}{4}, \qquad a_{\text{breath}} = \frac{\varepsilon^2}{8}$$
+
+Setting a_breath = α/2π requires ε = √(4α/π) = 0.0964. At that depth the charge's peak speed is (1 + ε/2)c = 1.048c, so either the period stretches during expansion or the flow is a phase velocity. Open.
+
 ## 9. Motion
 
 Moving at v along the axis, the light still travels at c, so the speed left for going around is c/γ:
