@@ -7,13 +7,12 @@
    Deliberately single dark theme: the field lines read as light on a dark bench. */
 :root{
   --bg:#0c1017; --panel:#131924; --line:#243042; --fg:#dfe6f0; --muted:#8a97aa;
-  --elec:#ff6a55; --mag:#5aaeff; --mag2:#b58cff; --energy:#ffd27a; --waist:#43d99b; --warn:#ffb13b; --bad:#ff5d6c;
+  --elec:#ff6a55; --mag:#5aaeff; --energy:#ffd27a; --waist:#43d99b; --warn:#ffb13b; --bad:#ff5d6c;
   --display:"Chakra Petch",ui-sans-serif,system-ui,sans-serif;
   --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   color-scheme:dark;
 }
-[hidden]{display:none!important}
 html,body{height:100%}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.45}
 .wrap{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;padding-block:16px;padding-inline:16px;min-height:100%;box-sizing:border-box}
@@ -58,7 +57,7 @@ svg text{font-family:var(--mono);font-size:11px}
 <div class="wrap">
   <header>
     <h1>Torus Light Lab</h1>
-    <p>One charge on a horn torus. It does the magnetic part (through the centre), hits the centre, does the charge part (around the axis), hits the centre, and repeats. Every number on the right is computed from the geometry you set.</p>
+    <p>A closed loop of light on a breathing horn torus. The charge circles the rim; the magnetic field is a Hopf fibration of linked loops, with the horn torus as its outer limit. Every number on the right is computed from the geometry you set.</p>
   </header>
 
   <div class="stage">
@@ -68,10 +67,11 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>Charge part (red) and <span style="color:#9fd0ff">magnetic part (light blue)</span>: one connected line, two loops joined at the centre</span>
-      <span><i class="sw" style="background:var(--mag)"></i>Magnetic field lines, all through the centre</span>
-                  <span><i class="dot" style="background:var(--elec)"></i>The charge</span>
-      <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
+      <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), rim only</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−) as a Hopf fibration: linked loops on nested tori, each once around and once through</span>
+      <span><i class="dot" style="background:var(--energy)"></i>Energy: core circle, 2 loops (4π)</span>
+      <span><i class="dot" style="background:var(--elec)"></i>Charge: outer rim, 1 loop (2π)</span>
+      <span><i class="dot" style="background:var(--waist)"></i>Centre; field particles flip colour each pass through the hole</span>
     </div>
   </div>
 
@@ -91,13 +91,7 @@ svg text{font-family:var(--mono);font-size:11px}
         <button id="epsAlpha" type="button" style="grid-column:1/-1;justify-self:start;margin-top:4px">Set to α value (ε = √(4α/π) = 0.0964)</button>
         <small>Tube radius swings around the horn state, two breaths per loop (2mc²/h). At ε = √(4α/π) the breathing alone gives g − 2 = α/2π.</small>
       </div>
-      <div class="row" style="margin-bottom:12px;gap:16px">
-        <label><input type="checkbox" id="showF1"> Show the field averaged over a full loop</label>
-        <input type="checkbox" id="showE" hidden>
-        <label><input type="checkbox" id="swapParts"> Swap: charge part through the centre, magnetic part around the axis</label>
-        <input type="checkbox" id="showF2" hidden>
-      </div>
-      <div class="ctl" hidden>
+      <div class="ctl">
         <label for="kring">Charge ring radius ÷ core radius</label><output id="kOut"></output>
         <input id="kring" type="range" min="1" max="3" step="0.05" value="2">
         <small>Both loops share one period. At 2 the charge sits on the torus rim and moves at c (at rest shape).</small>
@@ -114,7 +108,6 @@ svg text{font-family:var(--mono);font-size:11px}
 
     <section aria-labelledby="h-out">
       <h2 id="h-out">Outputs from the geometry</h2>
-      <p class="note" style="margin:0 0 8px;color:var(--warn)">These numbers are from the earlier model. For the alternating path shown, see scripts/12_alternating_paths.py.</p>
       <table id="outTable"></table>
     </section>
 
@@ -146,7 +139,7 @@ K.hbar=K.h/(2*Math.PI);
 const P={e:{name:"electron",m:9.1093837015e-31,a:0.00115965218059},
          mu:{name:"muon",m:1.883531627e-28,a:0.00116592059}};
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const COL={elec:css('--elec'),mag:css('--mag'),mag2:css('--mag2'),energy:css('--energy'),waist:css('--waist'),line:css('--line'),muted:css('--muted'),fg:css('--fg')};
+const COL={elec:css('--elec'),mag:css('--mag'),energy:css('--energy'),waist:css('--waist'),line:css('--line'),muted:css('--muted'),fg:css('--fg')};
 const $=id=>document.getElementById(id);
 
 /* ---------- scene ---------- */
@@ -179,51 +172,28 @@ function makeLine(n,color,opacity){const g=new THREE.BufferGeometry();g.setAttri
   const l=new THREE.Line(g,new THREE.LineBasicMaterial({color,transparent:true,opacity}));scene.add(l);return l;}
 const elecV=[0];   // the only electric circulation is the charge current on the rim
 const elecLines=elecV.map((v,i)=>makeLine(129,COL.elec,i===0?1:0.45));
-const NPOL=36;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.45));
-const qLine=makeLine(97,COL.mag,1);   // the charge's own field line: the circle through the charge and the centre
+// Magnetic field as a Hopf fibration: nested tori, each covered by linked circles (fibres).
+// Every fibre goes once around the axis and once through the hole, and links every other fibre once.
+// The horn torus is the outermost limit (tube/ring -> 1).
+const HS=[0.55,0.78,0.9,0.97], HN=[5,7,9,12];
+const HK=2*Math.sqrt(1-0.97*0.97)/(1+0.97);        // scale so the outer Hopf torus meets the rim
+const hopfFibres=[];HS.forEach((sE,ti)=>{for(let k=0;k<HN[ti];k++)hopfFibres.push({sE,phi:k*2*Math.PI/HN[ti]+ti*0.3,ti});});
+function hopfPoint(f,t,scale,out){const cE=Math.sqrt(1-f.sE*f.sE),den=1-f.sE*Math.sin(t);
+  const rho=cE/den*HK*scale, y=f.sE*Math.cos(t)/den*HK*scale, a=f.phi+t;return out.set(rho*Math.cos(a),y,rho*Math.sin(a));}
+const NPOL=hopfFibres.length;
+const magLines=hopfFibres.map(f=>makeLine(361,COL.mag,0.35+0.15*f.ti));
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
-const loopPath=makeLine(100,COL.elec,1);   // charge part
-const magPath=makeLine(100,'#9fd0ff',1);   // magnetic part
-// field 2: the rim charge's own magnetic circles, wrapped around the rim on the outside.
-// The charge passes through the centre of every circle.
-const NSEC=18, SEC_R=0.32;
-const F2U=[...Array(NSEC)].map((_,i)=>i*2*Math.PI/NSEC);
-const f2Lines=F2U.map(()=>makeLine(49,COL.mag2,0.75));
-const f2Parts=[];const cMag2=new THREE.Color(COL.mag2);
-F2U.forEach((u,i)=>{for(let k=0;k<2;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.026,8,6),new THREE.MeshBasicMaterial({color:cMag2}));m.userData={u,w:k*Math.PI+i*0.4};scene.add(m);f2Parts.push(m);}});
-// Exact nested field lines of a current ring (radius 1), from the flux function rho*A_phi. [rho, z] pairs.
-const RFD=[[[0.9876, -0.0335], [0.9891, -0.0342], [0.9907, -0.0348], [0.9923, -0.0353], [0.9939, -0.0358], [0.9955, -0.0361], [0.9971, -0.0364], [0.9988, -0.0366], [1.0004, -0.0368], [1.0021, -0.0368], [1.0038, -0.0369], [1.0054, -0.0368], [1.0071, -0.0367], [1.0088, -0.0364], [1.0104, -0.0361], [1.012, -0.0358], [1.0136, -0.0353], [1.0152, -0.0348], [1.0168, -0.0342], [1.0183, -0.0335], [1.0198, -0.0328], [1.0213, -0.032], [1.0227, -0.0312], [1.0241, -0.0302], [1.0255, -0.0292], [1.0268, -0.0282], [1.028, -0.0271], [1.0292, -0.026], [1.0303, -0.0247], [1.0314, -0.0235], [1.0325, -0.0222], [1.0334, -0.0208], [1.0343, -0.0194], [1.0352, -0.018], [1.036, -0.0165], [1.0367, -0.015], [1.0374, -0.0135], [1.038, -0.0119], [1.0384, -0.0103], [1.0389, -0.0087], [1.0393, -0.0071], [1.0395, -0.0054], [1.0398, -0.0038], [1.0399, -0.0021], [1.0399, -0.0005], [1.0399, 0.0012], [1.0399, 0.0029], [1.0397, 0.0045], [1.0394, 0.0062], [1.0391, 0.0078], [1.0387, 0.0094], [1.0382, 0.011], [1.0378, 0.0126], [1.0371, 0.0142], [1.0364, 0.0157], [1.0357, 0.0172], [1.0348, 0.0186], [1.0339, 0.02], [1.033, 0.0214], [1.0321, 0.0228], [1.0309, 0.024], [1.0298, 0.0253], [1.0287, 0.0265], [1.0275, 0.0276], [1.0262, 0.0287], [1.0248, 0.0297], [1.0235, 0.0307], [1.0221, 0.0315], [1.0206, 0.0324], [1.0191, 0.0331], [1.0176, 0.0338], [1.0161, 0.0345], [1.0145, 0.035], [1.0129, 0.0355], [1.0113, 0.0359], [1.0097, 0.0363], [1.008, 0.0365], [1.0064, 0.0367], [1.0047, 0.0368], [1.003, 0.0369], [1.0014, 0.0368], [0.9997, 0.0367], [0.998, 0.0365], [0.9964, 0.0363], [0.9947, 0.036], [0.9931, 0.0356], [0.9915, 0.0351], [0.99, 0.0345], [0.9884, 0.0339], [0.9869, 0.0332], [0.9854, 0.0324], [0.984, 0.0316], [0.9826, 0.0307], [0.9812, 0.0298], [0.9799, 0.0287], [0.9786, 0.0277], [0.9774, 0.0265], [0.9762, 0.0253], [0.9751, 0.0241], [0.974, 0.0229], [0.973, 0.0215], [0.9721, 0.0201], [0.9711, 0.0187], [0.9703, 0.0173], [0.9696, 0.0158], [0.9689, 0.0142], [0.9683, 0.0127], [0.9678, 0.0111], [0.9673, 0.0095], [0.9668, 0.0079], [0.9666, 0.0063], [0.9663, 0.0046], [0.9661, 0.003], [0.966, 0.0013], [0.966, -0.0004], [0.966, -0.002], [0.9662, -0.0037], [0.9664, -0.0054], [0.9667, -0.007], [0.9671, -0.0086], [0.9675, -0.0102], [0.968, -0.0118], [0.9686, -0.0134], [0.9693, -0.0149], [0.9699, -0.0164], [0.9707, -0.0179], [0.9715, -0.0194], [0.9725, -0.0207], [0.9734, -0.0221], [0.9744, -0.0234], [0.9756, -0.0247], [0.9767, -0.0259], [0.9779, -0.0271], [0.9792, -0.0282], [0.9805, -0.0292], [0.9818, -0.0302], [0.9832, -0.0311], [0.9846, -0.032], [0.9861, -0.0328], [0.9876, -0.0335]], [[0.9908, -0.0826], [0.9946, -0.0836], [0.9984, -0.0843], [1.0022, -0.0849], [1.0061, -0.0853], [1.01, -0.0855], [1.0139, -0.0856], [1.0178, -0.0854], [1.0217, -0.0851], [1.0255, -0.0847], [1.0294, -0.0841], [1.0332, -0.0832], [1.037, -0.0823], [1.0407, -0.0811], [1.0444, -0.0798], [1.048, -0.0784], [1.0515, -0.0767], [1.055, -0.075], [1.0584, -0.073], [1.0617, -0.071], [1.0649, -0.0687], [1.0679, -0.0664], [1.0709, -0.0639], [1.0738, -0.0612], [1.0765, -0.0584], [1.0791, -0.0556], [1.0817, -0.0526], [1.084, -0.0495], [1.0862, -0.0462], [1.0883, -0.043], [1.0901, -0.0395], [1.0919, -0.0361], [1.0935, -0.0325], [1.0949, -0.0289], [1.0961, -0.0252], [1.0972, -0.0214], [1.0981, -0.0177], [1.0988, -0.0138], [1.0994, -0.01], [1.0998, -0.0061], [1.1, -0.0022], [1.1, 0.0017], [1.0998, 0.0056], [1.0994, 0.0095], [1.0989, 0.0133], [1.0982, 0.0171], [1.0973, 0.0209], [1.0963, 0.0247], [1.0951, 0.0284], [1.0937, 0.032], [1.0921, 0.0356], [1.0904, 0.0391], [1.0885, 0.0425], [1.0865, 0.0458], [1.0843, 0.049], [1.082, 0.0522], [1.0795, 0.0552], [1.0769, 0.0581], [1.0742, 0.0609], [1.0713, 0.0635], [1.0683, 0.066], [1.0653, 0.0684], [1.0621, 0.0707], [1.0588, 0.0728], [1.0554, 0.0747], [1.052, 0.0765], [1.0485, 0.0782], [1.0449, 0.0796], [1.0412, 0.081], [1.0375, 0.0821], [1.0337, 0.0831], [1.0299, 0.0839], [1.0261, 0.0846], [1.0222, 0.0851], [1.0183, 0.0854], [1.0144, 0.0855], [1.0105, 0.0855], [1.0066, 0.0853], [1.0028, 0.0849], [0.9989, 0.0844], [0.9951, 0.0837], [0.9913, 0.0828], [0.9875, 0.0817], [0.9838, 0.0805], [0.9802, 0.0791], [0.9766, 0.0776], [0.9731, 0.0759], [0.9697, 0.074], [0.9664, 0.072], [0.9631, 0.0699], [0.96, 0.0676], [0.9569, 0.0651], [0.954, 0.0626], [0.9512, 0.0599], [0.9485, 0.057], [0.946, 0.0541], [0.9436, 0.051], [0.9413, 0.0479], [0.9392, 0.0446], [0.9372, 0.0413], [0.9353, 0.0378], [0.9337, 0.0343], [0.9322, 0.0307], [0.9309, 0.027], [0.9297, 0.0233], [0.9287, 0.0196], [0.9279, 0.0157], [0.9273, 0.0119], [0.9268, 0.008], [0.9265, 0.0042], [0.9264, 0.0003], [0.9265, -0.0036], [0.9267, -0.0075], [0.9272, -0.0114], [0.9278, -0.0152], [0.9286, -0.019], [0.9296, -0.0228], [0.9307, -0.0265], [0.932, -0.0302], [0.9335, -0.0338], [0.9351, -0.0374], [0.9369, -0.0408], [0.9389, -0.0442], [0.941, -0.0475], [0.9432, -0.0506], [0.9456, -0.0537], [0.9482, -0.0566], [0.9508, -0.0595], [0.9536, -0.0622], [0.9565, -0.0648], [0.9596, -0.0672], [0.9627, -0.0696], [0.9659, -0.0717], [0.9692, -0.0738], [0.9727, -0.0756], [0.9762, -0.0774], [0.9797, -0.0789], [0.9833, -0.0803], [0.987, -0.0816], [0.9908, -0.0826]], [[1.0004, -0.153], [1.0075, -0.1544], [1.0146, -0.1556], [1.0218, -0.1564], [1.029, -0.1569], [1.0362, -0.1572], [1.0434, -0.1571], [1.0506, -0.1567], [1.0578, -0.156], [1.065, -0.1549], [1.0721, -0.1536], [1.0791, -0.152], [1.0861, -0.15], [1.0929, -0.1478], [1.0997, -0.1453], [1.1063, -0.1424], [1.1128, -0.1393], [1.1192, -0.1359], [1.1254, -0.1322], [1.1314, -0.1283], [1.1373, -0.1241], [1.143, -0.1196], [1.1484, -0.1149], [1.1537, -0.1099], [1.1587, -0.1047], [1.1635, -0.0993], [1.168, -0.0937], [1.1723, -0.0879], [1.1762, -0.0818], [1.1799, -0.0756], [1.1834, -0.0693], [1.1865, -0.0628], [1.1893, -0.0561], [1.1918, -0.0493], [1.194, -0.0425], [1.1958, -0.0355], [1.1973, -0.0284], [1.1985, -0.0213], [1.1993, -0.0141], [1.1998, -0.0069], [1.2, 0.0003], [1.1998, 0.0075], [1.1993, 0.0147], [1.1984, 0.0219], [1.1972, 0.029], [1.1957, 0.036], [1.1938, 0.043], [1.1916, 0.0499], [1.1891, 0.0566], [1.1862, 0.0633], [1.1831, 0.0698], [1.1797, 0.0761], [1.176, 0.0823], [1.1719, 0.0883], [1.1677, 0.0941], [1.1631, 0.0997], [1.1583, 0.1051], [1.1533, 0.1103], [1.148, 0.1153], [1.1425, 0.12], [1.1369, 0.1244], [1.131, 0.1286], [1.1249, 0.1325], [1.1187, 0.1362], [1.1123, 0.1396], [1.1058, 0.1427], [1.0992, 0.1455], [1.0924, 0.148], [1.0855, 0.1502], [1.0786, 0.1521], [1.0715, 0.1537], [1.0644, 0.155], [1.0573, 0.156], [1.0501, 0.1567], [1.0429, 0.1571], [1.0357, 0.1572], [1.0284, 0.1569], [1.0212, 0.1564], [1.0141, 0.1555], [1.0069, 0.1543], [0.9999, 0.1528], [0.9929, 0.1511], [0.986, 0.149], [0.9792, 0.1466], [0.9725, 0.1439], [0.9659, 0.1409], [0.9595, 0.1377], [0.9532, 0.1341], [0.947, 0.1303], [0.9411, 0.1262], [0.9353, 0.1219], [0.9297, 0.1173], [0.9244, 0.1125], [0.9193, 0.1074], [0.9144, 0.1021], [0.9097, 0.0965], [0.9053, 0.0908], [0.9012, 0.0849], [0.8974, 0.0788], [0.8938, 0.0725], [0.8906, 0.066], [0.8876, 0.0595], [0.8849, 0.0528], [0.8826, 0.0459], [0.8806, 0.039], [0.8789, 0.032], [0.8776, 0.0249], [0.8766, 0.0177], [0.8759, 0.0105], [0.8756, 0.0033], [0.8756, -0.0039], [0.8759, -0.0111], [0.8766, -0.0183], [0.8777, -0.0254], [0.879, -0.0325], [0.8808, -0.0395], [0.8828, -0.0465], [0.8851, -0.0533], [0.8878, -0.06], [0.8908, -0.0666], [0.8941, -0.073], [0.8977, -0.0793], [0.9015, -0.0853], [0.9057, -0.0913], [0.9101, -0.097], [0.9147, -0.1025], [0.9196, -0.1078], [0.9248, -0.1128], [0.9302, -0.1177], [0.9358, -0.1222], [0.9415, -0.1266], [0.9475, -0.1306], [0.9536, -0.1344], [0.9599, -0.1379], [0.9664, -0.1412], [0.973, -0.1441], [0.9797, -0.1468], [0.9865, -0.1492], [0.9934, -0.1512], [1.0004, -0.153]], [[1.0358, -0.2478], [1.0474, -0.2496], [1.059, -0.2509], [1.0707, -0.2517], [1.0824, -0.252], [1.0941, -0.2518], [1.1058, -0.2511], [1.1175, -0.25], [1.1291, -0.2484], [1.1406, -0.2462], [1.152, -0.2436], [1.1633, -0.2406], [1.1744, -0.237], [1.1854, -0.233], [1.1963, -0.2285], [1.2069, -0.2235], [1.2173, -0.2181], [1.2274, -0.2123], [1.2373, -0.206], [1.2469, -0.1993], [1.2562, -0.1921], [1.2651, -0.1846], [1.2737, -0.1767], [1.282, -0.1683], [1.2898, -0.1597], [1.2973, -0.1506], [1.3043, -0.1413], [1.3109, -0.1316], [1.317, -0.1216], [1.3226, -0.1113], [1.3278, -0.1008], [1.3324, -0.0901], [1.3366, -0.0791], [1.3401, -0.068], [1.3432, -0.0567], [1.3457, -0.0452], [1.3476, -0.0337], [1.349, -0.022], [1.3498, -0.0104], [1.35, 0.0014], [1.3496, 0.0131], [1.3487, 0.0247], [1.3472, 0.0363], [1.3452, 0.0479], [1.3425, 0.0593], [1.3394, 0.0705], [1.3357, 0.0817], [1.3314, 0.0926], [1.3267, 0.1033], [1.3214, 0.1137], [1.3156, 0.1239], [1.3094, 0.1338], [1.3027, 0.1435], [1.2956, 0.1527], [1.288, 0.1617], [1.2801, 0.1703], [1.2718, 0.1785], [1.2631, 0.1864], [1.254, 0.1938], [1.2447, 0.2009], [1.235, 0.2075], [1.2251, 0.2137], [1.2149, 0.2194], [1.2044, 0.2247], [1.1938, 0.2296], [1.1829, 0.2339], [1.1719, 0.2379], [1.1607, 0.2413], [1.1494, 0.2443], [1.1379, 0.2468], [1.1264, 0.2488], [1.1148, 0.2503], [1.1031, 0.2513], [1.0914, 0.2519], [1.0797, 0.2519], [1.068, 0.2515], [1.0563, 0.2506], [1.0447, 0.2492], [1.0332, 0.2473], [1.0217, 0.245], [1.0103, 0.2421], [0.9991, 0.2388], [0.988, 0.235], [0.9771, 0.2307], [0.9664, 0.226], [0.9559, 0.2208], [0.9456, 0.2152], [0.9356, 0.2091], [0.9259, 0.2026], [0.9164, 0.1957], [0.9073, 0.1884], [0.8985, 0.1806], [0.8901, 0.1725], [0.882, 0.164], [0.8744, 0.1552], [0.8671, 0.146], [0.8603, 0.1364], [0.854, 0.1266], [0.8481, 0.1165], [0.8427, 0.1061], [0.8378, 0.0955], [0.8334, 0.0846], [0.8295, 0.0736], [0.8262, 0.0623], [0.8234, 0.0509], [0.8212, 0.0395], [0.8195, 0.0279], [0.8185, 0.0162], [0.818, 0.0045], [0.818, -0.0072], [0.8187, -0.0189], [0.8199, -0.0305], [0.8217, -0.0421], [0.824, -0.0536], [0.8269, -0.0649], [0.8304, -0.0761], [0.8343, -0.0871], [0.8388, -0.0979], [0.8439, -0.1085], [0.8494, -0.1188], [0.8554, -0.1289], [0.8619, -0.1387], [0.8688, -0.1481], [0.8761, -0.1572], [0.8839, -0.166], [0.892, -0.1744], [0.9005, -0.1825], [0.9094, -0.1901], [0.9186, -0.1973], [0.9281, -0.2042], [0.9379, -0.2106], [0.948, -0.2165], [0.9583, -0.2221], [0.9689, -0.2271], [0.9796, -0.2318], [0.9906, -0.2359], [1.0017, -0.2396], [1.0129, -0.2428], [1.0243, -0.2456], [1.0358, -0.2478]], [[1.1162, -0.3879], [1.1346, -0.3899], [1.1531, -0.3911], [1.1715, -0.3917], [1.19, -0.3915], [1.2085, -0.3905], [1.2269, -0.3888], [1.2452, -0.3864], [1.2634, -0.3832], [1.2815, -0.3793], [1.2994, -0.3747], [1.3171, -0.3693], [1.3346, -0.3632], [1.3518, -0.3564], [1.3687, -0.3489], [1.3852, -0.3407], [1.4014, -0.3318], [1.4172, -0.3222], [1.4326, -0.3119], [1.4475, -0.301], [1.4619, -0.2894], [1.4758, -0.2771], [1.489, -0.2643], [1.5017, -0.2508], [1.5138, -0.2368], [1.5252, -0.2223], [1.5359, -0.2072], [1.5459, -0.1916], [1.5551, -0.1756], [1.5635, -0.1591], [1.5711, -0.1423], [1.5778, -0.1251], [1.5837, -0.1075], [1.5887, -0.0897], [1.5928, -0.0717], [1.596, -0.0535], [1.5983, -0.0351], [1.5996, -0.0167], [1.6, 0.0018], [1.5994, 0.0203], [1.5979, 0.0387], [1.5955, 0.057], [1.5921, 0.0752], [1.5878, 0.0932], [1.5827, 0.1109], [1.5766, 0.1284], [1.5697, 0.1455], [1.5619, 0.1623], [1.5534, 0.1787], [1.544, 0.1947], [1.5339, 0.2101], [1.5231, 0.2251], [1.5115, 0.2396], [1.4994, 0.2535], [1.4865, 0.2668], [1.4731, 0.2795], [1.4592, 0.2916], [1.4447, 0.3031], [1.4297, 0.3139], [1.4142, 0.3241], [1.3983, 0.3336], [1.3821, 0.3423], [1.3654, 0.3504], [1.3485, 0.3578], [1.3312, 0.3645], [1.3137, 0.3704], [1.296, 0.3756], [1.2781, 0.3801], [1.26, 0.3839], [1.2417, 0.3869], [1.2234, 0.3892], [1.2049, 0.3907], [1.1865, 0.3915], [1.168, 0.3916], [1.1495, 0.391], [1.1311, 0.3896], [1.1127, 0.3874], [1.0944, 0.3845], [1.0763, 0.3809], [1.0583, 0.3766], [1.0405, 0.3716], [1.023, 0.3658], [1.0057, 0.3593], [0.9886, 0.3521], [0.9719, 0.3443], [0.9555, 0.3357], [0.9395, 0.3264], [0.9239, 0.3165], [0.9088, 0.3059], [0.8941, 0.2947], [0.8799, 0.2828], [0.8663, 0.2703], [0.8532, 0.2572], [0.8408, 0.2435], [0.829, 0.2293], [0.8179, 0.2145], [0.8075, 0.1992], [0.7978, 0.1835], [0.7889, 0.1673], [0.7808, 0.1506], [0.7736, 0.1336], [0.7672, 0.1163], [0.7617, 0.0986], [0.757, 0.0807], [0.7533, 0.0626], [0.7506, 0.0443], [0.7488, 0.0259], [0.7479, 0.0075], [0.748, -0.011], [0.749, -0.0295], [0.751, -0.0479], [0.754, -0.0661], [0.7579, -0.0842], [0.7626, -0.102], [0.7683, -0.1196], [0.7749, -0.1369], [0.7823, -0.1539], [0.7906, -0.1704], [0.7996, -0.1865], [0.8094, -0.2022], [0.82, -0.2174], [0.8312, -0.2321], [0.8431, -0.2462], [0.8557, -0.2598], [0.8689, -0.2727], [0.8826, -0.2851], [0.8969, -0.2969], [0.9116, -0.308], [0.9269, -0.3185], [0.9426, -0.3283], [0.9586, -0.3374], [0.9751, -0.3458], [0.9919, -0.3536], [1.009, -0.3606], [1.0263, -0.367], [1.0439, -0.3726], [1.0618, -0.3775], [1.0798, -0.3817], [1.0979, -0.3852], [1.1162, -0.3879]], [[1.2771, -0.588], [1.3054, -0.5899], [1.3338, -0.5908], [1.3622, -0.5906], [1.3906, -0.5892], [1.4189, -0.5868], [1.4471, -0.5834], [1.4751, -0.5788], [1.5029, -0.5731], [1.5305, -0.5664], [1.5578, -0.5585], [1.5848, -0.5496], [1.6114, -0.5396], [1.6375, -0.5285], [1.6632, -0.5163], [1.6883, -0.5031], [1.7129, -0.4888], [1.7368, -0.4735], [1.76, -0.4572], [1.7825, -0.4398], [1.8042, -0.4215], [1.825, -0.4022], [1.845, -0.3819], [1.8639, -0.3608], [1.8819, -0.3388], [1.8987, -0.3159], [1.9144, -0.2923], [1.929, -0.2679], [1.9423, -0.2428], [1.9543, -0.217], [1.965, -0.1907], [1.9744, -0.1639], [1.9823, -0.1366], [1.9888, -0.109], [1.9938, -0.081], [1.9974, -0.0529], [1.9994, -0.0245], [2.0, 0.0039], [1.999, 0.0323], [1.9966, 0.0606], [1.9926, 0.0887], [1.9872, 0.1166], [1.9803, 0.1441], [1.972, 0.1713], [1.9622, 0.198], [1.9512, 0.2241], [1.9388, 0.2497], [1.9251, 0.2746], [1.9103, 0.2988], [1.8942, 0.3222], [1.8771, 0.3449], [1.8588, 0.3666], [1.8396, 0.3876], [1.8194, 0.4075], [1.7984, 0.4266], [1.7765, 0.4447], [1.7538, 0.4617], [1.7303, 0.4778], [1.7062, 0.4928], [1.6815, 0.5068], [1.6562, 0.5198], [1.6304, 0.5316], [1.6041, 0.5424], [1.5775, 0.5521], [1.5504, 0.5608], [1.523, 0.5683], [1.4954, 0.5748], [1.4675, 0.5801], [1.4394, 0.5844], [1.4112, 0.5876], [1.3828, 0.5897], [1.3544, 0.5907], [1.326, 0.5907], [1.2977, 0.5895], [1.2693, 0.5873], [1.2411, 0.584], [1.2131, 0.5796], [1.1852, 0.5742], [1.1575, 0.5677], [1.1301, 0.5602], [1.1031, 0.5516], [1.0764, 0.542], [1.05, 0.5313], [1.0241, 0.5196], [0.9988, 0.5069], [0.9739, 0.4931], [0.9496, 0.4784], [0.926, 0.4626], [0.903, 0.4459], [0.8808, 0.4282], [0.8594, 0.4096], [0.8388, 0.39], [0.8191, 0.3696], [0.8003, 0.3482], [0.7826, 0.326], [0.766, 0.303], [0.7505, 0.2792], [0.7362, 0.2546], [0.7231, 0.2294], [0.7114, 0.2035], [0.701, 0.1771], [0.6921, 0.1501], [0.6846, 0.1228], [0.6786, 0.095], [0.6741, 0.0669], [0.6711, 0.0387], [0.6698, 0.0103], [0.67, -0.0181], [0.6718, -0.0464], [0.6751, -0.0746], [0.68, -0.1026], [0.6865, -0.1303], [0.6944, -0.1575], [0.7037, -0.1844], [0.7145, -0.2107], [0.7266, -0.2363], [0.74, -0.2614], [0.7546, -0.2857], [0.7704, -0.3093], [0.7874, -0.3321], [0.8054, -0.3541], [0.8243, -0.3752], [0.8443, -0.3954], [0.8651, -0.4148], [0.8868, -0.4331], [0.9092, -0.4506], [0.9324, -0.467], [0.9562, -0.4825], [0.9806, -0.497], [1.0056, -0.5104], [1.0312, -0.5229], [1.0572, -0.5343], [1.0836, -0.5447], [1.1104, -0.554], [1.1376, -0.5623], [1.165, -0.5696], [1.1928, -0.5758], [1.2207, -0.5809], [1.2488, -0.585], [1.2771, -0.588]], [[1.5762, -0.9032], [1.6206, -0.9056], [1.6651, -0.9065], [1.7095, -0.9056], [1.7539, -0.9032], [1.7982, -0.8991], [1.8423, -0.8934], [1.8861, -0.886], [1.9297, -0.877], [1.9729, -0.8663], [2.0156, -0.854], [2.0578, -0.84], [2.0994, -0.8243], [2.1403, -0.8069], [2.1805, -0.7879], [2.2199, -0.7672], [2.2584, -0.7449], [2.2958, -0.721], [2.3322, -0.6954], [2.3675, -0.6683], [2.4014, -0.6396], [2.434, -0.6094], [2.4652, -0.5776], [2.4948, -0.5445], [2.5228, -0.5099], [2.549, -0.474], [2.5734, -0.4368], [2.5959, -0.3985], [2.6164, -0.359], [2.6348, -0.3185], [2.6511, -0.2772], [2.6651, -0.235], [2.6768, -0.1921], [2.6862, -0.1486], [2.6932, -0.1047], [2.6977, -0.0605], [2.6998, -0.016], [2.6995, 0.0284], [2.6967, 0.0728], [2.6915, 0.117], [2.6838, 0.1608], [2.6738, 0.2041], [2.6614, 0.2468], [2.6468, 0.2888], [2.6299, 0.3299], [2.6109, 0.3701], [2.5898, 0.4093], [2.5668, 0.4473], [2.5419, 0.4841], [2.5151, 0.5197], [2.4867, 0.5539], [2.4566, 0.5866], [2.4251, 0.6179], [2.3921, 0.6478], [2.3578, 0.676], [2.3222, 0.7027], [2.2855, 0.7278], [2.2477, 0.7513], [2.209, 0.7732], [2.1694, 0.7934], [2.129, 0.8119], [2.0879, 0.8288], [2.0461, 0.844], [2.0037, 0.8576], [1.9609, 0.8695], [1.9176, 0.8797], [1.874, 0.8882], [1.83, 0.8952], [1.7859, 0.9004], [1.7415, 0.904], [1.6971, 0.906], [1.6527, 0.9064], [1.6082, 0.9051], [1.5638, 0.9023], [1.5196, 0.8978], [1.4755, 0.8918], [1.4317, 0.8842], [1.3882, 0.875], [1.3451, 0.8642], [1.3023, 0.8519], [1.2601, 0.838], [1.2184, 0.8226], [1.1772, 0.8057], [1.1368, 0.7872], [1.0971, 0.7673], [1.0581, 0.7458], [1.02, 0.7228], [0.9829, 0.6984], [0.9467, 0.6725], [0.9117, 0.6451], [0.8778, 0.6163], [0.8452, 0.586], [0.814, 0.5544], [0.7842, 0.5214], [0.756, 0.487], [0.7295, 0.4513], [0.7048, 0.4144], [0.6819, 0.3762], [0.6611, 0.3369], [0.6424, 0.2966], [0.626, 0.2552], [0.612, 0.213], [0.6004, 0.1701], [0.5914, 0.1266], [0.585, 0.0826], [0.5813, 0.0383], [0.5803, -0.0062], [0.5821, -0.0506], [0.5865, -0.0949], [0.5937, -0.1388], [0.6034, -0.1821], [0.6157, -0.2249], [0.6304, -0.2668], [0.6474, -0.3079], [0.6667, -0.348], [0.6881, -0.387], [0.7115, -0.4248], [0.7367, -0.4614], [0.7637, -0.4967], [0.7924, -0.5307], [0.8226, -0.5634], [0.8542, -0.5946], [0.8872, -0.6245], [0.9214, -0.6529], [0.9567, -0.6799], [0.9931, -0.7054], [1.0306, -0.7294], [1.0689, -0.7519], [1.1081, -0.773], [1.148, -0.7925], [1.1886, -0.8106], [1.2299, -0.8271], [1.2718, -0.842], [1.3142, -0.8555], [1.3571, -0.8673], [1.4003, -0.8777], [1.4439, -0.8864], [1.4878, -0.8936], [1.5319, -0.8992], [1.5762, -0.9032]], [[2.0169, -1.2835], [2.0809, -1.2856], [2.1449, -1.2855], [2.2089, -1.2831], [2.2727, -1.2784], [2.3364, -1.2714], [2.3997, -1.2621], [2.4627, -1.2504], [2.5252, -1.2364], [2.5871, -1.22], [2.6483, -1.2013], [2.7087, -1.1801], [2.7683, -1.1566], [2.8268, -1.1307], [2.8843, -1.1024], [2.9405, -1.0717], [2.9953, -1.0386], [3.0487, -1.0032], [3.1004, -0.9655], [3.1504, -0.9254], [3.1984, -0.8832], [3.2445, -0.8387], [3.2884, -0.792], [3.3299, -0.7433], [3.369, -0.6926], [3.4054, -0.6399], [3.4392, -0.5855], [3.47, -0.5294], [3.4978, -0.4717], [3.5225, -0.4127], [3.5439, -0.3523], [3.562, -0.2909], [3.5767, -0.2286], [3.5878, -0.1655], [3.5954, -0.1019], [3.5994, -0.038], [3.5997, 0.026], [3.5964, 0.0899], [3.5895, 0.1536], [3.579, 0.2168], [3.565, 0.2792], [3.5476, 0.3408], [3.5268, 0.4014], [3.5027, 0.4607], [3.4755, 0.5187], [3.4452, 0.5751], [3.412, 0.6298], [3.376, 0.6828], [3.3374, 0.7339], [3.2963, 0.783], [3.2529, 0.8301], [3.2073, 0.875], [3.1596, 0.9177], [3.1099, 0.9581], [3.0585, 0.9963], [3.0055, 1.0322], [2.9509, 1.0657], [2.8949, 1.0968], [2.8377, 1.1256], [2.7794, 1.1519], [2.72, 1.1759], [2.6597, 1.1975], [2.5986, 1.2167], [2.5369, 1.2335], [2.4745, 1.248], [2.4116, 1.2601], [2.3483, 1.2699], [2.2847, 1.2773], [2.2209, 1.2824], [2.1569, 1.2852], [2.0929, 1.2858], [2.0289, 1.284], [1.965, 1.2801], [1.9012, 1.2739], [1.8378, 1.2655], [1.7746, 1.2548], [1.7119, 1.2421], [1.6496, 1.2271], [1.5879, 1.21], [1.5268, 1.1908], [1.4664, 1.1694], [1.4069, 1.146], [1.3481, 1.1205], [1.2904, 1.0928], [1.2336, 1.0631], [1.178, 1.0314], [1.1236, 0.9976], [1.0706, 0.9618], [1.0189, 0.9239], [0.9688, 0.8841], [0.9203, 0.8422], [0.8737, 0.7984], [0.8289, 0.7526], [0.7863, 0.7048], [0.7459, 0.6551], [0.7079, 0.6036], [0.6725, 0.5502], [0.64, 0.4951], [0.6105, 0.4383], [0.5842, 0.3799], [0.5614, 0.32], [0.5424, 0.2589], [0.5272, 0.1967], [0.5161, 0.1336], [0.5092, 0.07], [0.5066, 0.006], [0.5084, -0.058], [0.5145, -0.1217], [0.5248, -0.1849], [0.5392, -0.2473], [0.5576, -0.3086], [0.5797, -0.3687], [0.6053, -0.4274], [0.6342, -0.4845], [0.6662, -0.54], [0.701, -0.5937], [0.7385, -0.6456], [0.7785, -0.6956], [0.8208, -0.7437], [0.8651, -0.7899], [0.9114, -0.8341], [0.9596, -0.8764], [1.0094, -0.9166], [1.0607, -0.9548], [1.1135, -0.991], [1.1677, -1.0252], [1.2231, -1.0573], [1.2796, -1.0874], [1.3372, -1.1154], [1.3957, -1.1414], [1.4552, -1.1652], [1.5154, -1.1869], [1.5764, -1.2066], [1.638, -1.2241], [1.7001, -1.2394], [1.7628, -1.2526], [1.8259, -1.2636], [1.8893, -1.2725], [1.953, -1.2791], [2.0169, -1.2835]]];
-RFD.forEach(L=>{ // orient every loop so the field goes up (+z) through the inside of the ring
-  let i0=0,best=1e9;L.forEach((q,i)=>{if(q[0]<1&&Math.abs(q[1])<best){best=Math.abs(q[1]);i0=i;}});
-  const n=L[(i0+1)%L.length];if(n[1]<L[i0][1])L.reverse();});
-const NAZ=8, RFN=RFD.length;
-const rfLines=[],rfParts=[];
-const cViolet=new THREE.Color(COL.mag2),cBlue=new THREE.Color(COL.mag),cWhite=new THREE.Color(0xf2f6ff);
-for(let i=0;i<RFN;i++){const col=cViolet.clone().lerp(cBlue,i/(RFN-1));
-  for(let a=0;a<NAZ;a++){const l=makeLine(RFD[i].length+1,col.getStyle(),0.35+0.4*(1-i/(RFN-1)));l.userData={i,u:a*2*Math.PI/NAZ};rfLines.push(l);
-    const m=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,6),new THREE.MeshBasicMaterial({color:col.clone()}));
-    m.userData={i,u:a*2*Math.PI/NAZ,s:(a*0.37+i*0.21)%1,base:col.clone(),flip:false};scene.add(m);rfParts.push(m);}}
-function rfPoint(i,u,s,rim,out){const L=RFD[i],n=L.length;const x=((s%1)+1)%1*n;const k=Math.floor(x),f=x-k;const A=L[k%n],B=L[(k+1)%n];
-  const rho=(A[0]+(B[0]-A[0])*f)*rim,z=(A[1]+(B[1]-A[1])*f)*rim;return out.set(rho*Math.cos(u),z,rho*Math.sin(u));}
-// ONE charge: its own nested magnetic circles, in the plane perpendicular to its motion, centred on it.
-const qField=new THREE.Group();scene.add(qField);
-const QRAD=[0.12,0.24,0.4,0.62,0.9,1.25];const qfParts=[];
-QRAD.forEach((rad,i)=>{const col=cViolet.clone().lerp(cBlue,i/(QRAD.length-1));
-  const pts=[];for(let j=0;j<=64;j++){const w=j/64*2*Math.PI;pts.push(new THREE.Vector3(rad*Math.cos(w),rad*Math.sin(w),0));}
-  qField.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:col,transparent:true,opacity:0.9-0.1*i})));
-  for(let k=0;k<3;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.024,8,6),new THREE.MeshBasicMaterial({color:col}));m.userData={rad,w:k*2*Math.PI/3+i*0.5};qField.add(m);qfParts.push(m);}});
-function secPoint(u,w,rim,out){const cu=Math.cos(u),su=Math.sin(u);const q=rim+SEC_R*Math.cos(w);return out.set(q*cu,SEC_R*Math.sin(w),q*su);}
 
 const waist=new THREE.Mesh(new THREE.SphereGeometry(0.055,16,12),new THREE.MeshBasicMaterial({color:COL.waist}));scene.add(waist);
 const eDot=new THREE.Mesh(new THREE.SphereGeometry(0.075,20,14),new THREE.MeshBasicMaterial({color:COL.energy}));scene.add(eDot);
 const qDot=new THREE.Mesh(new THREE.SphereGeometry(0.075,20,14),new THREE.MeshBasicMaterial({color:COL.elec}));scene.add(qDot);
 
 // flow particles
-const cMagA=new THREE.Color(COL.mag),cMagB=new THREE.Color(0xf2f6ff),cEl=new THREE.Color(COL.elec);
+const cMagA=new THREE.Color(COL.mag),cMagB=new THREE.Color(0xc79bff),cEl=new THREE.Color(COL.elec);
 const magParts=[],elParts=[];
-for(let i=0;i<NPOL;i++)for(let k=0;k<2;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.024,8,6),new THREE.MeshBasicMaterial({color:cMagA}));
-  m.userData={u:i*2*Math.PI/NPOL,v:k*Math.PI+0.4+i*0.17,flip:false};scene.add(m);magParts.push(m);}
+for(let i=0;i<NPOL;i++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,6),new THREE.MeshBasicMaterial({color:cMagA}));
+  m.userData={f:hopfFibres[i],t:i*0.9,flip:false};scene.add(m);magParts.push(m);}
 elecV.forEach((v,i)=>{for(let k=0;k<5;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,6),new THREE.MeshBasicMaterial({color:cEl,transparent:true,opacity:i===0?1:0.6}));
   m.userData={u:k*2*Math.PI/5,v};scene.add(m);elParts.push(m);}});
 
@@ -245,13 +215,9 @@ function buildGeometry(r,rim){
   elecLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const v=elecV[li];
     for(let i=0;i<129;i++){ if(li===0){const u=i/128*2*Math.PI;a[i*3]=rim*Math.cos(u);a[i*3+1]=0;a[i*3+2]=rim*Math.sin(u);} else {tp(i/128*2*Math.PI,v,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}}
     l.geometry.attributes.position.needsUpdate=true;});
-  magLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const u=li*2*Math.PI/NPOL;
-    for(let j=0;j<97;j++){const w=j/96*2*Math.PI;tp(u,w,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
+  magLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const f=hopfFibres[li];
+    for(let j=0;j<361;j++){hopfPoint(f,j/360*2*Math.PI,r/R,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
   const ax=axis.geometry.attributes.position.array;ax.set([0,-1.3*(r+0.4),0,0,1.3*(r+0.4),0]);axis.geometry.attributes.position.needsUpdate=true;
-  rfLines.forEach(l=>{const a=l.geometry.attributes.position.array;const {i,u}=l.userData;const L=RFD[i];
-    for(let j=0;j<=L.length;j++){const q=L[j%L.length];a[j*3]=q[0]*rim*Math.cos(u);a[j*3+1]=q[1]*rim;a[j*3+2]=q[0]*rim*Math.sin(u);}l.geometry.attributes.position.needsUpdate=true;});
-  f2Lines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const u=F2U[li];
-    for(let i=0;i<49;i++){secPoint(u,i/48*2*Math.PI,rim,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
   const ca=core.geometry.attributes.position.array;for(let i=0;i<129;i++){const u=i/128*2*Math.PI;ca[i*3]=R*Math.cos(u);ca[i*3+1]=0;ca[i*3+2]=R*Math.sin(u);}core.geometry.attributes.position.needsUpdate=true;
 }
 
@@ -283,7 +249,8 @@ function render(){
   const spinOk=Math.abs(o.L/K.hbar-0.5)<1e-9, gOk=Math.abs(o.g-2)<1e-9, vOk=Math.abs(o.vq/K.c-1)<1e-9;
   $('outTable').innerHTML=`
    <tr><td>Rest energy mc²</td><td class="v">${fmt(o.E/K.eV/1e6,6)} MeV</td><td class="s"></td></tr>
-   <tr><td>Outside lap radius ħ/mc</td><td class="v">${fmt(o.rq)} m</td><td class="s"></td></tr>
+   <tr><td>Core radius ħ/2mc (energy, 4π)</td><td class="v">${fmt(o.rE)} m</td><td class="s"></td></tr>
+   <tr><td>Charge ring radius (2π)</td><td class="v">${fmt(o.rq)} m</td><td class="s"></td></tr>
    <tr><td>Loop length (Compton wavelength)</td><td class="v">${fmt(o.lam)} m</td><td class="s"></td></tr>
    <tr><td>Clock: one loop per</td><td class="v">${fmt(o.T*o.gam)} s</td><td class="s"></td></tr>
    <tr><td>Energy × period ÷ h</td><td class="v">${(o.E*o.T/K.h).toFixed(6)}</td><td class="s">${chip(true)}</td></tr>
@@ -345,54 +312,15 @@ function frame(now){
   const ph=2*Math.PI*tau;                            // one loop period = 1 time unit
   // energy: two turns on core circle; charge: one turn on rim
   eDot.position.set(R*Math.cos(2*ph),0,R*Math.sin(2*ph));
-  // The charge alternates, switching at the centre each time:
-  //   magnetic part = vertical loop through the centre (along the hourglass)
-  //   charge part   = horizontal loop around the axis, starting and ending at the centre
-  const prevQ=qDot.position.clone();
-  const cycN=Math.floor(tau), cyc=tau-cycN;
-  const uk=0;                                          // one fixed, connected closed path (no jumping between cycles)
-  const swap=$('swapParts').checked;
-  let qU=uk, inMag=cyc<0.5, onVert=cyc<0.5;
-  if(onVert){ tp(uk,Math.PI+2*Math.PI*(cyc/0.5),r,qDot.position); }
-  else { const th=uk+Math.PI+2*Math.PI*((cyc-0.5)/0.5), cx=R*Math.cos(uk), cz=R*Math.sin(uk);
-         qDot.position.set(cx+R*Math.cos(th),0,cz+R*Math.sin(th)); }
-  { const b=magPath.geometry.attributes.position.array, a=loopPath.geometry.attributes.position.array;
-    for(let i=0;i<100;i++){tp(uk,Math.PI+2*Math.PI*i/99,r,tmp);b[i*3]=tmp.x;b[i*3+1]=tmp.y;b[i*3+2]=tmp.z;
-      const th=uk+Math.PI+2*Math.PI*i/99;a[i*3]=R*Math.cos(uk)+R*Math.cos(th);a[i*3+1]=0;a[i*3+2]=R*Math.sin(uk)+R*Math.sin(th);}
-    magPath.geometry.attributes.position.needsUpdate=true;loopPath.geometry.attributes.position.needsUpdate=true;
-    magPath.material.color.set(swap?COL.elec:'#9fd0ff');loopPath.material.color.set(swap?'#9fd0ff':COL.elec);
-    const isMag=swap?!onVert:onVert;qDot.material.color.set(isMag?'#9fd0ff':COL.elec); }
+  qDot.position.set(rim*Math.cos(ph),0,rim*Math.sin(ph));
   pushTrail(eTrail,eDot.position);pushTrail(qTrail,qDot.position);
   // magnetic particles: up through the waist, flip colour each time they pass the inner edge
-  magParts.forEach(m=>{const d=m.userData;const vPrev=d.v;d.v-=(S.paused?0:dt*S.rate/gam)*2.4;
-    const cross=Math.floor((vPrev-Math.PI)/(2*Math.PI))!==Math.floor((d.v-Math.PI)/(2*Math.PI));
+  magParts.forEach(m=>{const d=m.userData;const tPrev=d.t;d.t+=(S.paused?0:dt*S.rate/gam)*2.0;
+    const cross=Math.floor((tPrev-1.5*Math.PI)/(2*Math.PI))!==Math.floor((d.t-1.5*Math.PI)/(2*Math.PI));   // passing through the hole
     if(cross){d.flip=!d.flip;m.material.color.copy(d.flip?cMagB:cMagA);}
-    tp(d.u,d.v,r,m.position);});
+    hopfPoint(d.f,d.t,r/R,m.position);});
   elParts.forEach(m=>{const d=m.userData;d.u+=(S.paused?0:dt*S.rate/gam)*1.3;
     if(d.v===0){m.position.set(rim*Math.cos(d.u),0,rim*Math.sin(d.u));} else tp(d.u,d.v,r,m.position);});
-  f2Parts.forEach(m=>{const d=m.userData;d.w-=(S.paused?0:dt*S.rate/gam)*2.2;secPoint(d.u,d.w,rim,m.position);});
-  rfParts.forEach(m=>{const d=m.userData;const L=RFD[d.i];const prev=rfPoint(d.i,0,d.s,1,tmp).clone();
-    d.s+=(S.paused?0:dt*S.rate/gam)*0.12;const cur=rfPoint(d.i,d.u,d.s,rim,m.position);
-    const now=rfPoint(d.i,0,d.s,1,new THREE.Vector3());
-    if(prev.x<1&&now.x<1&&prev.y<0&&now.y>=0){d.flip=!d.flip;m.material.color.copy(d.flip?cWhite:d.base);}});
-  { // attach the field to the single charge, oriented along its direction of motion
-    const tang=qDot.position.clone().sub(prevQ);if(tang.lengthSq()<1e-12)tang.set(0,0,1);tang.normalize();
-    qField.position.copy(qDot.position);qField.lookAt(qDot.position.clone().add(tang));
-    qfParts.forEach(m=>{const d=m.userData;d.w+=(S.paused?0:dt*S.rate/gam)*3;m.position.set(d.rad*Math.cos(d.w),d.rad*Math.sin(d.w),0);}); }
-  elParts.forEach(m=>m.visible=false);elecLines.forEach(l=>l.visible=false);   // one charge, one loop
-  eTrail.visible=false;qTrail.visible=false;
-  {const ve=$('showE').checked;eDot.visible=ve;core.visible=ve;}
-  { // the charge's magnetic field lies on the torus and passes through the centre; it sweeps with the charge
-    const a=qLine.geometry.attributes.position.array;
-    for(let j=0;j<97;j++){tp(qU,j/96*2*Math.PI,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}qLine.geometry.attributes.position.needsUpdate=true;
-    magLines.forEach((l,li)=>{const u=li*2*Math.PI/NPOL;let d=((qU-u)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
-      l.material.opacity=0.45;}); }
-  qLine.visible=false;
-  qField.visible=false;
-  const v1=$('showF1').checked;
-  magLines.forEach(l=>l.visible=true);magParts.forEach(m=>m.visible=true);axis.visible=v1;
-  f2Lines.forEach(l=>l.visible=false);f2Parts.forEach(m=>m.visible=false);
-  rfLines.forEach(l=>l.visible=v1);rfParts.forEach(m=>m.visible=v1);
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
 }
 render();requestAnimationFrame(frame);
