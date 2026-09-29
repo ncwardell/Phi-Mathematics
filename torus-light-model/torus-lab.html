@@ -69,7 +69,7 @@ svg text{font-family:var(--mono);font-size:11px}
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>The one loop (outside lap + pass through the centre)</span>
-      <span><i class="sw" style="background:linear-gradient(90deg,var(--mag2),var(--mag))"></i>The charge's own magnetic field: nested circles centred on the charge, moving with it</span>
+      <span><i class="sw" style="background:var(--mag)"></i>The charge's magnetic field: the circle on the torus through the charge and the centre. It sweeps out the torus as the charge moves.</span>
                   <span><i class="dot" style="background:var(--elec)"></i>The charge: one loop, around the outside, then through the centre and back out</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
     </div>
@@ -177,7 +177,8 @@ function makeLine(n,color,opacity){const g=new THREE.BufferGeometry();g.setAttri
   const l=new THREE.Line(g,new THREE.LineBasicMaterial({color,transparent:true,opacity}));scene.add(l);return l;}
 const elecV=[0];   // the only electric circulation is the charge current on the rim
 const elecLines=elecV.map((v,i)=>makeLine(129,COL.elec,i===0?1:0.45));
-const NPOL=10;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.55));
+const NPOL=48;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.2));
+const qLine=makeLine(97,COL.mag,1);   // the charge's own field line: the circle through the charge and the centre
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
 const loopPath=makeLine(129+97,COL.elec,0.9);
@@ -343,7 +344,8 @@ function frame(now){
   eDot.position.set(R*Math.cos(2*ph),0,R*Math.sin(2*ph));
   // ONE loop: around the outside (rim) for most of the cycle, then over the top, through the centre, and back out underneath
   const DIVE=0.12, cyc=((tau%1)+1)%1, prevQ=qDot.position.clone();
-  if(cyc<1-DIVE){const u=2*Math.PI*cyc/(1-DIVE);qDot.position.set(rim*Math.cos(u),0,rim*Math.sin(u));}
+  let qU=0;
+  if(cyc<1-DIVE){const u=2*Math.PI*cyc/(1-DIVE);qU=u;qDot.position.set(rim*Math.cos(u),0,rim*Math.sin(u));}
   else {const v=2*Math.PI*(cyc-(1-DIVE))/DIVE;tp(0,v,r,qDot.position);}
   { // the loop's path: rim circle + the pass through the centre
     const a=loopPath.geometry.attributes.position.array;let n=0;
@@ -370,8 +372,14 @@ function frame(now){
   elParts.forEach(m=>m.visible=false);elecLines.forEach(l=>l.visible=false);   // one charge, one loop
   eTrail.visible=false;qTrail.visible=false;
   {const ve=$('showE').checked;eDot.visible=ve;core.visible=ve;}
+  { // the charge's magnetic field lies on the torus and passes through the centre; it sweeps with the charge
+    const a=qLine.geometry.attributes.position.array;
+    for(let j=0;j<97;j++){tp(qU,j/96*2*Math.PI,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}qLine.geometry.attributes.position.needsUpdate=true;
+    magLines.forEach((l,li)=>{const u=li*2*Math.PI/NPOL;let d=((qU-u)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+      l.material.opacity=0.07+0.6*Math.exp(-d/0.9);}); }
+  qField.visible=false;
   const v1=$('showF1').checked;
-  magLines.forEach(l=>l.visible=false);magParts.forEach(m=>m.visible=false);axis.visible=v1;
+  magLines.forEach(l=>l.visible=true);magParts.forEach(m=>m.visible=false);axis.visible=v1;
   f2Lines.forEach(l=>l.visible=false);f2Parts.forEach(m=>m.visible=false);
   rfLines.forEach(l=>l.visible=v1);rfParts.forEach(m=>m.visible=v1);
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
