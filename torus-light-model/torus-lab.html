@@ -58,7 +58,7 @@ svg text{font-family:var(--mono);font-size:11px}
 <div class="wrap">
   <header>
     <h1>Torus Light Lab</h1>
-    <p>One loop of light on a breathing horn torus: the charge goes around the outside, then through the centre and back out, carrying its own magnetic field. Every number on the right is computed from the geometry you set.</p>
+    <p>One charge on a breathing horn torus, running one continuous path along its own magnetic field: through the centre and back out, line after line. Every number on the right is computed from the geometry you set.</p>
   </header>
 
   <div class="stage">
@@ -68,9 +68,9 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>The one loop (outside lap + pass through the centre)</span>
+      <span><i class="sw" style="background:var(--elec)"></i>The charge's one continuous path: along the field, through the centre each pass, stepping line to line</span>
       <span><i class="sw" style="background:var(--mag)"></i>The charge's magnetic field: every line on the torus at once, all flowing through the centre. Dots turn white after passing the centre (sign flip).</span>
-                  <span><i class="dot" style="background:var(--elec)"></i>The charge: one loop, around the outside, then through the centre and back out</span>
+                  <span><i class="dot" style="background:var(--elec)"></i>The charge</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
     </div>
   </div>
@@ -113,6 +113,7 @@ svg text{font-family:var(--mono);font-size:11px}
 
     <section aria-labelledby="h-out">
       <h2 id="h-out">Outputs from the geometry</h2>
+      <p class="note" style="margin:0 0 8px;color:var(--warn)">These numbers are from the earlier outside-lap + dive model. The continuous winding path shown in the view has not been recalculated yet.</p>
       <table id="outTable"></table>
     </section>
 
@@ -181,7 +182,8 @@ const NPOL=36;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.45))
 const qLine=makeLine(97,COL.mag,1);   // the charge's own field line: the circle through the charge and the centre
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
-const loopPath=makeLine(129+97,COL.elec,0.9);
+const NWIND=NPOL;   // one pass through the centre per field line
+const loopPath=makeLine(NWIND*40+1,COL.elec,0.55);
 // field 2: the rim charge's own magnetic circles, wrapped around the rim on the outside.
 // The charge passes through the centre of every circle.
 const NSEC=18, SEC_R=0.32;
@@ -342,15 +344,14 @@ function frame(now){
   const ph=2*Math.PI*tau;                            // one loop period = 1 time unit
   // energy: two turns on core circle; charge: one turn on rim
   eDot.position.set(R*Math.cos(2*ph),0,R*Math.sin(2*ph));
-  // ONE loop: around the outside (rim) for most of the cycle, then over the top, through the centre, and back out underneath
-  const DIVE=0.12, cyc=((tau%1)+1)%1, prevQ=qDot.position.clone();
-  let qU=0;
-  if(cyc<1-DIVE){const u=2*Math.PI*cyc/(1-DIVE);qU=u;qDot.position.set(rim*Math.cos(u),0,rim*Math.sin(u));}
-  else {const v=2*Math.PI*(cyc-(1-DIVE))/DIVE;tp(0,v,r,qDot.position);}
-  { // the loop's path: rim circle + the pass through the centre
-    const a=loopPath.geometry.attributes.position.array;let n=0;
-    for(let i=0;i<=128;i++){const u=i/128*2*Math.PI;a[n++]=rim*Math.cos(u);a[n++]=0;a[n++]=rim*Math.sin(u);}
-    for(let i=0;i<=96;i++){tp(0,i/96*2*Math.PI,r,tmp);a[n++]=tmp.x;a[n++]=tmp.y;a[n++]=tmp.z;}
+  // ONE continuous path: the charge runs along the field, through the centre and back out,
+  // stepping to the next line each pass, until it has covered every line and closes.
+  const prevQ=qDot.position.clone();
+  const kt=((tau/(NWIND/2))%1+1)%1;                   // fraction of the full winding path
+  const qU=2*Math.PI*kt, qV=2*Math.PI*NWIND*kt;
+  tp(qU,qV,r,qDot.position);
+  { const a=loopPath.geometry.attributes.position.array;const n=a.length/3;
+    for(let i=0;i<n;i++){const f=i/(n-1);tp(2*Math.PI*f,2*Math.PI*NWIND*f,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
     loopPath.geometry.attributes.position.needsUpdate=true; }
   pushTrail(eTrail,eDot.position);pushTrail(qTrail,qDot.position);
   // magnetic particles: up through the waist, flip colour each time they pass the inner edge
