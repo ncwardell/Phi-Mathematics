@@ -68,8 +68,7 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>Charge part: loop around the axis, from the centre back to the centre</span>
-      <span><i class="sw" style="background:#9fd0ff"></i>Magnetic part: loop through the centre along the hourglass (the dot turns light blue here)</span>
+      <span><i class="sw" style="background:var(--elec)"></i>Charge part (red) and <span style="color:#9fd0ff">magnetic part (light blue)</span>: one connected line, two loops joined at the centre</span>
       <span><i class="sw" style="background:var(--mag)"></i>Magnetic field lines, all through the centre</span>
                   <span><i class="dot" style="background:var(--elec)"></i>The charge</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
@@ -95,6 +94,7 @@ svg text{font-family:var(--mono);font-size:11px}
       <div class="row" style="margin-bottom:12px;gap:16px">
         <label><input type="checkbox" id="showF1"> Show the field averaged over a full loop</label>
         <input type="checkbox" id="showE" hidden>
+        <label><input type="checkbox" id="swapParts"> Swap: charge part through the centre, magnetic part around the axis</label>
         <input type="checkbox" id="showF2" hidden>
       </div>
       <div class="ctl" hidden>
@@ -350,16 +350,18 @@ function frame(now){
   //   charge part   = horizontal loop around the axis, starting and ending at the centre
   const prevQ=qDot.position.clone();
   const cycN=Math.floor(tau), cyc=tau-cycN;
-  const uk=cycN*2*Math.PI/12;                          // each cycle uses the next line around the torus
-  let qU=uk, inMag=cyc<0.5;
-  if(inMag){ tp(uk,Math.PI+2*Math.PI*(cyc/0.5),r,qDot.position); }
+  const uk=0;                                          // one fixed, connected closed path (no jumping between cycles)
+  const swap=$('swapParts').checked;
+  let qU=uk, inMag=cyc<0.5, onVert=cyc<0.5;
+  if(onVert){ tp(uk,Math.PI+2*Math.PI*(cyc/0.5),r,qDot.position); }
   else { const th=uk+Math.PI+2*Math.PI*((cyc-0.5)/0.5), cx=R*Math.cos(uk), cz=R*Math.sin(uk);
          qDot.position.set(cx+R*Math.cos(th),0,cz+R*Math.sin(th)); }
   { const b=magPath.geometry.attributes.position.array, a=loopPath.geometry.attributes.position.array;
     for(let i=0;i<100;i++){tp(uk,Math.PI+2*Math.PI*i/99,r,tmp);b[i*3]=tmp.x;b[i*3+1]=tmp.y;b[i*3+2]=tmp.z;
       const th=uk+Math.PI+2*Math.PI*i/99;a[i*3]=R*Math.cos(uk)+R*Math.cos(th);a[i*3+1]=0;a[i*3+2]=R*Math.sin(uk)+R*Math.sin(th);}
     magPath.geometry.attributes.position.needsUpdate=true;loopPath.geometry.attributes.position.needsUpdate=true;
-    qDot.material.color.set(inMag?'#9fd0ff':COL.elec); }
+    magPath.material.color.set(swap?COL.elec:'#9fd0ff');loopPath.material.color.set(swap?'#9fd0ff':COL.elec);
+    const isMag=swap?!onVert:onVert;qDot.material.color.set(isMag?'#9fd0ff':COL.elec); }
   pushTrail(eTrail,eDot.position);pushTrail(qTrail,qDot.position);
   // magnetic particles: up through the waist, flip colour each time they pass the inner edge
   magParts.forEach(m=>{const d=m.userData;const vPrev=d.v;d.v-=(S.paused?0:dt*S.rate/gam)*2.4;
