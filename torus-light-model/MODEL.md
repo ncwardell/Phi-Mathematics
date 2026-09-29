@@ -5,6 +5,18 @@ Everything else follows from the steps below. Numbers are for the electron.
 
 ---
 
+## 0. Current picture: one loop, outside and inside
+
+One loop of light carries the charge. It goes once around the outside (the rim, radius ρ_out) and passes through the centre of the horn torus (the waist, radius ρ_in → 0). Total length is L = h/mc at speed c. Along the loop, angular momentum is conserved, so energy concentrates inward (∝ 1/radius, like a skater pulling in).
+
+With ρ_out + ρ_in = ħ/mc and x = ρ_out/(ħ/mc):
+
+$$S = \frac{\hbar}{2} \ \text{(for any split)}, \qquad g = 2\big(x^2 + (1 - x)^2\big)$$
+
+When the inside passage goes through the exact centre (x → 1): **S = ħ/2, g = 2**, with ρ_out = ħ/mc. The outside lap supplies all the magnetism; spin is shared by both halves. See `scripts/10_one_loop_inside_outside.py`.
+
+The two-circle description in Section 2 (energy at ħ/2mc, charge at ħ/mc) gives the same numbers. It is the bookkeeping version of this one loop, not two objects.
+
 ## 1. Closure (one loop of light)
 
 Light moving at c closes on itself after one wavelength.
