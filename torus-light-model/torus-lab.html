@@ -69,8 +69,7 @@ svg text{font-family:var(--mono);font-size:11px}
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), rim only</span>
       <span><i class="sw" style="background:linear-gradient(90deg,var(--mag2),var(--mag))"></i>The charge's own magnetic field: nested circles centred on the charge, moving with it</span>
-            <span><i class="dot" style="background:var(--energy)"></i>Energy loop (not a charge): core circle, 2 loops (4π)</span>
-      <span><i class="dot" style="background:var(--elec)"></i>The one charge: outer rim, 1 loop (2π)</span>
+                  <span><i class="dot" style="background:var(--elec)"></i>The charge, going around the rim</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
     </div>
   </div>
@@ -93,6 +92,7 @@ svg text{font-family:var(--mono);font-size:11px}
       </div>
       <div class="row" style="margin-bottom:12px;gap:16px">
         <label><input type="checkbox" id="showF1"> Show the field averaged over a full loop</label>
+        <label><input type="checkbox" id="showE"> Show the energy path (spin bookkeeping)</label>
         <input type="checkbox" id="showF2" hidden>
       </div>
       <div class="ctl">
@@ -360,6 +360,7 @@ function frame(now){
     qfParts.forEach(m=>{const d=m.userData;d.w+=(S.paused?0:dt*S.rate/gam)*3;m.position.set(d.rad*Math.cos(d.w),d.rad*Math.sin(d.w),0);}); }
   elParts.forEach(m=>m.visible=false);   // one charge only
   eTrail.visible=false;qTrail.visible=false;
+  {const ve=$('showE').checked;eDot.visible=ve;core.visible=ve;}
   const v1=$('showF1').checked;
   magLines.forEach(l=>l.visible=false);magParts.forEach(m=>m.visible=false);axis.visible=v1;
   f2Lines.forEach(l=>l.visible=false);f2Parts.forEach(m=>m.visible=false);
