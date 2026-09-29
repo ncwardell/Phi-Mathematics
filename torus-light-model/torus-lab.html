@@ -87,8 +87,9 @@ svg text{font-family:var(--mono);font-size:11px}
       </div>
       <div class="ctl">
         <label for="breath">Breath depth</label><output id="breathOut"></output>
-        <input id="breath" type="range" min="0" max="0.35" step="0.01" value="0.18">
-        <small>Tube radius swings around the horn state: the waist opens, pinches, then overlaps.</small>
+        <input id="breath" type="range" min="0" max="0.35" step="0.0001" value="0.0964">
+        <button id="epsAlpha" type="button" style="grid-column:1/-1;justify-self:start;margin-top:4px">Set to α value (ε = √(4α/π) = 0.0964)</button>
+        <small>Tube radius swings around the horn state, two breaths per loop (2mc²/h). At ε = √(4α/π) the breathing alone gives g − 2 = α/2π.</small>
       </div>
       <div class="ctl">
         <label for="kring">Charge ring radius ÷ core radius</label><output id="kOut"></output>
@@ -195,7 +196,7 @@ function pushTrail(l,p){const b=l.userData.buf;b.push(p.clone());if(b.length>l.u
   l.geometry.attributes.position.needsUpdate=true;}
 
 /* ---------- state ---------- */
-const S={breath:0.18,k:2,beta:0,rate:0.6,particle:'e',g2:'c',paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const S={breath:Math.sqrt(4*K.alpha/Math.PI),k:2,beta:0,rate:0.6,particle:'e',g2:'c',paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
 $('pause').textContent=S.paused?'Play':'Pause';
 const tmp=new THREE.Vector3();
 
@@ -234,7 +235,7 @@ function compute(){
 }
 function render(){
   const o=compute();
-  $('breathOut').textContent=S.breath.toFixed(2);$('kOut').textContent=S.k.toFixed(2);
+  $('breathOut').textContent=S.breath.toFixed(4);$('kOut').textContent=S.k.toFixed(2);
   $('betaOut').textContent=S.beta.toFixed(2);$('rateOut').textContent=S.rate.toFixed(2)+'×';
   const spinOk=Math.abs(o.L/K.hbar-0.5)<1e-9, gOk=Math.abs(o.g-2)<1e-9, vOk=Math.abs(o.vq/K.c-1)<1e-9;
   $('outTable').innerHTML=`
@@ -287,6 +288,7 @@ $('particle').addEventListener('change',e=>{S.particle=e.target.value;render();}
 document.querySelectorAll('input[name=g2]').forEach(r=>r.addEventListener('change',e=>{S.g2=e.target.value;render();}));
 $('pause').addEventListener('click',()=>{S.paused=!S.paused;$('pause').textContent=S.paused?'Play':'Pause';});
 $('reset').addEventListener('click',resetView);
+$('epsAlpha').addEventListener('click',()=>{S.breath=Math.sqrt(4*K.alpha/Math.PI);$('breath').value=S.breath;render();});
 
 /* ---------- animation ---------- */
 let t=0,last=performance.now();
