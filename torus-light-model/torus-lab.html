@@ -58,7 +58,7 @@ svg text{font-family:var(--mono);font-size:11px}
 <div class="wrap">
   <header>
     <h1>Torus Light Lab</h1>
-    <p>One charge on a breathing horn torus, running one continuous path along its own magnetic field: through the centre and back out, line after line. Every number on the right is computed from the geometry you set.</p>
+    <p>One charge on a horn torus. It does the magnetic part (through the centre), hits the centre, does the charge part (around the axis), hits the centre, and repeats. Every number on the right is computed from the geometry you set.</p>
   </header>
 
   <div class="stage">
@@ -68,8 +68,9 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>The charge's path: each turn goes around and through at once, then moves on to the next line, covering every line continuously</span>
-      <span><i class="sw" style="background:var(--mag)"></i>Every line has the same shape as the charge's loop (around and through at once); together they fill the torus. Dots turn white after passing the centre.</span>
+      <span><i class="sw" style="background:var(--elec)"></i>Charge part: loop around the axis, from the centre back to the centre</span>
+      <span><i class="sw" style="background:#9fd0ff"></i>Magnetic part: loop through the centre along the hourglass (the dot turns light blue here)</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Magnetic field lines, all through the centre</span>
                   <span><i class="dot" style="background:var(--elec)"></i>The charge</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
     </div>
@@ -113,7 +114,7 @@ svg text{font-family:var(--mono);font-size:11px}
 
     <section aria-labelledby="h-out">
       <h2 id="h-out">Outputs from the geometry</h2>
-      <p class="note" style="margin:0 0 8px;color:var(--warn)">These numbers are from the earlier outside-lap + dive model. The continuous winding path shown in the view has not been recalculated yet.</p>
+      <p class="note" style="margin:0 0 8px;color:var(--warn)">These numbers are from the earlier model. For the alternating path shown, see scripts/12_alternating_paths.py.</p>
       <table id="outTable"></table>
     </section>
 
@@ -182,8 +183,8 @@ const NPOL=36;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.45))
 const qLine=makeLine(97,COL.mag,1);   // the charge's own field line: the circle through the charge and the centre
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
-const NWIND=NPOL;   // each turn: around the axis AND through the centre; the path steps to the next line every turn and covers all of them
-const loopPath=makeLine(NWIND*48+1,COL.elec,0.5);
+const loopPath=makeLine(100,COL.elec,1);   // charge part
+const magPath=makeLine(100,'#9fd0ff',1);   // magnetic part
 // field 2: the rim charge's own magnetic circles, wrapped around the rim on the outside.
 // The charge passes through the centre of every circle.
 const NSEC=18, SEC_R=0.32;
@@ -245,7 +246,7 @@ function buildGeometry(r,rim){
     for(let i=0;i<129;i++){ if(li===0){const u=i/128*2*Math.PI;a[i*3]=rim*Math.cos(u);a[i*3+1]=0;a[i*3+2]=rim*Math.sin(u);} else {tp(i/128*2*Math.PI,v,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}}
     l.geometry.attributes.position.needsUpdate=true;});
   magLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const u=li*2*Math.PI/NPOL;
-    for(let j=0;j<97;j++){const w=j/96*2*Math.PI;tp(u+w,w,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
+    for(let j=0;j<97;j++){const w=j/96*2*Math.PI;tp(u,w,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
   const ax=axis.geometry.attributes.position.array;ax.set([0,-1.3*(r+0.4),0,0,1.3*(r+0.4),0]);axis.geometry.attributes.position.needsUpdate=true;
   rfLines.forEach(l=>{const a=l.geometry.attributes.position.array;const {i,u}=l.userData;const L=RFD[i];
     for(let j=0;j<=L.length;j++){const q=L[j%L.length];a[j*3]=q[0]*rim*Math.cos(u);a[j*3+1]=q[1]*rim;a[j*3+2]=q[0]*rim*Math.sin(u);}l.geometry.attributes.position.needsUpdate=true;});
@@ -344,21 +345,27 @@ function frame(now){
   const ph=2*Math.PI*tau;                            // one loop period = 1 time unit
   // energy: two turns on core circle; charge: one turn on rim
   eDot.position.set(R*Math.cos(2*ph),0,R*Math.sin(2*ph));
-  // ONE continuous path: the charge runs along the field, through the centre and back out,
-  // stepping to the next line each pass, until it has covered every line and closes.
+  // The charge alternates, switching at the centre each time:
+  //   magnetic part = vertical loop through the centre (along the hourglass)
+  //   charge part   = horizontal loop around the axis, starting and ending at the centre
   const prevQ=qDot.position.clone();
-  const kt=((tau/NWIND)%1+1)%1;                       // one turn per clock period; NWIND turns to cover every line
-  const qU=2*Math.PI*(NWIND+1)*kt, qV=2*Math.PI*NWIND*kt;
-  tp(qU,qV,r,qDot.position);
-  { const a=loopPath.geometry.attributes.position.array;const n=a.length/3;
-    for(let i=0;i<n;i++){const f=i/(n-1);tp(2*Math.PI*(NWIND+1)*f,2*Math.PI*NWIND*f,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
-    loopPath.geometry.attributes.position.needsUpdate=true; }
+  const cycN=Math.floor(tau), cyc=tau-cycN;
+  const uk=cycN*2*Math.PI/12;                          // each cycle uses the next line around the torus
+  let qU=uk, inMag=cyc<0.5;
+  if(inMag){ tp(uk,Math.PI+2*Math.PI*(cyc/0.5),r,qDot.position); }
+  else { const th=uk+Math.PI+2*Math.PI*((cyc-0.5)/0.5), cx=R*Math.cos(uk), cz=R*Math.sin(uk);
+         qDot.position.set(cx+R*Math.cos(th),0,cz+R*Math.sin(th)); }
+  { const b=magPath.geometry.attributes.position.array, a=loopPath.geometry.attributes.position.array;
+    for(let i=0;i<100;i++){tp(uk,Math.PI+2*Math.PI*i/99,r,tmp);b[i*3]=tmp.x;b[i*3+1]=tmp.y;b[i*3+2]=tmp.z;
+      const th=uk+Math.PI+2*Math.PI*i/99;a[i*3]=R*Math.cos(uk)+R*Math.cos(th);a[i*3+1]=0;a[i*3+2]=R*Math.sin(uk)+R*Math.sin(th);}
+    magPath.geometry.attributes.position.needsUpdate=true;loopPath.geometry.attributes.position.needsUpdate=true;
+    qDot.material.color.set(inMag?'#9fd0ff':COL.elec); }
   pushTrail(eTrail,eDot.position);pushTrail(qTrail,qDot.position);
   // magnetic particles: up through the waist, flip colour each time they pass the inner edge
   magParts.forEach(m=>{const d=m.userData;const vPrev=d.v;d.v-=(S.paused?0:dt*S.rate/gam)*2.4;
     const cross=Math.floor((vPrev-Math.PI)/(2*Math.PI))!==Math.floor((d.v-Math.PI)/(2*Math.PI));
     if(cross){d.flip=!d.flip;m.material.color.copy(d.flip?cMagB:cMagA);}
-    tp(d.u+d.v,d.v,r,m.position);});
+    tp(d.u,d.v,r,m.position);});
   elParts.forEach(m=>{const d=m.userData;d.u+=(S.paused?0:dt*S.rate/gam)*1.3;
     if(d.v===0){m.position.set(rim*Math.cos(d.u),0,rim*Math.sin(d.u));} else tp(d.u,d.v,r,m.position);});
   f2Parts.forEach(m=>{const d=m.userData;d.w-=(S.paused?0:dt*S.rate/gam)*2.2;secPoint(d.u,d.w,rim,m.position);});
