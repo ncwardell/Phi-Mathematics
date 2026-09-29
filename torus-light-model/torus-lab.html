@@ -68,8 +68,8 @@ svg text{font-family:var(--mono);font-size:11px}
       <button id="reset" type="button">Reset view</button>
     </div>
     <div class="legend">
-      <span><i class="sw" style="background:var(--elec)"></i>The charge's one continuous path: along the field, through the centre each pass, stepping line to line</span>
-      <span><i class="sw" style="background:var(--mag)"></i>The charge's magnetic field: every line on the torus at once, all flowing through the centre. Dots turn white after passing the centre (sign flip).</span>
+      <span><i class="sw" style="background:var(--elec)"></i>The charge's loop: once around the axis and once through the centre, in one turn</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Every line has the same shape as the charge's loop (around and through at once); together they fill the torus. Dots turn white after passing the centre.</span>
                   <span><i class="dot" style="background:var(--elec)"></i>The charge</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre of the torus</span>
     </div>
@@ -182,8 +182,8 @@ const NPOL=36;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.45))
 const qLine=makeLine(97,COL.mag,1);   // the charge's own field line: the circle through the charge and the centre
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
-const NWIND=NPOL;   // one pass through the centre per field line
-const loopPath=makeLine(NWIND*40+1,COL.elec,0.55);
+const NWIND=1;   // each loop: once around the axis AND once through the centre (Hopf fibre)
+const loopPath=makeLine(161,COL.elec,1);
 // field 2: the rim charge's own magnetic circles, wrapped around the rim on the outside.
 // The charge passes through the centre of every circle.
 const NSEC=18, SEC_R=0.32;
@@ -245,7 +245,7 @@ function buildGeometry(r,rim){
     for(let i=0;i<129;i++){ if(li===0){const u=i/128*2*Math.PI;a[i*3]=rim*Math.cos(u);a[i*3+1]=0;a[i*3+2]=rim*Math.sin(u);} else {tp(i/128*2*Math.PI,v,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}}
     l.geometry.attributes.position.needsUpdate=true;});
   magLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const u=li*2*Math.PI/NPOL;
-    for(let j=0;j<97;j++){tp(u,j/96*2*Math.PI,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
+    for(let j=0;j<97;j++){const w=j/96*2*Math.PI;tp(u+w,w,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
   const ax=axis.geometry.attributes.position.array;ax.set([0,-1.3*(r+0.4),0,0,1.3*(r+0.4),0]);axis.geometry.attributes.position.needsUpdate=true;
   rfLines.forEach(l=>{const a=l.geometry.attributes.position.array;const {i,u}=l.userData;const L=RFD[i];
     for(let j=0;j<=L.length;j++){const q=L[j%L.length];a[j*3]=q[0]*rim*Math.cos(u);a[j*3+1]=q[1]*rim;a[j*3+2]=q[0]*rim*Math.sin(u);}l.geometry.attributes.position.needsUpdate=true;});
@@ -358,7 +358,7 @@ function frame(now){
   magParts.forEach(m=>{const d=m.userData;const vPrev=d.v;d.v-=(S.paused?0:dt*S.rate/gam)*2.4;
     const cross=Math.floor((vPrev-Math.PI)/(2*Math.PI))!==Math.floor((d.v-Math.PI)/(2*Math.PI));
     if(cross){d.flip=!d.flip;m.material.color.copy(d.flip?cMagB:cMagA);}
-    tp(d.u,d.v,r,m.position);});
+    tp(d.u+d.v,d.v,r,m.position);});
   elParts.forEach(m=>{const d=m.userData;d.u+=(S.paused?0:dt*S.rate/gam)*1.3;
     if(d.v===0){m.position.set(rim*Math.cos(d.u),0,rim*Math.sin(d.u));} else tp(d.u,d.v,r,m.position);});
   f2Parts.forEach(m=>{const d=m.userData;d.w-=(S.paused?0:dt*S.rate/gam)*2.2;secPoint(d.u,d.w,rim,m.position);});
