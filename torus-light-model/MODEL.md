@@ -34,7 +34,9 @@ Both flows move at c, have length L, and share the period T.
 | Energy (core) | 2 (4π) | 2 · 2π r_E = L | r_E = ħ/2mc = 1.9308 × 10⁻¹³ m |
 | Charge (rim) | 1 (2π) | 2π r_q = L | r_q = ħ/mc = 3.8616 × 10⁻¹³ m |
 
-$$r_q = 2r_E \;\Rightarrow\; \text{ring radius } R = \text{tube radius } r = r_E \quad\text{(horn torus)}$$
+$$r_q = 2r_E$$
+
+**Shape.** The energy loop is the edge of the hole (the constrictor) and the charge loop is the outer edge. The torus is a donut spanning r_E to 2r_E: ring radius ¾ · ħ/mc, tube radius ¼ · ħ/mc, hole diameter ħ/mc. Spin and g depend only on the two loop radii, so they are unchanged by this placement. (The earlier horn-torus drawing put the energy at the tube centre, which closed the hole to a point.)
 
 Torus surface, with the axis along z:
 
