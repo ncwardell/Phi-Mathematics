@@ -70,7 +70,7 @@ svg text{font-family:var(--mono);font-size:11px}
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), outer edge</span>
       <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field "moon": orbits the tube from the charge (outside) to the energy loop (inside) and back, 4 orbits per lap, with a short fading tracer</span>
       <span><i class="dot" style="background:var(--energy)"></i>Energy loop: the edge of the hole, 2 loops (4π)</span>
-      <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π)</span>
+      <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π); the red ring is its own small loop (the fractal copy), which the blue dot runs around</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre; field dots flip colour each time they pass up through the ring</span>
     </div>
   </div>
@@ -199,6 +199,8 @@ function rfPoint(ci,u,sp,out){const L=RFD[ci],n=L.length;const x=((sp%1)+1)%1*n;
 // One field dot orbiting the charge at right angles to its motion; its path is traced over time.
 const fDot=new THREE.Mesh(new THREE.SphereGeometry(0.06,16,12),new THREE.MeshBasicMaterial({color:COL.mag}));scene.add(fDot);
 const FTN=120;const fTrail=makeLine(FTN,COL.mag,1);const fBuf=[];
+// Fractal copy: the charge's own small loop (the donut's cross-section at the charge), drawn as a thin ring.
+const mini=new THREE.Mesh(new THREE.TorusGeometry(1,0.035,10,64),new THREE.MeshBasicMaterial({color:COL.elec,transparent:true,opacity:0.55}));scene.add(mini);
 const FLN=4000;const fLong=makeLine(FLN,COL.mag,0.16);   // faint spirograph: the last 3 laps
 { // faint fading tracer: colours fade from the background to the field colour toward the moon
   const cols=new Float32Array(FTN*3),bg=new THREE.Color(COL.bgHex||'#0c1017'),fg=new THREE.Color(COL.mag);
@@ -359,6 +361,8 @@ function frame(now){
     const b=fLong.geometry.attributes.position.array;
     for(let i=0;i<FLN;i++){moon(QANG-3*2*Math.PI*(1-i/(FLN-1)),tmp);b[i*3]=tmp.x;b[i*3+1]=tmp.y;b[i*3+2]=tmp.z;}
     fLong.geometry.attributes.position.needsUpdate=true; }
+  { const cu=Math.cos(QANG),su=Math.sin(QANG),cen=new THREE.Vector3((R+r)*cu,0,(R+r)*su);
+    mini.position.copy(cen);mini.scale.set(r,r,r);mini.lookAt(cen.clone().add(new THREE.Vector3(-su,0,cu))); }
   rfParts.forEach(m=>{const d=m.userData;const yPrev=m.position.y;d.s+=(S.paused?0:dt*S.rate/gam)*0.12;rfPoint(d.ci,d.u+QANG,d.s,m.position);
     {let dd=Math.abs(d.u%(2*Math.PI));dd=Math.min(dd,2*Math.PI-dd);m.visible=dd<1.1;}
     if(Math.hypot(m.position.x,m.position.z)<RFRIM&&yPrev<0&&m.position.y>=0){d.flip=!d.flip;m.material.color.set(d.flip?0xc79bff:COL.mag);}});
