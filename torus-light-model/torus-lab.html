@@ -339,7 +339,7 @@ function frame(now){
   magLines.forEach(l=>l.visible=false);magParts.forEach(m=>m.visible=false);   // replaced by the charge-ring field
   rfLines.forEach(l=>l.visible=false);rfParts.forEach(m=>m.visible=false);
   { // field dot ("moon"): orbits the charge at right angles to its motion, at light speed on a tube-sized circle
-    const fr=r, rimNow=R+S.k*r, N=rimNow/fr;          // orbits per charge lap = rim / orbit radius (4 at rest)
+    const fr=r, rimNow=R+S.k*r, N=Math.round((R+S.k*0.5*R)/(0.5*R));   // orbits per lap fixed at the rest value (4); breathing only changes size
     const moon=(ang,out)=>{const w=N*ang,cu=Math.cos(ang),su=Math.sin(ang),q=rimNow+fr*Math.cos(w);return out.set(q*cu,fr*Math.sin(w),q*su);};
     moon(QANG,fDot.position);
     const a=fTrail.geometry.attributes.position.array;   // trace of the last full lap, computed exactly
