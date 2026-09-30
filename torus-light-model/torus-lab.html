@@ -57,7 +57,7 @@ svg text{font-family:var(--mono);font-size:11px}
 <div class="wrap">
   <header>
     <h1>Torus Light Lab</h1>
-    <p>A breathing donut of light. The energy loop is the edge of the hole; the charge runs around the outer edge; the magnetic field loops through the hole. Every number on the right is computed from the geometry you set.</p>
+    <p>A breathing donut of light. The energy loop is the edge of the hole; the charge runs around the outer edge; every magnetic field line comes out of the centre point, wraps around the tube and returns. Every number on the right is computed from the geometry you set.</p>
   </header>
 
   <div class="stage">
@@ -68,10 +68,10 @@ svg text{font-family:var(--mono);font-size:11px}
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), outer edge</span>
-      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−), loops through the hole</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): every line comes out of the centre point, wraps around the tube, and returns</span>
       <span><i class="dot" style="background:var(--energy)"></i>Energy loop: the edge of the hole, 2 loops (4π)</span>
       <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π)</span>
-      <span><i class="dot" style="background:var(--waist)"></i>Centre of the hole; field dots flip colour each pass through it</span>
+      <span><i class="dot" style="background:var(--waist)"></i>Centre (null point); field dots flip colour each pass through it</span>
     </div>
   </div>
 
@@ -173,7 +173,13 @@ function makeLine(n,color,opacity){const g=new THREE.BufferGeometry();g.setAttri
   const l=new THREE.Line(g,new THREE.LineBasicMaterial({color,transparent:true,opacity}));scene.add(l);return l;}
 const elecV=[0];   // the only electric circulation is the charge current on the rim
 const elecLines=elecV.map((v,i)=>makeLine(129,COL.elec,i===0?1:0.45));
-const NPOL=10;const magLines=[...Array(NPOL)].map(()=>makeLine(97,COL.mag,0.55));
+// Magnetic field: every line starts at the centre point (the null point), wraps around the donut's tube,
+// and returns to the centre. Circles through the origin, sized to enclose the tube. Hole size doesn't matter.
+const MAZ=12, MSZ=[1.06,1.25,1.5];
+const magDefs=[];MSZ.forEach((sz,si)=>{for(let i=0;i<MAZ;i++)magDefs.push({u:i*2*Math.PI/MAZ+si*0.13,sz});});
+const NPOL=magDefs.length;const magLines=magDefs.map(d=>makeLine(97,COL.mag,0.5));
+let MAGOUT=2;   // outer edge radius, set each frame
+function magPoint(def,v,out){const c=def.sz*MAGOUT/2, q=c+c*Math.cos(v);return out.set(q*Math.cos(def.u),c*Math.sin(v),q*Math.sin(def.u));}
 const axis=makeLine(2,COL.mag,0.8);
 const core=makeLine(129,COL.energy,0.35);
 
@@ -184,8 +190,8 @@ const qDot=new THREE.Mesh(new THREE.SphereGeometry(0.075,20,14),new THREE.MeshBa
 // flow particles
 const cMagA=new THREE.Color(COL.mag),cMagB=new THREE.Color(0xc79bff),cEl=new THREE.Color(COL.elec);
 const magParts=[],elParts=[];
-for(let i=0;i<NPOL;i++)for(let k=0;k<3;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.03,8,6),new THREE.MeshBasicMaterial({color:cMagA}));
-  m.userData={u:i*2*Math.PI/NPOL,v:k*2*Math.PI/3+0.4,flip:false};scene.add(m);magParts.push(m);}
+for(let i=0;i<NPOL;i++)for(let k=0;k<2;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,6),new THREE.MeshBasicMaterial({color:cMagA}));
+  m.userData={def:magDefs[i],v:k*Math.PI+0.4+i*0.1,flip:false};scene.add(m);magParts.push(m);}
 elecV.forEach((v,i)=>{for(let k=0;k<5;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.028,8,6),new THREE.MeshBasicMaterial({color:cEl,transparent:true,opacity:i===0?1:0.6}));
   m.userData={u:k*2*Math.PI/5,v};scene.add(m);elParts.push(m);}});
 
@@ -207,8 +213,9 @@ function buildGeometry(r,rim){
   elecLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const v=elecV[li];
     for(let i=0;i<129;i++){ if(li===0){const u=i/128*2*Math.PI;a[i*3]=rim*Math.cos(u);a[i*3+1]=0;a[i*3+2]=rim*Math.sin(u);} else {tp(i/128*2*Math.PI,v,r,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}}
     l.geometry.attributes.position.needsUpdate=true;});
-  magLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const u=li*2*Math.PI/NPOL;
-    for(let j=0;j<97;j++){tp(u,j/96*2*Math.PI,r,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
+  MAGOUT=rim;
+  magLines.forEach((l,li)=>{const a=l.geometry.attributes.position.array;const def=magDefs[li];
+    for(let j=0;j<97;j++){magPoint(def,j/96*2*Math.PI,tmp);a[j*3]=tmp.x;a[j*3+1]=tmp.y;a[j*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
   const ax=axis.geometry.attributes.position.array;ax.set([0,-1.3*(r+0.4),0,0,1.3*(r+0.4),0]);axis.geometry.attributes.position.needsUpdate=true;
   const ca=core.geometry.attributes.position.array;for(let i=0;i<129;i++){const u=i/128*2*Math.PI;ca[i*3]=R*Math.cos(u);ca[i*3+1]=0;ca[i*3+2]=R*Math.sin(u);}core.geometry.attributes.position.needsUpdate=true;
 }
@@ -310,7 +317,7 @@ function frame(now){
   magParts.forEach(m=>{const d=m.userData;const vPrev=d.v;d.v-=(S.paused?0:dt*S.rate/gam)*2.4;
     const cross=Math.floor((vPrev-Math.PI)/(2*Math.PI))!==Math.floor((d.v-Math.PI)/(2*Math.PI));
     if(cross){d.flip=!d.flip;m.material.color.copy(d.flip?cMagB:cMagA);}
-    tp(d.u,d.v,r,m.position);});
+    magPoint(d.def,d.v,m.position);});
   elParts.forEach(m=>{const d=m.userData;d.u+=(S.paused?0:dt*S.rate/gam)*1.3;
     if(d.v===0){m.position.set(rim*Math.cos(d.u),0,rim*Math.sin(d.u));} else tp(d.u,d.v,r,m.position);});
   qTrail.visible=false;eTrail.visible=false;
