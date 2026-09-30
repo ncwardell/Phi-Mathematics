@@ -178,8 +178,9 @@ const elecLines=elecV.map((v,i)=>makeLine(129,COL.elec,i===0?1:0.45));
 const HS=[0.55,0.78,0.9,0.97], HN=[5,7,9,12];
 const HK=2*Math.sqrt(1-0.97*0.97)/(1+0.97);        // scale so the outer Hopf torus meets the rim
 const hopfFibres=[];HS.forEach((sE,ti)=>{for(let k=0;k<HN[ti];k++)hopfFibres.push({sE,phi:k*2*Math.PI/HN[ti]+ti*0.3,ti});});
+let hopfSpin=0;   // rotation of the whole fibration about the axis
 function hopfPoint(f,t,scale,out){const cE=Math.sqrt(1-f.sE*f.sE),den=1-f.sE*Math.sin(t);
-  const rho=cE/den*HK*scale, y=f.sE*Math.cos(t)/den*HK*scale, a=f.phi+t;return out.set(rho*Math.cos(a),y,rho*Math.sin(a));}
+  const rho=cE/den*HK*scale, y=f.sE*Math.cos(t)/den*HK*scale, a=f.phi+t+hopfSpin;return out.set(rho*Math.cos(a),y,rho*Math.sin(a));}
 const NPOL=hopfFibres.length;
 const magLines=hopfFibres.map(f=>makeLine(361,COL.mag,0.35+0.15*f.ti));
 const axis=makeLine(2,COL.mag,0.8);
@@ -308,6 +309,7 @@ function frame(now){
   const tau=t/gam;                                   // internal (proper) time: moving loops tick slower
   const r=R*(1+S.breath*Math.sin(2*Math.PI*tau*2));  // breathes twice per loop period (Zitterbewegung 2mc^2/hbar)
   const rim=R+(S.k-1)*r;                            // charge rides the breathing rim
+  hopfSpin=2*Math.PI*tau*0.5;                        // the fibration turns: half a turn per loop period
   buildGeometry(r,rim);
   const ph=2*Math.PI*tau;                            // one loop period = 1 time unit
   // energy: two turns on core circle; charge: one turn on rim
