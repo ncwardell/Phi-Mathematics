@@ -68,7 +68,7 @@ svg text{font-family:var(--mono);font-size:11px}
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), outer edge</span>
-      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field dot: orbits the charge at right angles to its motion (4 orbits per lap); its trace shows the field pulled along through time</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field "moon": orbits the charge at right angles to its motion (4 orbits per lap), with a short fading tracer</span>
       <span><i class="dot" style="background:var(--energy)"></i>Energy loop: the edge of the hole, 2 loops (4π)</span>
       <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π)</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre; field dots flip colour each time they pass up through the ring</span>
@@ -193,7 +193,11 @@ function rfPoint(ci,u,sp,out){const L=RFD[ci],n=L.length;const x=((sp%1)+1)%1*n;
   const rho=(A[0]+(B[0]-A[0])*q)*RFRIM, y=(A[1]+(B[1]-A[1])*q)*RFRIM;return out.set(rho*Math.cos(u),y,rho*Math.sin(u));}
 // One field dot orbiting the charge at right angles to its motion; its path is traced over time.
 const fDot=new THREE.Mesh(new THREE.SphereGeometry(0.06,16,12),new THREE.MeshBasicMaterial({color:COL.mag}));scene.add(fDot);
-const FTN=1600;const fTrail=makeLine(FTN,COL.mag,0.9);const fBuf=[];
+const FTN=120;const fTrail=makeLine(FTN,COL.mag,1);const fBuf=[];
+{ // faint fading tracer: colours fade from the background to the field colour toward the moon
+  const cols=new Float32Array(FTN*3),bg=new THREE.Color(COL.bgHex||'#0c1017'),fg=new THREE.Color(COL.mag);
+  for(let i=0;i<FTN;i++){const c=bg.clone().lerp(fg,Math.pow(i/(FTN-1),1.6));cols[i*3]=c.r;cols[i*3+1]=c.g;cols[i*3+2]=c.b;}
+  fTrail.geometry.setAttribute('color',new THREE.BufferAttribute(cols,3));fTrail.material.vertexColors=true;fTrail.material.color.set(0xffffff);fTrail.material.opacity=0.8;}
 const magParts=[],elParts=[];
 for(let i=0;i<NPOL;i++)for(let k=0;k<3;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.03,8,6),new THREE.MeshBasicMaterial({color:cMagA}));
   m.userData={u:i*2*Math.PI/NPOL,v:k*2*Math.PI/3+0.4,flip:false};scene.add(m);magParts.push(m);}
@@ -342,8 +346,9 @@ function frame(now){
     const fr=r, rimNow=R+S.k*r, N=Math.round((R+S.k*0.5*R)/(0.5*R));   // orbits per lap fixed at the rest value (4); breathing only changes size
     const moon=(ang,out)=>{const w=N*ang,cu=Math.cos(ang),su=Math.sin(ang),q=rimNow+fr*Math.cos(w);return out.set(q*cu,fr*Math.sin(w),q*su);};
     moon(QANG,fDot.position);
-    const a=fTrail.geometry.attributes.position.array;   // trace of the last full lap, computed exactly
-    for(let i=0;i<FTN;i++){moon(QANG-2*Math.PI*(1-i/(FTN-1)),tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
+    const a=fTrail.geometry.attributes.position.array;   // short fading tracer: the last half-orbit of the moon only
+    const TL=2*Math.PI*0.5/N;
+    for(let i=0;i<FTN;i++){moon(QANG-TL*(1-i/(FTN-1)),tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
     fTrail.geometry.attributes.position.needsUpdate=true; }
   rfParts.forEach(m=>{const d=m.userData;const yPrev=m.position.y;d.s+=(S.paused?0:dt*S.rate/gam)*0.12;rfPoint(d.ci,d.u+QANG,d.s,m.position);
     {let dd=Math.abs(d.u%(2*Math.PI));dd=Math.min(dd,2*Math.PI-dd);m.visible=dd<1.1;}
