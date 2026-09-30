@@ -68,7 +68,7 @@ svg text{font-family:var(--mono);font-size:11px}
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), outer edge</span>
-      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field "moon": orbits the tube from the charge (outside) to the energy loop (inside) and back, 4 orbits per lap, with a short fading tracer</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field dot: orbits from the charge (outside) to the energy loop (inside) and back, 4 per lap; its sign flips each time it passes the inside: blue (−) ↔ orange (+)</span>
       <span><i class="dot" style="background:var(--energy)"></i>Energy loop: the edge of the hole, 2 loops (4π)</span>
       <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π); the red ring is its own small loop (the fractal copy), which the blue dot runs around</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre; field dots flip colour each time they pass up through the ring</span>
@@ -354,6 +354,8 @@ function frame(now){
     const fr=r, rimNow=R+S.k*r, N=S.moonN;   // orbits per lap (4 = light speed for this tube); breathing only changes size
     const moon=(ang,out)=>{const w=N*ang,cu=Math.cos(ang),su=Math.sin(ang),q=(R+fr)+fr*Math.cos(w);return out.set(q*cu,fr*Math.sin(w),q*su);};   // orbit spans the tube: outer edge (charge) to inner edge (energy)
     moon(QANG,fDot.position);
+    { const passes=Math.floor((N*QANG+Math.PI)/(2*Math.PI));   // times the dot has passed the inside (hole side)
+      fDot.material.color.set(passes%2===0?COL.mag:'#ffa23a'); }
     const a=fTrail.geometry.attributes.position.array;   // short fading tracer: the last half-orbit of the moon only
     const TL=2*Math.PI*0.5/N;
     for(let i=0;i<FTN;i++){moon(QANG-TL*(1-i/(FTN-1)),tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
