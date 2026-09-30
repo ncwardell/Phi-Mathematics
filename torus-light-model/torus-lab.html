@@ -92,6 +92,11 @@ svg text{font-family:var(--mono);font-size:11px}
         <small>The tube breathes outward from the energy loop, two breaths per loop (2mc²/h). At ε = √(4α/π) the breathing alone gives g − 2 = α/2π.</small>
       </div>
       <div class="ctl">
+        <label for="moonN">Blue orbits per lap</label><output id="moonOut"></output>
+        <input id="moonN" type="range" min="1" max="24" step="0.1" value="4">
+        <small>4 is the light-speed value for this tube. Higher values mean the blue dot moves faster than light.</small>
+      </div>
+      <div class="ctl">
         <label for="kring">Charge ring radius ÷ core radius</label><output id="kOut"></output>
         <input id="kring" type="range" min="1" max="3" step="0.05" value="2">
         <small>Both loops share one period. At 2 the charge sits on the torus rim and moves at c (at rest shape).</small>
@@ -194,6 +199,7 @@ function rfPoint(ci,u,sp,out){const L=RFD[ci],n=L.length;const x=((sp%1)+1)%1*n;
 // One field dot orbiting the charge at right angles to its motion; its path is traced over time.
 const fDot=new THREE.Mesh(new THREE.SphereGeometry(0.06,16,12),new THREE.MeshBasicMaterial({color:COL.mag}));scene.add(fDot);
 const FTN=120;const fTrail=makeLine(FTN,COL.mag,1);const fBuf=[];
+const FLN=4000;const fLong=makeLine(FLN,COL.mag,0.16);   // faint spirograph: the last 3 laps
 { // faint fading tracer: colours fade from the background to the field colour toward the moon
   const cols=new Float32Array(FTN*3),bg=new THREE.Color(COL.bgHex||'#0c1017'),fg=new THREE.Color(COL.mag);
   for(let i=0;i<FTN;i++){const c=bg.clone().lerp(fg,Math.pow(i/(FTN-1),1.6));cols[i*3]=c.r;cols[i*3+1]=c.g;cols[i*3+2]=c.b;}
@@ -212,7 +218,7 @@ function pushTrail(l,p){const b=l.userData.buf;b.push(p.clone());if(b.length>l.u
   l.geometry.attributes.position.needsUpdate=true;}
 
 /* ---------- state ---------- */
-const S={breath:Math.sqrt(4*K.alpha/Math.PI),k:2,beta:0,rate:0.6,particle:'e',g2:'c',paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const S={moonN:4,breath:Math.sqrt(4*K.alpha/Math.PI),k:2,beta:0,rate:0.6,particle:'e',g2:'c',paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
 $('pause').textContent=S.paused?'Play':'Pause';
 const tmp=new THREE.Vector3();
 
@@ -258,7 +264,7 @@ function compute(){
 }
 function render(){
   const o=compute();
-  $('breathOut').textContent=S.breath.toFixed(4);$('kOut').textContent=S.k.toFixed(2);
+  $('breathOut').textContent=S.breath.toFixed(4);$('moonOut').textContent=S.moonN.toFixed(1)+' (blue speed '+(S.moonN/4).toFixed(2)+'c)';$('kOut').textContent=S.k.toFixed(2);
   $('betaOut').textContent=S.beta.toFixed(2);$('rateOut').textContent=S.rate.toFixed(2)+'×';
   const spinOk=Math.abs(o.L/K.hbar-0.5)<1e-9, gOk=Math.abs(o.g-2)<1e-9, vOk=Math.abs(o.vq/K.c-1)<1e-9;
   $('outTable').innerHTML=`
@@ -305,7 +311,7 @@ function drawTri(g){
 }
 
 /* ---------- controls ---------- */
-[['breath','breath'],['kring','k'],['beta','beta'],['rate','rate']].forEach(([id,key])=>{
+[['moonN','moonN'],['breath','breath'],['kring','k'],['beta','beta'],['rate','rate']].forEach(([id,key])=>{
   const el=$(id);el.addEventListener('input',()=>{S[key]=parseFloat(el.value);render();});});
 $('particle').addEventListener('change',e=>{S.particle=e.target.value;render();});
 document.querySelectorAll('input[name=g2]').forEach(r=>r.addEventListener('change',e=>{S.g2=e.target.value;render();}));
@@ -343,13 +349,16 @@ function frame(now){
   magLines.forEach(l=>l.visible=false);magParts.forEach(m=>m.visible=false);   // replaced by the charge-ring field
   rfLines.forEach(l=>l.visible=false);rfParts.forEach(m=>m.visible=false);
   { // field dot ("moon"): orbits the charge at right angles to its motion, at light speed on a tube-sized circle
-    const fr=r, rimNow=R+S.k*r, N=Math.round((R+S.k*0.5*R)/(0.5*R));   // orbits per lap fixed at the rest value (4); breathing only changes size
+    const fr=r, rimNow=R+S.k*r, N=S.moonN;   // orbits per lap (4 = light speed for this tube); breathing only changes size
     const moon=(ang,out)=>{const w=N*ang,cu=Math.cos(ang),su=Math.sin(ang),q=(R+fr)+fr*Math.cos(w);return out.set(q*cu,fr*Math.sin(w),q*su);};   // orbit spans the tube: outer edge (charge) to inner edge (energy)
     moon(QANG,fDot.position);
     const a=fTrail.geometry.attributes.position.array;   // short fading tracer: the last half-orbit of the moon only
     const TL=2*Math.PI*0.5/N;
     for(let i=0;i<FTN;i++){moon(QANG-TL*(1-i/(FTN-1)),tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
-    fTrail.geometry.attributes.position.needsUpdate=true; }
+    fTrail.geometry.attributes.position.needsUpdate=true;
+    const b=fLong.geometry.attributes.position.array;
+    for(let i=0;i<FLN;i++){moon(QANG-3*2*Math.PI*(1-i/(FLN-1)),tmp);b[i*3]=tmp.x;b[i*3+1]=tmp.y;b[i*3+2]=tmp.z;}
+    fLong.geometry.attributes.position.needsUpdate=true; }
   rfParts.forEach(m=>{const d=m.userData;const yPrev=m.position.y;d.s+=(S.paused?0:dt*S.rate/gam)*0.12;rfPoint(d.ci,d.u+QANG,d.s,m.position);
     {let dd=Math.abs(d.u%(2*Math.PI));dd=Math.min(dd,2*Math.PI-dd);m.visible=dd<1.1;}
     if(Math.hypot(m.position.x,m.position.z)<RFRIM&&yPrev<0&&m.position.y>=0){d.flip=!d.flip;m.material.color.set(d.flip?0xc79bff:COL.mag);}});
