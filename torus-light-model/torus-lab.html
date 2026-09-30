@@ -68,7 +68,7 @@ svg text{font-family:var(--mono);font-size:11px}
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), outer edge</span>
-      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): the charge's own field: loops wrap its path, the larger ones reaching through the hole; carried along with the charge, strongest at it</span>
+      <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field dot: orbits the charge at right angles to its motion (4 orbits per lap); its trace shows the field pulled along through time</span>
       <span><i class="dot" style="background:var(--energy)"></i>Energy loop: the edge of the hole, 2 loops (4π)</span>
       <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π)</span>
       <span><i class="dot" style="background:var(--waist)"></i>Centre; field dots flip colour each time they pass up through the ring</span>
@@ -191,6 +191,9 @@ RFD.forEach((L,ci)=>{const col=new THREE.Color(COL.mag);for(let a=0;a<RFAZ;a++){
   const m=new THREE.Mesh(new THREE.SphereGeometry(0.026,8,6),new THREE.MeshBasicMaterial({color:new THREE.Color(COL.mag)}));m.userData={ci,u:a*2*Math.PI/RFAZ,s:(a*0.29+ci*0.17)%1,flip:false};scene.add(m);rfParts.push(m);}});
 function rfPoint(ci,u,sp,out){const L=RFD[ci],n=L.length;const x=((sp%1)+1)%1*n;const k=Math.floor(x),q=x-k;const A=L[k%n],B=L[(k+1)%n];
   const rho=(A[0]+(B[0]-A[0])*q)*RFRIM, y=(A[1]+(B[1]-A[1])*q)*RFRIM;return out.set(rho*Math.cos(u),y,rho*Math.sin(u));}
+// One field dot orbiting the charge at right angles to its motion; its path is traced over time.
+const fDot=new THREE.Mesh(new THREE.SphereGeometry(0.06,16,12),new THREE.MeshBasicMaterial({color:COL.mag}));scene.add(fDot);
+const FTN=1600;const fTrail=makeLine(FTN,COL.mag,0.9);const fBuf=[];
 const magParts=[],elParts=[];
 for(let i=0;i<NPOL;i++)for(let k=0;k<3;k++){const m=new THREE.Mesh(new THREE.SphereGeometry(0.03,8,6),new THREE.MeshBasicMaterial({color:cMagA}));
   m.userData={u:i*2*Math.PI/NPOL,v:k*2*Math.PI/3+0.4,flip:false};scene.add(m);magParts.push(m);}
@@ -334,9 +337,18 @@ function frame(now){
   qTrail.visible=false;eTrail.visible=false;
   elParts.forEach(m=>m.visible=false);   // no extra markers on the rim
   magLines.forEach(l=>l.visible=false);magParts.forEach(m=>m.visible=false);   // replaced by the charge-ring field
+  rfLines.forEach(l=>l.visible=false);rfParts.forEach(m=>m.visible=false);
+  { // field dot ("moon"): orbits the charge at right angles to its motion, at light speed on a tube-sized circle
+    const fr=r, rimNow=R+S.k*r, N=rimNow/fr;          // orbits per charge lap = rim / orbit radius (4 at rest)
+    const moon=(ang,out)=>{const w=N*ang,cu=Math.cos(ang),su=Math.sin(ang),q=rimNow+fr*Math.cos(w);return out.set(q*cu,fr*Math.sin(w),q*su);};
+    moon(QANG,fDot.position);
+    const a=fTrail.geometry.attributes.position.array;   // trace of the last full lap, computed exactly
+    for(let i=0;i<FTN;i++){moon(QANG-2*Math.PI*(1-i/(FTN-1)),tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}
+    fTrail.geometry.attributes.position.needsUpdate=true; }
   rfParts.forEach(m=>{const d=m.userData;const yPrev=m.position.y;d.s+=(S.paused?0:dt*S.rate/gam)*0.12;rfPoint(d.ci,d.u+QANG,d.s,m.position);
     {let dd=Math.abs(d.u%(2*Math.PI));dd=Math.min(dd,2*Math.PI-dd);m.visible=dd<1.1;}
     if(Math.hypot(m.position.x,m.position.z)<RFRIM&&yPrev<0&&m.position.y>=0){d.flip=!d.flip;m.material.color.set(d.flip?0xc79bff:COL.mag);}});
+  rfLines.forEach(l=>l.visible=false);rfParts.forEach(m=>m.visible=false);magParts.forEach(m=>m.visible=false);
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
 }
 render();requestAnimationFrame(frame);
