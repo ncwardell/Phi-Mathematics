@@ -66,6 +66,12 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
     </div>
     <div class="row" style="align-items:center"><label for="particle">Particle</label>
       <select id="particle"><option value="e">Electron</option><option value="mu">Muon</option></select></div>
+    <div class="row" style="align-items:center"><label for="shape">Shape</label>
+      <select id="shape"><option value="donut">Donut (hole = energy loop)</option><option value="horn">Horn torus (hole pinched to a point)</option></select></div>
+    <div class="ctl">
+      <label for="charges">Charges on the loop</label><output id="chargesOut"></output>
+      <input id="charges" type="range" min="1" max="4" step="1" value="1">
+    </div>
     <div class="ctl">
       <label for="turns">Corkscrew turns per lap</label><output id="turnsOut"></output>
       <input id="turns" type="range" min="1" max="8" step="1" value="4">
@@ -98,7 +104,7 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <label><input type="radio" name="g2" value="c" checked> Sign flips each pass: f/(1 + f)</label>
     </div>
     <table id="g2Table"></table>
-    <p class="note">Model view, not a field calculation: the alternating polarity and the inward push at the light are the model's trapping rule. The 4 turns per lap is the light-speed value for this tube size.</p>
+    <p class="note">Model view, not a field calculation: the alternating polarity and the inward push at the light are the model's trapping rule. The light-speed number of turns is 4 on the donut and 2 on the horn torus.</p>
   </div>
 </div>
 
@@ -128,15 +134,16 @@ const glow=(()=>{const c=document.createElement('canvas');c.width=c.height=64;co
   g.fillStyle=gr;g.fillRect(0,0,64,64);const t=new THREE.CanvasTexture(c);return t;})();
 
 /* ---------- geometry ---------- */
-const RR=2.0, A=0.5, B=0.82;          // ring radius, corkscrew radius, field-loop radius
-const S={N:4,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const RQ=2.0;                          // charge ring radius (hbar/mc)
+let RC=1.5, A=0.5, B=0.7;              // corkscrew centre circle, corkscrew radius, field-loop radius (set by shape)
+const S={K:1,shape:'donut',N:4,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
 const tmp=new THREE.Vector3();
-function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RR+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
-function ringPt(th,out){return out.set(RR*Math.cos(th),0,RR*Math.sin(th));}
+function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RC+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
+function ringPt(th,out){return out.set(RC*Math.cos(th),0,RC*Math.sin(th));}
 
 // depth cues: distance fade, and a dark core tube that hides whatever is behind it
 scene.fog=new THREE.Fog(0x070a10,6.5,15);
-const core=new THREE.Mesh(new THREE.TorusGeometry(RR,0.42,40,160),new THREE.MeshBasicMaterial({color:0x0c1422,transparent:true,opacity:0.92}));
+const core=new THREE.Mesh(new THREE.TorusGeometry(RC,A*0.84,40,160),new THREE.MeshBasicMaterial({color:0x0c1422,transparent:true,opacity:0.92}));
 core.rotation.x=Math.PI/2;core.renderOrder=-1;scene.add(core);
 // faint ring centre line
 const ringLine=(()=>{const p=[];for(let i=0;i<=200;i++){ringPt(i/200*2*Math.PI,tmp);p.push(tmp.clone());}
@@ -153,8 +160,8 @@ const EN=700;const eGeo=new THREE.BufferGeometry();
 eGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(EN*3),3));
 eGeo.setAttribute('color',new THREE.BufferAttribute(new Float32Array(EN*3),3));
 const ePts=new THREE.Points(eGeo,new THREE.PointsMaterial({size:0.13,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(ePts);
-const head=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),
-  new THREE.PointsMaterial({size:0.55,map:glow,color:C.energy,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(head);
+const heads=[0,1,2,3].map(()=>{const h=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),
+  new THREE.PointsMaterial({size:0.55,map:glow,color:C.energy,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(h);return h;});
 
 // magnetic field loops around the path, polarity alternating and travelling with the light
 const M=36, LP=72, FD=4;
@@ -166,11 +173,16 @@ const fPts=new THREE.Points(fGeo,new THREE.PointsMaterial({size:0.09,map:glow,ve
 const flowPh=new Float32Array(M*FD);for(let i=0;i<M*FD;i++)flowPh[i]=(i%FD)/FD*2*Math.PI;
 
 // inward push arrow at the light
-const push=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),0.45,C.push.getHex(),0.14,0.09);scene.add(push);
+const pushes=[0,1,2,3].map(()=>{const a=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),0.45,C.push.getHex(),0.14,0.09);scene.add(a);return a;});
+function setShape(sh){S.shape=sh;
+  if(sh==='horn'){RC=1.0;A=1.0;B=1.1;}else{RC=1.5;A=0.5;B=0.7;}
+  core.geometry.dispose();core.geometry=new THREE.TorusGeometry(RC,A*0.84,40,160);
+  const pts=[];for(let i=0;i<=200;i++){ringPt(i/200*2*Math.PI,tmp);pts.push(tmp.clone());}ringLine.geometry.dispose();ringLine.geometry=new THREE.BufferGeometry().setFromPoints(pts);
+  const nLight=Math.round(RQ/A);$('turns').value=nLight;$('turns').dispatchEvent(new Event('input'));}
 
 /* ---------- controls ---------- */
 const bind=(id,key,fmt)=>{const el=$(id),out=$(id+'Out');const f=()=>{S[key]=parseFloat(el.value);out.textContent=fmt(S[key]);if(key==='N')buildPath();};el.addEventListener('input',f);f();};
-bind('turns','N',v=>v.toFixed(0)+(v===4?' (light speed)':''));
+bind('turns','N',v=>v.toFixed(0)+(v===Math.round(RQ/A)?' (light speed)':''));
 bind('speed','speed',v=>v.toFixed(2)+'×');
 bind('tail','tail',v=>Math.round(v*100)+'% of a lap');
 $('pause').textContent=S.paused?'Play':'Pause';
@@ -190,7 +202,7 @@ function numbers(){
   const f=K.alpha/(2*Math.PI), aModel=NS.g2==='a'?f:NS.g2==='b'?f/(1-f):f/(1+f);
   let s2=0,kmax=0;const n=720;for(let i=0;i<n;i++){const kt=2+NS.breath*Math.sin(2*Math.PI*i/n);s2+=kt*kt;kmax=Math.max(kmax,kt);}
   const gAvg=(s2/n)/2, aBreath=gAvg/2-1, vmax=kmax/2;
-  const tubeR=(rq-rE)/2;                                  // corkscrew radius = donut tube radius
+  const tubeR=S.shape==='horn'?rE:(rq-rE)/2;              // corkscrew radius: horn tube = hbar/2mc, donut tube = hbar/4mc
   const ang=Math.atan(N*tubeR/rq)*180/Math.PI;             // pitch angle of the corkscrew
   const fwd=Math.cos(Math.atan(N*tubeR/rq));               // forward share of light speed
   const loopSpeed=N*tubeR/rq;                              // corkscrew circling speed / c if the lap stays at c
@@ -203,7 +215,12 @@ function numbers(){
    <tr><td>Circling speed if the lap stays at c</td><td class="v">${loopSpeed.toFixed(2)}c</td><td class="s">${chip(Math.abs(loopSpeed-1)<1e-9?true:'warn',Math.abs(loopSpeed-1)<1e-9?'= c':(loopSpeed>1?'> c':'< c'))}</td></tr>
    <tr><td>Polarity flips per lap</td><td class="v">${2*N}</td><td class="s"></td></tr>
    <tr><td>Breaths per lap from the corkscrew</td><td class="v">${N}</td><td class="s">${chip(N===2?true:'warn',N===2?'✓':'≠ 2')}</td></tr>
-   <tr><td>Model breathing (2mc²/h)</td><td class="v">2 per lap</td><td class="s"></td></tr>`;
+   <tr><td>Model breathing (2mc²/h)</td><td class="v">2 per lap</td><td class="s"></td></tr>
+   <tr><td>Light-speed turns for this shape</td><td class="v">${Math.round(rq/tubeR)}</td><td class="s">${chip(Math.round(rq/tubeR)===2?true:'warn',Math.round(rq/tubeR)===2?'= 2':'≠ 2')}</td></tr>
+   <tr><td>Charges on the loop</td><td class="v">${S.K}</td><td class="s"></td></tr>
+   <tr><td>Each charge on an inward (−) spot</td><td class="v">${N%S.K===0?'yes':'no'}</td><td class="s">${chip(N%S.K===0?true:false,N%S.K===0?'✓':'✗')}</td></tr>
+   <tr><td>Total charge</td><td class="v">${S.K}e</td><td class="s"></td></tr>
+   <tr><td>g if all share one energy loop</td><td class="v">${(2*S.K).toFixed(1)}</td><td class="s">${chip(S.K===1?true:'warn',S.K===1?'✓':'≠ 2')}</td></tr>`;
   $('outTable').innerHTML=`
    <tr><td>Rest energy mc²</td><td class="v">${fmt(E/K.eV/1e6,6)} MeV</td><td class="s"></td></tr>
    <tr><td>Energy loop radius ħ/2mc (4π)</td><td class="v">${fmt(rE)} m</td><td class="s"></td></tr>
@@ -231,6 +248,9 @@ $('particle').addEventListener('change',e=>{NS.particle=e.target.value;numbers()
 $('breath').addEventListener('input',e=>{NS.breath=parseFloat(e.target.value);numbers();});
 document.querySelectorAll('input[name=g2]').forEach(r=>r.addEventListener('change',e=>{NS.g2=e.target.value;numbers();}));
 $('turns').addEventListener('input',numbers);
+$('shape').addEventListener('change',e=>{setShape(e.target.value);numbers();});
+$('charges').addEventListener('input',e=>{S.K=parseInt(e.target.value);$('chargesOut').textContent=S.K;numbers();});
+$('chargesOut').textContent=S.K;
 numbers();
 
 /* ---------- animation ---------- */
@@ -241,13 +261,18 @@ function frame(now){
   if(!S.paused)th0+=dt*S.speed*2*Math.PI;
   // energy stream
   const ep=eGeo.attributes.position.array,ec=eGeo.attributes.color.array,span=S.tail*2*Math.PI;
-  for(let i=0;i<EN;i++){const f=i/(EN-1);helix(th0-span*(1-f),tmp);ep[i*3]=tmp.x;ep[i*3+1]=tmp.y;ep[i*3+2]=tmp.z;
+  const per=Math.floor(EN/S.K);
+  for(let i=0;i<EN;i++){const q=Math.min(S.K-1,Math.floor(i/per)),f=(i-q*per)/(per-1),off=2*Math.PI*q/S.K;
+    if(i>=per*S.K){ep[i*3]=ep[i*3+1]=ep[i*3+2]=0;ec[i*3]=ec[i*3+1]=ec[i*3+2]=0;continue;}
+    helix(th0+off-span*(1-f),tmp);ep[i*3]=tmp.x;ep[i*3+1]=tmp.y;ep[i*3+2]=tmp.z;
     const k=Math.pow(f,2.2);ec[i*3]=C.energy.r*k;ec[i*3+1]=C.energy.g*k;ec[i*3+2]=C.energy.b*k;}
   eGeo.attributes.position.needsUpdate=true;eGeo.attributes.color.needsUpdate=true;
-  helix(th0,hp);head.geometry.attributes.position.array.set([hp.x,hp.y,hp.z]);head.geometry.attributes.position.needsUpdate=true;
+  heads.forEach((h,q)=>{h.visible=q<S.K;const off=2*Math.PI*q/S.K;helix(th0+off,hp);h.geometry.attributes.position.array.set([hp.x,hp.y,hp.z]);h.geometry.attributes.position.needsUpdate=true;
+    const pa=pushes[q];pa.visible=q<S.K;ringPt(th0+off,cen);pa.position.copy(hp);pa.setDirection(cen.clone().sub(hp).normalize());});
+  helix(th0,hp);
   pathLine.visible=$('showPath').checked;
   // inward push: from the light toward the ring centre line
-  ringPt(th0,cen);const inward=cen.clone().sub(hp).normalize();push.position.copy(hp);push.setDirection(inward);
+
   // field loops
   const showF=$('showField').checked;fPts.visible=showF;
   const fp=fGeo.attributes.position.array,fc=fGeo.attributes.color.array;
@@ -260,10 +285,10 @@ function frame(now){
     const br=B*pinch*(1+0.12*pol), col=C.minus.clone().lerp(C.plus,(pol+1)/2);
     const l=loops[i];l.visible=showF;l.material.color.copy(col);l.material.opacity=0.12+0.55*Math.abs(pol)+0.3*Math.exp(-(d*d)/0.05);
     const a=l.geometry.attributes.position.array;
-    for(let j=0;j<=LP;j++){const w=j/LP*2*Math.PI,q=RR+br*Math.cos(w);a[j*3]=q*c;a[j*3+1]=br*Math.sin(w);a[j*3+2]=q*s;}
+    for(let j=0;j<=LP;j++){const w=j/LP*2*Math.PI,q=RC+br*Math.cos(w);a[j*3]=q*c;a[j*3+1]=br*Math.sin(w);a[j*3+2]=q*s;}
     l.geometry.attributes.position.needsUpdate=true;
     for(let k=0;k<FD;k++){const n=i*FD+k;if(!S.paused)flowPh[n]+=dt*S.speed*9*Math.sign(pol||1);
-      const w=flowPh[n],q=RR+br*Math.cos(w);fp[n*3]=q*c;fp[n*3+1]=br*Math.sin(w);fp[n*3+2]=q*s;fc[n*3]=col.r;fc[n*3+1]=col.g;fc[n*3+2]=col.b;}
+      const w=flowPh[n],q=RC+br*Math.cos(w);fp[n*3]=q*c;fp[n*3+1]=br*Math.sin(w);fp[n*3+2]=q*s;fc[n*3]=col.r;fc[n*3+1]=col.g;fc[n*3+2]=col.b;}
   }
   fGeo.attributes.position.needsUpdate=true;fGeo.attributes.color.needsUpdate=true;
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
