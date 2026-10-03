@@ -79,6 +79,14 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <label for="shells">Shells around the same centre</label><output id="shellsOut"></output>
       <input id="shells" type="range" min="1" max="4" step="1" value="1">
     </div>
+    <div class="ctl">
+      <label for="fill">Charges in the outer shell</label><output id="fillOut"></output>
+      <input id="fill" type="range" min="1" max="1" step="1" value="1">
+    </div>
+    <div class="row" style="align-items:center;flex-wrap:wrap;gap:6px"><label>Light from a jump: shell</label>
+      <select id="jFrom"><option>2</option><option selected>3</option><option>4</option></select><span>→</span>
+      <select id="jTo"><option>1</option><option selected>2</option><option>3</option></select>
+      <button id="jump" type="button">Drop</button></div>
     <div class="row"><label><input type="checkbox" id="pairOn"> Second torus along the axis</label></div>
     <div class="row" style="align-items:center"><label for="pairType">Partner</label>
       <select id="pairType"><option value="anti">Conjugate: positron (mirror, opposite fields)</option><option value="same">Duplicate: second electron (same fields)</option><option value="rot">Duplicate turned 180°/turns (opposite fields)</option></select></div>
@@ -155,7 +163,8 @@ const glow=(()=>{const c=document.createElement('canvas');c.width=c.height=64;co
 const RQ=2.0;                          // charge ring radius (hbar/mc)
 let RC=1.0, A=1.0, B=1.1;              // corkscrew centre circle, corkscrew radius, field-loop radius (set by shape)
 const S={K:1,shape:'horn',layer:1,N:2,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
-const SH={n:1};   // number of nested shells; shell k is k times bigger
+const SH={n:1,fill:1};
+const JP={t:-1,from:3,to:2};   // shell jump being animated   // number of nested shells; shell k is k times bigger
 const PS={on:false,D:1.2,type:'anti'};  // conjugate partner below, along the axis
 const tmp=new THREE.Vector3();
 function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RC+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
@@ -230,7 +239,10 @@ function shellRows(){   // shell n: n paths × n charges; each charge traces as 
   for(let n=1;n<=SH.n;n++){const ch=n*n,lo=lp*ch,re=2*n*n;tc+=ch;tl+=lo;tr+=re;
     rows+=`<tr><td>Shell ${n}: ${n}× size · ${n} path${n>1?'s':''} × ${n} charge${n>1?'s':''}</td><td class="v">${ch} charge${ch>1?'s':''} × ${lp} loops = ${lo} · real ${re}</td><td class="s">${chip(lo===re?true:'warn',lo===re?'✓':'≠')}</td></tr>`;}
   if(SH.n>1)rows+=`<tr><td>All ${SH.n} shells: charges / loops / real electrons</td><td class="v">${tc} / ${tl} / ${tr}</td><td class="s">${chip(tl===tr?true:'warn',tl===tr?'✓':'≠')}</td></tr>`;
-  rows+=`<tr><td>Each shell: lap time / energy per loop</td><td class="v">n× / mc²÷n</td><td class="s"></td></tr>`;
+  if(SH.n>1){const full=SH.fill===SH.n*SH.n;rows+=`<tr><td>Outer shell magnetic pattern</td><td class="v">${full?'full: the n patterns cancel (quiet, like a noble gas)':SH.fill+' of '+SH.n*SH.n+': net pattern shows (open to bonding)'}</td><td class="s">${full?chip(true,'closed'):chip('warn','open')}</td></tr>`;}
+  const E=jumpE(),nm=jumpNm(),ser=['Lyman (UV)','Balmer (visible)','Paschen (infrared)'][JP.to-1]||'';
+  rows+=`<tr><td>Jump ${JP.from} → ${JP.to}: light out = ½α²mc²(1/${JP.to}² − 1/${JP.from}²)</td><td class="v">${E.toFixed(3)} eV · ${nm.toFixed(1)} nm · ${ser}</td><td class="s">${chip(true,'H ✓')}</td></tr>
+   <tr><td>½α²mc² (the ×137 ladder, two steps down from mc²)</td><td class="v">${RYD().toFixed(4)} eV</td><td class="s"></td></tr>`;
   return rows;}
 function numbers(){
   const p=P[NS.particle],m=p.m,c=K.c,hb=K.hbar,N=S.N;
@@ -315,22 +327,63 @@ for(let k=2;k<=SHMAX;k++){
   const tails=new THREE.Points(g,new THREE.PointsMaterial({size:0.16*k,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(tails);
   const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(n*3),3));
   const heads=new THREE.Points(hg,new THREE.PointsMaterial({size:0.45*k,map:glow,color:C.energy,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(heads);
-  shellObjs.push({k,paths,tails,heads});}
+  const loops=[];for(let i=0;i<30;i++){const lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(73*3),3));
+    const l=new THREE.Line(lg,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.2,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(l);loops.push(l);}
+  shellObjs.push({k,paths,tails,heads,loops});}
 // path j of shell k is the corkscrew turned by j/k of one pattern repeat; charges sit k to a path, evenly spaced
 function sHelix(k,th,phi,out){const w=S.N*th,a=th+phi,q=(RC+A*Math.cos(w))*k;return out.set(q*Math.cos(a),A*k*Math.sin(w),q*Math.sin(a));}
 const pathTurn=(k,j)=>S.N>0?j*(2*Math.PI/S.N)/k:j*2*Math.PI/(k*k);
 function setShells(n){SH.n=n;$('shellsOut').textContent=n===1?'1 (just the particle)':n;
-  shellObjs.forEach(o=>{const v=o.k<=n;[...o.paths,o.tails,o.heads].forEach(m=>m.visible=v);});
+  shellObjs.forEach(o=>{const v=o.k<=n;[...o.paths,o.tails,o.heads,...o.loops].forEach(m=>m.visible=v);});
+  const fl=$('fill');fl.max=n*n;fl.min=1;fl.value=n*n;fl.disabled=n===1;SH.fill=n*n;$('fillOut').textContent=n===1?'—':SH.fill+' of '+n*n;
   const f=n===1?1:0.55*n+0.25;camera.position.set(5.8*f,4.0*f,7.4*f);scene.fog.near=6.5*f;scene.fog.far=15*f*1.3;controls.target.set(0,0,0);controls.update();}
 $('shells').addEventListener('input',e=>{setShells(+e.target.value);numbers();});
+$('fill').addEventListener('input',e=>{SH.fill=+e.target.value;$('fillOut').textContent=SH.fill+' of '+SH.n*SH.n;numbers();});
+// charge c of shell k: path j = c mod k, place i = floor(c / k); inner shells are always full, the outermost holds SH.fill
+const shellCount=k=>k<SH.n?k*k:SH.fill;
+function shellCharge(k,c,tho,out){const j=c%k,i=Math.floor(c/k);return sHelix(k,tho+2*Math.PI*i/k,pathTurn(k,j),out);}
+function shellAngle(k,c,tho){const j=c%k,i=Math.floor(c/k);return tho+2*Math.PI*i/k+pathTurn(k,j);}
 function drawShells(){
   shellObjs.forEach(o=>{if(o.k>SH.n)return;const k=o.k,tho=th0/k,span=S.tail*2*Math.PI;   // same light speed, k times longer lap
     o.paths.forEach((l,j)=>{const a=l.geometry.attributes.position.array,ph=pathTurn(k,j);for(let i=0;i<900;i++){sHelix(k,i/899*2*Math.PI,ph,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
     const tp=o.tails.geometry.attributes.position.array,tc=o.tails.geometry.attributes.color.array,hp=o.heads.geometry.attributes.position.array;
-    let c=0;for(let j=0;j<k;j++)for(let i=0;i<k;i++,c++){const ph=pathTurn(k,j),t0=tho+2*Math.PI*i/k;
+    const cnt=shellCount(k);o.heads.geometry.setDrawRange(0,cnt);o.tails.geometry.setDrawRange(0,cnt*TL);
+    for(let c=0;c<cnt;c++){const ph=pathTurn(k,c%k),t0=tho+2*Math.PI*Math.floor(c/k)/k;
       sHelix(k,t0,ph,tmp);hp[c*3]=tmp.x;hp[c*3+1]=tmp.y;hp[c*3+2]=tmp.z;
       for(let m=0;m<TL;m++){const f=m/(TL-1),idx=(c*TL+m)*3;sHelix(k,t0-span/k*(1-f),ph,tmp);tp[idx]=tmp.x;tp[idx+1]=tmp.y;tp[idx+2]=tmp.z;const kk=Math.pow(f,2.2)*0.7;tc[idx]=C.energy.r*kk;tc[idx+1]=C.energy.g*kk;tc[idx+2]=C.energy.b*kk;}}
-    o.tails.geometry.attributes.position.needsUpdate=true;o.tails.geometry.attributes.color.needsUpdate=true;o.heads.geometry.attributes.position.needsUpdate=true;});
+    o.tails.geometry.attributes.position.needsUpdate=true;o.tails.geometry.attributes.color.needsUpdate=true;o.heads.geometry.attributes.position.needsUpdate=true;
+    // field loops: each charge carries its alternating pattern; the shell shows their sum (a full shell cancels)
+    const Rk=RC*k,Bk=B*k;o.loops.forEach((l,i)=>{const ts=2*Math.PI*i/30,cs=Math.cos(ts),sn=Math.sin(ts);let pol=0;
+      for(let c=0;c<cnt;c++)pol-=Math.cos(S.N*(ts-shellAngle(k,c,tho)));pol=Math.max(-1,Math.min(1,1.3*pol/Math.sqrt(Math.max(cnt,1))));
+      l.material.color.copy(C.minus.clone().lerp(C.plus,(pol+1)/2));l.material.opacity=0.04+0.4*Math.abs(pol);
+      const a=l.geometry.attributes.position.array;for(let j=0;j<=72;j++){const w=j/72*2*Math.PI,q=Rk+Bk*Math.cos(w);a[j*3]=q*cs;a[j*3+1]=Bk*Math.sin(w);a[j*3+2]=q*sn;}l.geometry.attributes.position.needsUpdate=true;});
+  });
+  drawJump();
+}
+/* ---------- light from a shell jump: the charge drops inward and the difference leaves as one photon ---------- */
+const jHead=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:0.7,map:glow,color:0xffffff,transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending}));jHead.renderOrder=7;scene.add(jHead);
+const PHN=160,jWave=new THREE.Line(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(PHN*3),3)),new THREE.LineBasicMaterial({color:0xffffff,transparent:true,depthTest:false}));jWave.renderOrder=7;scene.add(jWave);
+jHead.visible=jWave.visible=false;
+function RYD(){return 0.5*K.alpha*K.alpha*P[NS.particle].m*K.c*K.c/K.eV;}   // ½α²mc²: 13.606 eV for the electron
+function jumpE(){return RYD()*(1/JP.to**2-1/JP.from**2);}
+function jumpNm(){return 1239.84198/jumpE();}
+function nmColor(nm){let r=0,g=0,b=0;if(nm<380)return new THREE.Color(0.75,0.6,1);if(nm>750)return new THREE.Color(0.6,0.1,0.1);
+  if(nm<440){r=(440-nm)/60;b=1;}else if(nm<490){g=(nm-440)/50;b=1;}else if(nm<510){g=1;b=(510-nm)/20;}else if(nm<580){r=(nm-510)/70;g=1;}else if(nm<645){r=1;g=(645-nm)/65;}else r=1;return new THREE.Color(r,g,b);}
+$('jump').addEventListener('click',()=>{JP.from=+$('jFrom').value;JP.to=+$('jTo').value;if(JP.to>=JP.from){$('jTo').value=JP.from-1;JP.to=JP.from-1;}
+  if(SH.n<JP.from){$('shells').value=JP.from;setShells(JP.from);}JP.t=0;numbers();});
+let jLast=performance.now();
+function drawJump(){const now=performance.now(),dt=Math.min(0.05,(now-jLast)/1000);jLast=now;
+  if(JP.t<0){jHead.visible=jWave.visible=false;return;}JP.t+=dt;const T1=1.6,T2=4.5;
+  const ang=0.35;   // the charge drops along one side so it stays in view
+  if(JP.t<T1){const f=JP.t/T1,e=f*f*(3-2*f),k=JP.from+(JP.to-JP.from)*e;sHelix(k,ang+f*Math.PI*0.6,0,tmp);
+    jHead.geometry.attributes.position.array.set([tmp.x,tmp.y,tmp.z]);jHead.geometry.attributes.position.needsUpdate=true;jHead.visible=true;jWave.visible=false;return;}
+  if(JP.t<T1+T2){const f=(JP.t-T1)/T2;sHelix(JP.to,ang+Math.PI*0.6,0,hp);jHead.visible=true;
+    const dir=hp.clone().setY(0).normalize(),len=2.5,d0=f*14,col=nmColor(jumpNm());jWave.material.color.copy(col);jWave.material.opacity=1-f*0.7;
+    const a=jWave.geometry.attributes.position.array,side=new THREE.Vector3(-dir.z,0,dir.x);
+    for(let i=0;i<PHN;i++){const u=i/(PHN-1),d=d0+u*len,amp=0.18*Math.sin(Math.PI*u),w=Math.sin(u*Math.PI*10-JP.t*20)*amp;
+      a[i*3]=hp.x+dir.x*d+side.x*0;a[i*3+1]=hp.y+w;a[i*3+2]=hp.z+dir.z*d;}
+    jWave.geometry.attributes.position.needsUpdate=true;jWave.visible=true;return;}
+  JP.t=-1;jHead.visible=jWave.visible=false;
 }
 $('layer').value=1;setShape('horn');setShells(1);
 
