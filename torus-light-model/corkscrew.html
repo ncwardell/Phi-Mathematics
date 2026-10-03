@@ -45,6 +45,8 @@ td.s{width:34px;text-align:right}
 select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
 .radio{display:flex;flex-direction:column;gap:3px;font-size:12.5px}
 @media (max-width:720px){.card{max-height:none}}
+#coordTag{position:absolute;z-index:2;pointer-events:none;font:11.5px var(--mono);color:var(--fg);background:rgba(7,10,16,.78);border:1px solid var(--line);border-radius:6px;padding:4px 7px;white-space:nowrap;transform:translate(14px,-50%)}
+#coordTag b{font-weight:400}
 @media (max-width:720px){
   .wrap{height:auto}
   #view{position:relative;height:62vh}
@@ -53,6 +55,7 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
 </style>
 
 <div class="wrap">
+  <div id="coordTag" aria-live="off"></div>
   <div id="view" aria-label="3D view: light travelling in a corkscrew around a ring, held by alternating magnetic field loops. Drag to rotate, scroll to zoom."></div>
   <div class="card">
     <h1>Light Corkscrew</h1>
@@ -62,6 +65,7 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <span><i class="sw" style="background:var(--plus)"></i>Field loop, + polarity (pushes outward)</span>
       <span><i class="sw" style="background:var(--minus)"></i>Field loop, − polarity (pushes inward)</span>
       <span><i class="sw" style="background:#9fd3ff"></i>Arrow: the inward push holding the light</span>
+      <span><i class="sw" style="background:linear-gradient(90deg,#ff6464,#5dea8c,#62a6ff)"></i>On the first charge: x = direction of motion, y = inward push, z = at right angles; label shows its x, y, z position (ħ/mc)</span>
       <span><i class="sw" style="background:linear-gradient(90deg,var(--minus),var(--plus))"></i>Breathing: + loops swell outward, − loops pull in, so the structure pulses as the corkscrew turns</span>
     </div>
     <div class="row" style="align-items:center"><label for="particle">Particle</label>
@@ -174,6 +178,12 @@ const flowPh=new Float32Array(M*FD);for(let i=0;i<M*FD;i++)flowPh[i]=(i%FD)/FD*2
 
 // inward push arrow at the light
 const pushes=[0,1,2,3].map(()=>{const a=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),0.45,C.push.getHex(),0.14,0.09);scene.add(a);return a;});
+// x / y / z triad riding on the first charge: x = direction of motion, y = inward push, z = x cross y
+const triCols=['#ff6464','#5dea8c','#62a6ff'];
+const triad=triCols.map(cl=>{const a=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),0.55,new THREE.Color(cl).getHex(),0.12,0.07);scene.add(a);return a;});
+const triLbl=['x','y','z'].map((t,i)=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.font='bold 44px IBM Plex Mono, monospace';g.fillStyle=triCols[i];g.textAlign='center';g.textBaseline='middle';g.fillText(t,32,34);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true}));sp.scale.set(0.22,0.22,1);scene.add(sp);return sp;});
+const vx=new THREE.Vector3(),vy=new THREE.Vector3(),vz=new THREE.Vector3(),hp2=new THREE.Vector3();
 function setShape(sh){S.shape=sh;
   if(sh==='horn'){RC=1.0;A=1.0;B=1.1;}else{RC=1.5;A=0.5;B=0.7;}
   core.geometry.dispose();core.geometry=new THREE.TorusGeometry(RC,A*0.84,40,160);
@@ -234,7 +244,8 @@ function numbers(){
    <tr><td>Breath-averaged g</td><td class="v">${gAvg.toFixed(6)}</td><td class="s"></td></tr>
    <tr><td>Anomaly from breathing, ⟨g⟩/2 − 1</td><td class="v">${aBreath.toFixed(6)}</td><td class="s"></td></tr>
    <tr><td>Breath depth giving exactly α/2π</td><td class="v">${Math.sqrt(4*K.alpha/Math.PI).toFixed(4)}</td><td class="s"></td></tr>
-   <tr><td>Peak charge speed in the breath</td><td class="v">${vmax.toFixed(4)}c</td><td class="s">${chip(vmax<=1+1e-9?true:false,vmax<=1+1e-9?'✓':'> c')}</td></tr>
+   <tr><td>Peak speed in the breath, flat ring</td><td class="v">${vmax.toFixed(4)}c</td><td class="s">${chip(vmax<=1+1e-9?true:false,vmax<=1+1e-9?'✓':'> c')}</td></tr>
+   <tr><td>Peak speed in the breath, on the corkscrew (×${fwd.toFixed(3)})</td><td class="v">${(vmax*fwd).toFixed(4)}c</td><td class="s">${chip(vmax*fwd<=1+1e-9?true:false,vmax*fwd<=1+1e-9?'✓':'> c')}</td></tr>
    <tr><td>Breath frequency 2mc²/h</td><td class="v">${fmt(2*E/K.h)} Hz</td><td class="s"></td></tr>
    <tr><td>Field in loop ÷ Schwinger field</td><td class="v">${Math.sqrt(6*K.alpha).toFixed(4)}</td><td class="s"></td></tr>
    <tr><td>Self-trapping radius α·ħ/mc</td><td class="v">${fmt(K.alpha*rq)} m</td><td class="s"></td></tr>`;
@@ -269,6 +280,14 @@ function frame(now){
   eGeo.attributes.position.needsUpdate=true;eGeo.attributes.color.needsUpdate=true;
   heads.forEach((h,q)=>{h.visible=q<S.K;const off=2*Math.PI*q/S.K;helix(th0+off,hp);h.geometry.attributes.position.array.set([hp.x,hp.y,hp.z]);h.geometry.attributes.position.needsUpdate=true;
     const pa=pushes[q];pa.visible=q<S.K;ringPt(th0+off,cen);pa.position.copy(hp);pa.setDirection(cen.clone().sub(hp).normalize());});
+  { // triad and coordinate tag on the first charge
+    helix(th0,hp);helix(th0+1e-3,hp2);vx.copy(hp2).sub(hp).normalize();
+    ringPt(th0,cen);vy.copy(cen).sub(hp);vy.addScaledVector(vx,-vy.dot(vx)).normalize();vz.crossVectors(vx,vy);
+    [vx,vy,vz].forEach((v,i)=>{triad[i].position.copy(hp);triad[i].setDirection(v);triLbl[i].position.copy(hp).addScaledVector(v,0.7);});
+    const scr=hp.clone().project(camera),tag=$('coordTag');
+    if(scr.z<1){tag.hidden=false;tag.style.left=((scr.x+1)/2*host.clientWidth)+'px';tag.style.top=((1-scr.y)/2*host.clientHeight)+'px';
+      const u=v=>(v/RQ).toFixed(3);tag.innerHTML=`<b style="color:${triCols[0]}">x</b> ${u(hp.x)} &nbsp;<b style="color:${triCols[1]}">y</b> ${u(hp.y)} &nbsp;<b style="color:${triCols[2]}">z</b> ${u(hp.z)} <span style="color:var(--muted)">ħ/mc</span>`;}
+    else tag.hidden=true; }
   helix(th0,hp);
   pathLine.visible=$('showPath').checked;
   // inward push: from the light toward the ring centre line
