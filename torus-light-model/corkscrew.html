@@ -226,7 +226,7 @@ bind('tail','tail',v=>Math.round(v*100)+'% of a lap');
 $('pause').textContent=S.paused?'Play':'Pause';
 $('pause').addEventListener('click',()=>{S.paused=!S.paused;$('pause').textContent=S.paused?'Play':'Pause';});
 $('reset').addEventListener('click',resetView);
-$('topView').addEventListener('click',()=>{camera.position.set(0,7.5,0.001);controls.target.set(0,0,0);controls.update();});   // look straight down the axis
+$('topView').addEventListener('click',()=>{{const f=SH.n===1?1:0.55*SH.n+0.25;camera.position.set(0,7.5*f*1.15,0.001);scene.fog.near=6.5*f;scene.fog.far=15*f*1.6;}controls.target.set(0,0,0);controls.update();});   // look straight down the axis
 
 /* ---------- numbers ---------- */
 const K={h:6.62607015e-34,c:299792458,e:1.602176634e-19,alpha:1/137.035999177,eV:1.602176634e-19};K.hbar=K.h/(2*Math.PI);
@@ -332,23 +332,25 @@ for(let k=2;k<=SHMAX;k++){
   shellObjs.push({k,paths,tails,heads,loops});}
 // path j of shell k is the corkscrew turned by j/k of one pattern repeat; charges sit k to a path, evenly spaced
 function sHelix(k,th,phi,out){const w=S.N*th,a=th+phi,q=(RC+A*Math.cos(w))*k;return out.set(q*Math.cos(a),A*k*Math.sin(w),q*Math.sin(a));}
-const pathTurn=(k,j)=>S.N>0?j*(2*Math.PI/S.N)/k:j*2*Math.PI/(k*k);
+const pathTurn=(k,j)=>S.N>0?-(2*Math.PI*j/k)/S.N:0;   // path j sits 1/k of a tube turn further round
+// charges are spread evenly round the shell: slot s of k² sits at ring angle 2πs/k² on path s mod k (so k charges per path)
+const slotOf=(k,c,cnt)=>Math.round(c*k*k/Math.max(cnt,1))%(k*k);
+const slotAngle=(k,sl,tho)=>tho+2*Math.PI*sl/(k*k);
 function setShells(n){SH.n=n;$('shellsOut').textContent=n===1?'1 (just the particle)':n;
   shellObjs.forEach(o=>{const v=o.k<=n;[...o.paths,o.tails,o.heads,...o.loops].forEach(m=>m.visible=v);});
   const fl=$('fill');fl.max=n*n;fl.min=1;fl.value=n*n;fl.disabled=n===1;SH.fill=n*n;$('fillOut').textContent=n===1?'—':SH.fill+' of '+n*n;
   const f=n===1?1:0.55*n+0.25;camera.position.set(5.8*f,4.0*f,7.4*f);scene.fog.near=6.5*f;scene.fog.far=15*f*1.3;controls.target.set(0,0,0);controls.update();}
 $('shells').addEventListener('input',e=>{setShells(+e.target.value);numbers();});
 $('fill').addEventListener('input',e=>{SH.fill=+e.target.value;$('fillOut').textContent=SH.fill+' of '+SH.n*SH.n;numbers();});
-// charge c of shell k: path j = c mod k, place i = floor(c / k); inner shells are always full, the outermost holds SH.fill
+// inner shells are always full; the outermost holds SH.fill, spread evenly
 const shellCount=k=>k<SH.n?k*k:SH.fill;
-function shellCharge(k,c,tho,out){const j=c%k,i=Math.floor(c/k);return sHelix(k,tho+2*Math.PI*i/k,pathTurn(k,j),out);}
-function shellAngle(k,c,tho){const j=c%k,i=Math.floor(c/k);return tho+2*Math.PI*i/k+pathTurn(k,j);}
+function shellAngle(k,c,tho){return slotAngle(k,slotOf(k,c,shellCount(k)),tho);}
 function drawShells(){
   shellObjs.forEach(o=>{if(o.k>SH.n)return;const k=o.k,tho=th0/k,span=S.tail*2*Math.PI;   // same light speed, k times longer lap
     o.paths.forEach((l,j)=>{const a=l.geometry.attributes.position.array,ph=pathTurn(k,j);for(let i=0;i<900;i++){sHelix(k,i/899*2*Math.PI,ph,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
     const tp=o.tails.geometry.attributes.position.array,tc=o.tails.geometry.attributes.color.array,hp=o.heads.geometry.attributes.position.array;
     const cnt=shellCount(k);o.heads.geometry.setDrawRange(0,cnt);o.tails.geometry.setDrawRange(0,cnt*TL);
-    for(let c=0;c<cnt;c++){const ph=pathTurn(k,c%k),t0=tho+2*Math.PI*Math.floor(c/k)/k;
+    for(let c=0;c<cnt;c++){const sl=slotOf(k,c,cnt),ph=pathTurn(k,sl%k),t0=slotAngle(k,sl,tho)-ph;
       sHelix(k,t0,ph,tmp);hp[c*3]=tmp.x;hp[c*3+1]=tmp.y;hp[c*3+2]=tmp.z;
       for(let m=0;m<TL;m++){const f=m/(TL-1),idx=(c*TL+m)*3;sHelix(k,t0-span/k*(1-f),ph,tmp);tp[idx]=tmp.x;tp[idx+1]=tmp.y;tp[idx+2]=tmp.z;const kk=Math.pow(f,2.2)*0.7;tc[idx]=C.energy.r*kk;tc[idx+1]=C.energy.g*kk;tc[idx+2]=C.energy.b*kk;}}
     o.tails.geometry.attributes.position.needsUpdate=true;o.tails.geometry.attributes.color.needsUpdate=true;o.heads.geometry.attributes.position.needsUpdate=true;
