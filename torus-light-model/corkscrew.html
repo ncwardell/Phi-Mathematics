@@ -65,7 +65,6 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <span><i class="sw" style="background:var(--plus)"></i>Field loop, + polarity (pushes outward)</span>
       <span><i class="sw" style="background:var(--minus)"></i>Field loop, − polarity (pushes inward)</span>
       <span><i class="sw" style="background:#9fd3ff"></i>Arrow: the inward push holding the light</span>
-      <span><i class="sw" style="background:#fff2d0"></i>Ring pair: plain ring along the tube centre, two charges circling opposite ways (on every layer past s)</span>
       <span><i class="sw" style="background:#bfe3ff"></i>Second torus: positron (pale blue, mirrored, opposite fields, lines join) or second electron (gold; same fields: lines turn away; turned 180°/turns: fields opposite, lines join); red arrows = push apart</span>
       <span><i class="sw" style="background:linear-gradient(90deg,#ff6464,#5dea8c,#62a6ff)"></i>On the first charge: x = direction of motion, y = inward push, z = at right angles</span>
       <span><i class="sw" style="background:linear-gradient(90deg,var(--minus),var(--plus))"></i>Breathing: + loops swell outward, − loops pull in, so the structure pulses as the corkscrew turns</span>
@@ -77,7 +76,6 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <input id="layer" type="range" min="0" max="3" step="1" value="1">
     </div>
     <div class="row"><label><input type="checkbox" id="outerOn"> Bigger shell around it (same centre)</label></div>
-    <div class="row"><label><input type="checkbox" id="ringPairOn" checked> Ring pair on each layer (plain ring under the corkscrew, two charges circling opposite ways)</label></div>
     <div class="row"><label><input type="checkbox" id="pairOn"> Second torus along the axis</label></div>
     <div class="row" style="align-items:center"><label for="pairType">Partner</label>
       <select id="pairType"><option value="anti">Conjugate: positron (mirror, opposite fields)</option><option value="same">Duplicate: second electron (same fields)</option><option value="rot">Duplicate turned 180°/turns (opposite fields)</option></select></div>
@@ -159,11 +157,7 @@ const RQ=2.0;                          // charge ring radius (hbar/mc)
 let RC=1.0, A=1.0, B=1.1;              // corkscrew centre circle, corkscrew radius, field-loop radius (set by shape)
 const S={K:1,shape:'horn',layer:1,N:2,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
 const OS={on:false,k:3};   // bigger shell sharing the centre
-const PS={on:false,D:1.2,type:'anti'};
-const RP={on:true};                                          // ring pair carried by every corkscrew layer
-const capOf=n=>n===0?2:2*n+(RP.on?2:0);                       // charges a layer with n light-speed turns holds
-const capL=()=>capOf(S.N);
-const shellCap=()=>{let t=0;for(let l=0;l<=S.layer;l++)t+=capOf(2*l);return t;};  // conjugate partner below, along the axis
+const PS={on:false,D:1.2,type:'anti'};  // conjugate partner below, along the axis
 const tmp=new THREE.Vector3();
 function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RC+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
 function ringPt(th,out){return out.set(RC*Math.cos(th),0,RC*Math.sin(th));}
@@ -255,11 +249,9 @@ function numbers(){
    <tr><td>Model breathing (2mc²/h)</td><td class="v">2 per lap</td><td class="s"></td></tr>
    <tr><td>Layer / light-speed turns</td><td class="v">${LAYERS[S.layer].name} / ${nLight()}</td><td class="s">${chip(nLight()===2?true:'warn',nLight()===2?'= 2':'≠ 2')}</td></tr>
    <tr><td>Lobes seen from the top</td><td class="v">${N===0?'none (circle)':N}${S.shape==='horn'||N===0?'':' (bumps on a ring; do not reach the centre)'}</td><td class="s"></td></tr>
-   <tr><td>Inward (−) spots per lap, × 2 (flipped twin)</td><td class="v">${Math.max(N,1)} × 2 = ${2*Math.max(N,1)}</td><td class="s"></td></tr>
-   <tr><td>Ring pair under the corkscrew</td><td class="v">${N===0?'this layer is the ring':RP.on?'+2':'off'}</td><td class="s"></td></tr>
-   <tr><td>Charges this layer holds</td><td class="v">${capL()}</td><td class="s"></td></tr>
-   <tr><td>Real orbital holds 2(2l+1), l = ${S.layer}</td><td class="v">${2*(2*S.layer+1)}</td><td class="s">${chip(capL()===2*(2*S.layer+1)?true:'warn',capL()===2*(2*S.layer+1)?'✓':'model '+(capL()-2*(2*S.layer+1)))}</td></tr>
-   <tr><td>Shell n = ${S.layer+1} (layers s…${'spdf'[S.layer]}): model / real 2n²</td><td class="v">${shellCap()} / ${2*(S.layer+1)**2}</td><td class="s">${chip(shellCap()===2*(S.layer+1)**2?true:'warn',shellCap()===2*(S.layer+1)**2?'✓':'≠')}</td></tr>
+   <tr><td>Inward (−) spots per lap = charges this layer holds</td><td class="v">${Math.max(N,1)}</td><td class="s"></td></tr>
+   <tr><td>With a flipped twin on each spot (×2)</td><td class="v">${2*Math.max(N,1)}</td><td class="s"></td></tr>
+   <tr><td>Real orbital holds 2(2l+1), l = ${S.layer}</td><td class="v">${2*(2*S.layer+1)}</td><td class="s">${chip(2*Math.max(N,1)===2*(2*S.layer+1)?true:'warn',2*Math.max(N,1)===2*(2*S.layer+1)?'✓':'model '+(2*Math.max(N,1)-2*(2*S.layer+1)))}</td></tr>
    <tr><td>Charges on the loop</td><td class="v">${S.K}</td><td class="s"></td></tr>
    <tr><td>Each charge on an inward (−) spot</td><td class="v">${N%S.K===0?'yes':'no'}</td><td class="s">${chip(N%S.K===0?true:false,N%S.K===0?'✓':'✗')}</td></tr>
    <tr><td>Total charge</td><td class="v">${S.K}e</td><td class="s"></td></tr>
@@ -368,15 +360,6 @@ $('pairD').addEventListener('input',e=>{PS.D=parseFloat(e.target.value);pairLabe
 $('pairType').addEventListener('change',e=>{PS.type=e.target.value;pairLabel();if(PS.on){controls.target.set(0,pOff()/2,0);controls.update();}numbers();});
 $('pairDOut').textContent=PS.D.toFixed(2);
 let annT=0;
-const rpGeo=new THREE.BufferGeometry();rpGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(201*3),3));
-const rpLine=new THREE.Line(rpGeo,new THREE.LineBasicMaterial({color:0xfff2d0,transparent:true,opacity:0.5,depthWrite:false,depthTest:false}));rpLine.renderOrder=6;scene.add(rpLine);
-const rpHeads=['#fff2d0','#ffb070'].map(col=>{const h=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:0.42,map:glow,color:new THREE.Color(col),transparent:true,depthWrite:false,depthTest:false,blending:THREE.AdditiveBlending}));h.renderOrder=6;scene.add(h);return h;});
-function drawRingPair(){   // plain ring along the tube centre: one charge each way round (opposite spin)
-  const v=RP.on&&S.N>0;rpLine.visible=v;rpHeads.forEach(h=>h.visible=v);if(!v)return;
-  const a=rpGeo.attributes.position.array;for(let i=0;i<=200;i++){const t=i/200*2*Math.PI;a[i*3]=RC*Math.cos(t);a[i*3+1]=0;a[i*3+2]=RC*Math.sin(t);}rpGeo.attributes.position.needsUpdate=true;
-  [th0,-th0+Math.PI].forEach((t,q)=>{rpHeads[q].geometry.attributes.position.array.set([RC*Math.cos(t),0,RC*Math.sin(t)]);rpHeads[q].geometry.attributes.position.needsUpdate=true;});
-}
-$('ringPairOn').addEventListener('change',e=>{RP.on=e.target.checked;numbers();});
 function drawPair(dt){
   if(!PS.on){pairVisible(false);return;}
   const ann=annihilating();pairVisible(true);
@@ -456,7 +439,6 @@ function frame(now){
   fGeo.attributes.position.needsUpdate=true;fGeo.attributes.color.needsUpdate=true;
   drawOuter(dt);
   drawPair(dt);
-  drawRingPair();
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
