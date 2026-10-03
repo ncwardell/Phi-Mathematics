@@ -75,17 +75,16 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <label for="layer">Layer (thinner tube, more turns at light speed)</label><output id="layerOut"></output>
       <input id="layer" type="range" min="0" max="3" step="1" value="1">
     </div>
-    <div class="row"><label><input type="checkbox" id="outerOn"> Bigger shell around it (same centre)</label></div>
+    <div class="ctl">
+      <label for="shells">Shells around the same centre</label><output id="shellsOut"></output>
+      <input id="shells" type="range" min="1" max="4" step="1" value="1">
+    </div>
     <div class="row"><label><input type="checkbox" id="pairOn"> Second torus along the axis</label></div>
     <div class="row" style="align-items:center"><label for="pairType">Partner</label>
       <select id="pairType"><option value="anti">Conjugate: positron (mirror, opposite fields)</option><option value="same">Duplicate: second electron (same fields)</option><option value="rot">Duplicate turned 180°/turns (opposite fields)</option></select></div>
     <div class="ctl">
       <label for="pairD">Partner distance</label><output id="pairDOut"></output>
       <input id="pairD" type="range" min="0" max="2" step="0.01" value="1.2">
-    </div>
-    <div class="ctl">
-      <label for="outerK">Bigger shell size</label><output id="outerKOut"></output>
-      <input id="outerK" type="range" min="2" max="6" step="0.5" value="3">
     </div>
     <div class="ctl">
       <label for="charges">Charges on the loop</label><output id="chargesOut"></output>
@@ -156,7 +155,7 @@ const glow=(()=>{const c=document.createElement('canvas');c.width=c.height=64;co
 const RQ=2.0;                          // charge ring radius (hbar/mc)
 let RC=1.0, A=1.0, B=1.1;              // corkscrew centre circle, corkscrew radius, field-loop radius (set by shape)
 const S={K:1,shape:'horn',layer:1,N:2,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
-const OS={on:false,k:3};   // bigger shell sharing the centre
+const SH={n:1};   // number of nested shells; shell k is k times bigger
 const PS={on:false,D:1.2,type:'anti'};  // conjugate partner below, along the axis
 const tmp=new THREE.Vector3();
 function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RC+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
@@ -226,6 +225,13 @@ const P={e:{name:"electron",m:9.1093837015e-31,a:0.00115965218059},mu:{name:"muo
 const NS={particle:'e',breath:Math.sqrt(4*K.alpha/Math.PI),g2:'c'};
 function fmt(x,d=4){if(x===0)return'0';const a=Math.abs(x);if(a>=1e-3&&a<1e5)return x.toPrecision(d);return x.toExponential(d-1).replace('e','×10^').replace(/\^\+?(-?\d+)/,(m,p)=>'<sup>'+p+'</sup>');}
 function chip(ok,label){return `<span class="chip ${ok===true?'ok':ok==='warn'?'warn':'bad'}">${label||(ok===true?'✓':'✗')}</span>`;}
+function shellRows(){   // shell n: n paths × n charges; each charge traces as many loops as the corkscrew has lobes
+  const lp=Math.max(S.N,1);let rows='',tc=0,tl=0,tr=0;
+  for(let n=1;n<=SH.n;n++){const ch=n*n,lo=lp*ch,re=2*n*n;tc+=ch;tl+=lo;tr+=re;
+    rows+=`<tr><td>Shell ${n}: ${n}× size · ${n} path${n>1?'s':''} × ${n} charge${n>1?'s':''}</td><td class="v">${ch} charge${ch>1?'s':''} × ${lp} loops = ${lo} · real ${re}</td><td class="s">${chip(lo===re?true:'warn',lo===re?'✓':'≠')}</td></tr>`;}
+  if(SH.n>1)rows+=`<tr><td>All ${SH.n} shells: charges / loops / real electrons</td><td class="v">${tc} / ${tl} / ${tr}</td><td class="s">${chip(tl===tr?true:'warn',tl===tr?'✓':'≠')}</td></tr>`;
+  rows+=`<tr><td>Each shell: lap time / energy per loop</td><td class="v">n× / mc²÷n</td><td class="s"></td></tr>`;
+  return rows;}
 function numbers(){
   const p=P[NS.particle],m=p.m,c=K.c,hb=K.hbar,N=S.N;
   const E=m*c*c, lam=K.h/(m*c), rE=hb/(2*m*c), rq=hb/(m*c), T=lam/c;
@@ -249,9 +255,6 @@ function numbers(){
    <tr><td>Model breathing (2mc²/h)</td><td class="v">2 per lap</td><td class="s"></td></tr>
    <tr><td>Layer / light-speed turns</td><td class="v">${LAYERS[S.layer].name} / ${nLight()}</td><td class="s">${chip(nLight()===2?true:'warn',nLight()===2?'= 2':'≠ 2')}</td></tr>
    <tr><td>Lobes seen from the top</td><td class="v">${N===0?'none (circle)':N}${S.shape==='horn'||N===0?'':' (bumps on a ring; do not reach the centre)'}</td><td class="s"></td></tr>
-   <tr><td>Inward (−) spots per lap = charges this layer holds</td><td class="v">${Math.max(N,1)}</td><td class="s"></td></tr>
-   <tr><td>With a flipped twin on each spot (×2)</td><td class="v">${2*Math.max(N,1)}</td><td class="s"></td></tr>
-   <tr><td>Real orbital holds 2(2l+1), l = ${S.layer}</td><td class="v">${2*(2*S.layer+1)}</td><td class="s">${chip(2*Math.max(N,1)===2*(2*S.layer+1)?true:'warn',2*Math.max(N,1)===2*(2*S.layer+1)?'✓':'model '+(2*Math.max(N,1)-2*(2*S.layer+1)))}</td></tr>
    <tr><td>Charges on the loop</td><td class="v">${S.K}</td><td class="s"></td></tr>
    <tr><td>Each charge on an inward (−) spot</td><td class="v">${N%S.K===0?'yes':'no'}</td><td class="s">${chip(N%S.K===0?true:false,N%S.K===0?'✓':'✗')}</td></tr>
    <tr><td>Total charge</td><td class="v">${S.K}e</td><td class="s"></td></tr>
@@ -266,7 +269,7 @@ function numbers(){
    <tr><td>Pushed together</td><td class="v">${PS.D<0.06?'one torus, two charges a quarter lap apart':'not the same state: can overlap; ends as one torus carrying 2 charges'}</td><td class="s"></td></tr>`
    :`<tr><td>Pushed together</td><td class="v">same twist = same state: cannot overlap; the second must flip its twist to pair</td><td class="s"></td></tr>`}`
    :`<tr><td>When merged: light released</td><td class="v">${PS.on?'2 photons × '+(E/K.eV/1e3).toFixed(1)+' keV':'—'}</td><td class="s">${PS.on&&PS.D<0.06?chip(true,'✓'):''}</td></tr>`}
-   <tr><td>Bigger shell: size / lap time / energy per loop</td><td class="v">${OS.on?OS.k+'× / '+OS.k+'× / mc²÷'+OS.k:'off'}</td><td class="s"></td></tr>
+   ${shellRows()}
    <tr><td>Real atomic shell (Bohr radius ÷ ħ/mc)</td><td class="v">137×</td><td class="s"></td></tr>
    <tr><td>g if all share one energy loop</td><td class="v">${(2*S.K).toFixed(1)}</td><td class="s">${chip(S.K===1?true:'warn',S.K===1?'✓':'≠ 2')}</td></tr>`;
   $('outTable').innerHTML=`
@@ -303,33 +306,33 @@ $('chargesOut').textContent=S.K;
 numbers();
 
 /* ---------- bigger shell, same centre (nested horn torus) ---------- */
-const oPathGeo=new THREE.BufferGeometry();oPathGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(1200*3),3));
-const oPath=new THREE.Line(oPathGeo,new THREE.LineBasicMaterial({color:C.energy,transparent:true,opacity:0.1}));scene.add(oPath);
-const OEN=500;const oGeo=new THREE.BufferGeometry();oGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(OEN*3),3));oGeo.setAttribute('color',new THREE.BufferAttribute(new Float32Array(OEN*3),3));
-const oPts=new THREE.Points(oGeo,new THREE.PointsMaterial({size:0.18,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(oPts);
-const oHead=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:0.7,map:glow,color:C.energy,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(oHead);
-const OM=28,oLoops=[];for(let i=0;i<OM;i++){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(73*3),3));
-  const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(l);oLoops.push(l);}
-function oHelix(th,out){const k=OS.k,Ro=RC*k,Ao=A*k,w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=Ro+Ao*Math.cos(w);return out.set(q*c,Ao*Math.sin(w),q*s);}
-function outerVisible(v){[oPath,oPts,oHead,...oLoops].forEach(o=>o.visible=v);}
-outerVisible(false);
-$('outerOn').addEventListener('change',e=>{OS.on=e.target.checked;outerVisible(OS.on);const f=OS.on?OS.k*0.6:1;camera.position.set(5.8*f,4.0*f,7.4*f);scene.fog.near=6.5*f;scene.fog.far=15*f*1.3;controls.target.set(0,0,0);controls.update();numbers();});
-$('outerK').addEventListener('input',e=>{OS.k=parseFloat(e.target.value);$('outerKOut').textContent=OS.k+'×';numbers();});
-$('outerKOut').textContent=OS.k+'×';
-function drawOuter(dt){
-  if(!OS.on)return;
-  const tho=th0/OS.k;                                    // bigger loop: same light speed, k times longer lap
-  const pa=oPathGeo.attributes.position.array;for(let i=0;i<1200;i++){oHelix(i/1199*2*Math.PI,tmp);pa[i*3]=tmp.x;pa[i*3+1]=tmp.y;pa[i*3+2]=tmp.z;}oPathGeo.attributes.position.needsUpdate=true;
-  const ep=oGeo.attributes.position.array,ec=oGeo.attributes.color.array,span=S.tail*2*Math.PI;
-  for(let i=0;i<OEN;i++){const f=i/(OEN-1);oHelix(tho-span*(1-f),tmp);ep[i*3]=tmp.x;ep[i*3+1]=tmp.y;ep[i*3+2]=tmp.z;const kk=Math.pow(f,2.2)*0.8;ec[i*3]=C.energy.r*kk;ec[i*3+1]=C.energy.g*kk;ec[i*3+2]=C.energy.b*kk;}
-  oGeo.attributes.position.needsUpdate=true;oGeo.attributes.color.needsUpdate=true;
-  oHelix(tho,tmp);oHead.geometry.attributes.position.array.set([tmp.x,tmp.y,tmp.z]);oHead.geometry.attributes.position.needsUpdate=true;
-  const Ro=RC*OS.k,Bo=B*OS.k;
-  oLoops.forEach((l,i)=>{const ts=2*Math.PI*i/OM,c=Math.cos(ts),s=Math.sin(ts),pol=-Math.cos(S.N*(ts-tho));
-    l.material.color.copy(C.minus.clone().lerp(C.plus,(pol+1)/2));l.material.opacity=0.08+0.3*Math.abs(pol);
-    const a=l.geometry.attributes.position.array;for(let j=0;j<=72;j++){const w=j/72*2*Math.PI,q=Ro+Bo*Math.cos(w);a[j*3]=q*c;a[j*3+1]=Bo*Math.sin(w);a[j*3+2]=q*s;}l.geometry.attributes.position.needsUpdate=true;});
+/* ---------- nested shells: shell k is the same torus k times bigger, holding k paths × k charges ---------- */
+const SHMAX=4,TL=70,shellObjs=[];
+for(let k=2;k<=SHMAX;k++){
+  const paths=[];for(let j=0;j<k;j++){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(900*3),3));
+    const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:C.energy,transparent:true,opacity:0.13,depthWrite:false}));scene.add(l);paths.push(l);}
+  const n=k*k,g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(n*TL*3),3));g.setAttribute('color',new THREE.BufferAttribute(new Float32Array(n*TL*3),3));
+  const tails=new THREE.Points(g,new THREE.PointsMaterial({size:0.16*k,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(tails);
+  const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(n*3),3));
+  const heads=new THREE.Points(hg,new THREE.PointsMaterial({size:0.45*k,map:glow,color:C.energy,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(heads);
+  shellObjs.push({k,paths,tails,heads});}
+// path j of shell k is the corkscrew turned by j/k of one pattern repeat; charges sit k to a path, evenly spaced
+function sHelix(k,th,phi,out){const w=S.N*th,a=th+phi,q=(RC+A*Math.cos(w))*k;return out.set(q*Math.cos(a),A*k*Math.sin(w),q*Math.sin(a));}
+const pathTurn=(k,j)=>S.N>0?j*(2*Math.PI/S.N)/k:j*2*Math.PI/(k*k);
+function setShells(n){SH.n=n;$('shellsOut').textContent=n===1?'1 (just the particle)':n;
+  shellObjs.forEach(o=>{const v=o.k<=n;[...o.paths,o.tails,o.heads].forEach(m=>m.visible=v);});
+  const f=n===1?1:0.55*n+0.25;camera.position.set(5.8*f,4.0*f,7.4*f);scene.fog.near=6.5*f;scene.fog.far=15*f*1.3;controls.target.set(0,0,0);controls.update();}
+$('shells').addEventListener('input',e=>{setShells(+e.target.value);numbers();});
+function drawShells(){
+  shellObjs.forEach(o=>{if(o.k>SH.n)return;const k=o.k,tho=th0/k,span=S.tail*2*Math.PI;   // same light speed, k times longer lap
+    o.paths.forEach((l,j)=>{const a=l.geometry.attributes.position.array,ph=pathTurn(k,j);for(let i=0;i<900;i++){sHelix(k,i/899*2*Math.PI,ph,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}l.geometry.attributes.position.needsUpdate=true;});
+    const tp=o.tails.geometry.attributes.position.array,tc=o.tails.geometry.attributes.color.array,hp=o.heads.geometry.attributes.position.array;
+    let c=0;for(let j=0;j<k;j++)for(let i=0;i<k;i++,c++){const ph=pathTurn(k,j),t0=tho+2*Math.PI*i/k;
+      sHelix(k,t0,ph,tmp);hp[c*3]=tmp.x;hp[c*3+1]=tmp.y;hp[c*3+2]=tmp.z;
+      for(let m=0;m<TL;m++){const f=m/(TL-1),idx=(c*TL+m)*3;sHelix(k,t0-span/k*(1-f),ph,tmp);tp[idx]=tmp.x;tp[idx+1]=tmp.y;tp[idx+2]=tmp.z;const kk=Math.pow(f,2.2)*0.7;tc[idx]=C.energy.r*kk;tc[idx+1]=C.energy.g*kk;tc[idx+2]=C.energy.b*kk;}}
+    o.tails.geometry.attributes.position.needsUpdate=true;o.tails.geometry.attributes.color.needsUpdate=true;o.heads.geometry.attributes.position.needsUpdate=true;});
 }
-$('layer').value=1;setShape('horn');
+$('layer').value=1;setShape('horn');setShells(1);
 
 /* ---------- conjugate partner: mirror image along the axis, opposite twist and polarity ---------- */
 const pPathGeo=new THREE.BufferGeometry();pPathGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(1000*3),3));
@@ -437,7 +440,7 @@ function frame(now){
       const w=flowPh[n],q=RC+br*Math.cos(w);fp[n*3]=q*c;fp[n*3+1]=br*Math.sin(w);fp[n*3+2]=q*s;fc[n*3]=col.r;fc[n*3+1]=col.g;fc[n*3+2]=col.b;}
   }
   fGeo.attributes.position.needsUpdate=true;fGeo.attributes.color.needsUpdate=true;
-  drawOuter(dt);
+  drawShells();
   drawPair(dt);
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
 }
