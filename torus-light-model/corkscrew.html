@@ -105,7 +105,7 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <label><input type="checkbox" id="showField" checked> Field loops</label>
       <label><input type="checkbox" id="showPath" checked> Faint full path</label>
     </div>
-    <div class="row"><button id="pause" type="button">Pause</button><button id="reset" type="button">Reset view</button></div>
+    <div class="row"><button id="pause" type="button">Pause</button><button id="reset" type="button">Reset view</button><button id="topView" type="button">Top view</button></div>
     <div class="ctl">
       <label for="breath">Breath depth ε</label><output id="breathOut"></output>
       <input id="breath" type="range" min="0" max="0.3" step="0.0001" value="0.0964">
@@ -213,6 +213,7 @@ bind('tail','tail',v=>Math.round(v*100)+'% of a lap');
 $('pause').textContent=S.paused?'Play':'Pause';
 $('pause').addEventListener('click',()=>{S.paused=!S.paused;$('pause').textContent=S.paused?'Play':'Pause';});
 $('reset').addEventListener('click',resetView);
+$('topView').addEventListener('click',()=>{camera.position.set(0,7.5,0.001);controls.target.set(0,0,0);controls.update();});   // look straight down the axis
 
 /* ---------- numbers ---------- */
 const K={h:6.62607015e-34,c:299792458,e:1.602176634e-19,alpha:1/137.035999177,eV:1.602176634e-19};K.hbar=K.h/(2*Math.PI);
