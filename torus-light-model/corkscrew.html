@@ -1,0 +1,184 @@
+<title>Light Corkscrew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: full-bleed 3D stage with a slim control card on the right; card stacks below on phones.
+   Deliberately single dark theme so the glowing light reads clearly. */
+:root{
+  --bg:#070a10; --card:rgba(16,21,31,.88); --line:#232d3f; --fg:#e3e9f2; --muted:#8d9ab0;
+  --energy:#ffe2a6; --plus:#ff9a3c; --minus:#4fa7ff;
+  --display:"Chakra Petch",ui-sans-serif,system-ui,sans-serif;
+  --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.45}
+.wrap{position:relative;height:100%;min-height:560px}
+#view{position:absolute;inset:0;background:radial-gradient(90% 80% at 45% 45%,#101826 0%,var(--bg) 70%)}
+.card{position:absolute;top:16px;right:16px;width:320px;max-width:calc(100% - 32px);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;backdrop-filter:blur(6px)}
+h1{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.03em;margin:0}
+.card p{margin:0;color:var(--muted);font-size:13px}
+.ctl{display:grid;grid-template-columns:1fr auto;gap:2px 8px}
+.ctl label{font-size:13px}
+.ctl output{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.ctl input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--minus)}
+.key{display:flex;flex-direction:column;gap:5px;font-size:12.5px}
+.key span{display:flex;gap:8px;align-items:center}
+.sw{width:18px;height:4px;border-radius:2px;display:inline-block}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+button{font:500 12px var(--body);color:var(--fg);background:#141b28;border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+button:hover{border-color:var(--muted)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--minus);outline-offset:2px}
+.note{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:720px){
+  .wrap{height:auto}
+  #view{position:relative;height:62vh}
+  .card{position:relative;top:auto;right:auto;margin:12px 16px;width:auto}
+}
+</style>
+
+<div class="wrap">
+  <div id="view" aria-label="3D view: light travelling in a corkscrew around a ring, held by alternating magnetic field loops. Drag to rotate, scroll to zoom."></div>
+  <div class="card">
+    <h1>Light Corkscrew</h1>
+    <p>Light runs around the ring in a corkscrew. Its magnetic field wraps the path in loops whose polarity alternates. The pattern travels with the light, so the light always sits where the field pushes inward.</p>
+    <div class="key">
+      <span><i class="sw" style="background:var(--energy)"></i>Energy: the light in its corkscrew, bright head, fading tail</span>
+      <span><i class="sw" style="background:var(--plus)"></i>Field loop, + polarity (pushes outward)</span>
+      <span><i class="sw" style="background:var(--minus)"></i>Field loop, − polarity (pushes inward)</span>
+      <span><i class="sw" style="background:#9fd3ff"></i>Arrow: the inward push holding the light</span>
+      <span><i class="sw" style="background:linear-gradient(90deg,var(--minus),var(--plus))"></i>Breathing: + loops swell outward, − loops pull in, so the structure pulses as the corkscrew turns</span>
+    </div>
+    <div class="ctl">
+      <label for="turns">Corkscrew turns per lap</label><output id="turnsOut"></output>
+      <input id="turns" type="range" min="1" max="8" step="1" value="4">
+    </div>
+    <div class="ctl">
+      <label for="speed">Speed</label><output id="speedOut"></output>
+      <input id="speed" type="range" min="0.05" max="0.8" step="0.01" value="0.22">
+    </div>
+    <div class="ctl">
+      <label for="tail">Energy tail</label><output id="tailOut"></output>
+      <input id="tail" type="range" min="0.1" max="1" step="0.05" value="0.45">
+    </div>
+    <div class="row">
+      <label><input type="checkbox" id="showField" checked> Field loops</label>
+      <label><input type="checkbox" id="showPath" checked> Faint full path</label>
+    </div>
+    <div class="row"><button id="pause" type="button">Pause</button><button id="reset" type="button">Reset view</button></div>
+    <p class="note">Model view, not a field calculation: the alternating polarity and the inward push at the light are the model's trapping rule. The 4 turns per lap is the light-speed value for this tube size.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const C={energy:new THREE.Color(css('--energy')),plus:new THREE.Color(css('--plus')),minus:new THREE.Color(css('--minus')),push:new THREE.Color('#9fd3ff')};
+
+/* ---------- scene ---------- */
+const host=$('view');
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));host.appendChild(renderer.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(42,1,0.05,100);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
+function resetView(){camera.position.set(5.8,4.0,7.4);controls.target.set(0.9,0,0);controls.update();}
+resetView();
+function resize(){const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h,false);renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';camera.aspect=w/h;camera.updateProjectionMatrix();}
+new ResizeObserver(resize).observe(host);resize();
+
+// soft glow sprite for the light
+const glow=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');
+  const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(0.25,'rgba(255,255,255,0.7)');gr.addColorStop(1,'rgba(255,255,255,0)');
+  g.fillStyle=gr;g.fillRect(0,0,64,64);const t=new THREE.CanvasTexture(c);return t;})();
+
+/* ---------- geometry ---------- */
+const RR=2.0, A=0.5, B=0.82;          // ring radius, corkscrew radius, field-loop radius
+const S={N:4,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const tmp=new THREE.Vector3();
+function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RR+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
+function ringPt(th,out){return out.set(RR*Math.cos(th),0,RR*Math.sin(th));}
+
+// faint ring centre line
+const ringLine=(()=>{const p=[];for(let i=0;i<=200;i++){ringPt(i/200*2*Math.PI,tmp);p.push(tmp.clone());}
+  const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(p),new THREE.LineBasicMaterial({color:0x3a4a63,transparent:true,opacity:0.6}));scene.add(l);return l;})();
+
+// faint full corkscrew path
+const PATHN=1600;const pathGeo=new THREE.BufferGeometry();pathGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(PATHN*3),3));
+const pathLine=new THREE.Line(pathGeo,new THREE.LineBasicMaterial({color:C.energy,transparent:true,opacity:0.12}));scene.add(pathLine);
+function buildPath(){const a=pathGeo.attributes.position.array;for(let i=0;i<PATHN;i++){helix(i/(PATHN-1)*2*Math.PI,tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}pathGeo.attributes.position.needsUpdate=true;}
+buildPath();
+
+// energy stream: glowing particles along the corkscrew behind the head
+const EN=700;const eGeo=new THREE.BufferGeometry();
+eGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(EN*3),3));
+eGeo.setAttribute('color',new THREE.BufferAttribute(new Float32Array(EN*3),3));
+const ePts=new THREE.Points(eGeo,new THREE.PointsMaterial({size:0.13,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(ePts);
+const head=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),
+  new THREE.PointsMaterial({size:0.55,map:glow,color:C.energy,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(head);
+
+// magnetic field loops around the path, polarity alternating and travelling with the light
+const M=36, LP=72, FD=4;
+const loops=[],flows=[];
+for(let i=0;i<M;i++){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array((LP+1)*3),3));
+  const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:0xffffff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(l);loops.push(l);}
+const fGeo=new THREE.BufferGeometry();fGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(M*FD*3),3));fGeo.setAttribute('color',new THREE.BufferAttribute(new Float32Array(M*FD*3),3));
+const fPts=new THREE.Points(fGeo,new THREE.PointsMaterial({size:0.09,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(fPts);
+const flowPh=new Float32Array(M*FD);for(let i=0;i<M*FD;i++)flowPh[i]=(i%FD)/FD*2*Math.PI;
+
+// inward push arrow at the light
+const push=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),0.45,C.push.getHex(),0.14,0.09);scene.add(push);
+
+/* ---------- controls ---------- */
+const bind=(id,key,fmt)=>{const el=$(id),out=$(id+'Out');const f=()=>{S[key]=parseFloat(el.value);out.textContent=fmt(S[key]);if(key==='N')buildPath();};el.addEventListener('input',f);f();};
+bind('turns','N',v=>v.toFixed(0)+(v===4?' (light speed)':''));
+bind('speed','speed',v=>v.toFixed(2)+'×');
+bind('tail','tail',v=>Math.round(v*100)+'% of a lap');
+$('pause').textContent=S.paused?'Play':'Pause';
+$('pause').addEventListener('click',()=>{S.paused=!S.paused;$('pause').textContent=S.paused?'Play':'Pause';});
+$('reset').addEventListener('click',resetView);
+
+/* ---------- animation ---------- */
+let th0=0,last=performance.now();
+const radial=new THREE.Vector3(),tang=new THREE.Vector3(),up=new THREE.Vector3(0,1,0),cen=new THREE.Vector3(),hp=new THREE.Vector3();
+function frame(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;
+  if(!S.paused)th0+=dt*S.speed*2*Math.PI;
+  // energy stream
+  const ep=eGeo.attributes.position.array,ec=eGeo.attributes.color.array,span=S.tail*2*Math.PI;
+  for(let i=0;i<EN;i++){const f=i/(EN-1);helix(th0-span*(1-f),tmp);ep[i*3]=tmp.x;ep[i*3+1]=tmp.y;ep[i*3+2]=tmp.z;
+    const k=Math.pow(f,2.2);ec[i*3]=C.energy.r*k;ec[i*3+1]=C.energy.g*k;ec[i*3+2]=C.energy.b*k;}
+  eGeo.attributes.position.needsUpdate=true;eGeo.attributes.color.needsUpdate=true;
+  helix(th0,hp);head.geometry.attributes.position.array.set([hp.x,hp.y,hp.z]);head.geometry.attributes.position.needsUpdate=true;
+  pathLine.visible=$('showPath').checked;
+  // inward push: from the light toward the ring centre line
+  ringPt(th0,cen);const inward=cen.clone().sub(hp).normalize();push.position.copy(hp);push.setDirection(inward);
+  // field loops
+  const showF=$('showField').checked;fPts.visible=showF;
+  const fp=fGeo.attributes.position.array,fc=fGeo.attributes.color.array;
+  for(let i=0;i<M;i++){
+    const ts=2*Math.PI*i/M, c=Math.cos(ts), s=Math.sin(ts);
+    radial.set(c,0,s);
+    let d=Math.abs(((ts-th0)%(2*Math.PI)+3*Math.PI)%(2*Math.PI)-Math.PI);   // angular distance to the light
+    const pol=-Math.cos(S.N*(ts-th0));                                     // -1 (inward) at the light, alternating along the ring
+    const pinch=1-0.42*Math.exp(-(d*d)/0.05);                               // loops squeeze in around the light
+    const br=B*pinch*(1+0.12*pol), col=C.minus.clone().lerp(C.plus,(pol+1)/2);
+    const l=loops[i];l.visible=showF;l.material.color.copy(col);l.material.opacity=0.12+0.55*Math.abs(pol)+0.3*Math.exp(-(d*d)/0.05);
+    const a=l.geometry.attributes.position.array;
+    for(let j=0;j<=LP;j++){const w=j/LP*2*Math.PI,q=RR+br*Math.cos(w);a[j*3]=q*c;a[j*3+1]=br*Math.sin(w);a[j*3+2]=q*s;}
+    l.geometry.attributes.position.needsUpdate=true;
+    for(let k=0;k<FD;k++){const n=i*FD+k;if(!S.paused)flowPh[n]+=dt*S.speed*9*Math.sign(pol||1);
+      const w=flowPh[n],q=RR+br*Math.cos(w);fp[n*3]=q*c;fp[n*3+1]=br*Math.sin(w);fp[n*3+2]=q*s;fc[n*3]=col.r;fc[n*3+1]=col.g;fc[n*3+2]=col.b;}
+  }
+  fGeo.attributes.position.needsUpdate=true;fGeo.attributes.color.needsUpdate=true;
+  controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
