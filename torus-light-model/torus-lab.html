@@ -68,6 +68,7 @@ svg text{font-family:var(--mono);font-size:11px}
     </div>
     <div class="legend">
       <span><i class="sw" style="background:var(--elec)"></i>Charge current (+), outer edge</span>
+      <span><i class="sw" style="background:linear-gradient(90deg,#ffa23a,var(--mag))"></i>Light's corkscrew field: arrows turn twice per lap and travel with the charge; orange = outward (+), blue = inward (−); the charge rides an inward arrow</span>
       <span><i class="sw" style="background:var(--mag)"></i>Magnetic (−): field dot: orbits from the charge (outside) to the energy loop (inside) and back, 4 per lap; its sign flips each time it passes the inside: blue (−) ↔ orange (+)</span>
       <span><i class="dot" style="background:var(--energy)"></i>Energy loop: the edge of the hole, 2 loops (4π)</span>
       <span><i class="dot" style="background:var(--elec)"></i>Charge: outer edge, 1 loop (2π); the red ring is its own small loop (the fractal copy), which the blue dot runs around</span>
@@ -91,6 +92,7 @@ svg text{font-family:var(--mono);font-size:11px}
         <button id="epsAlpha" type="button" style="grid-column:1/-1;justify-self:start;margin-top:4px">Set to α value (ε = √(4α/π) = 0.0964)</button>
         <small>The tube breathes outward from the energy loop, two breaths per loop (2mc²/h). At ε = √(4α/π) the breathing alone gives g − 2 = α/2π.</small>
       </div>
+      <div class="row" style="margin-bottom:10px"><label><input type="checkbox" id="showCork" checked> Show the light's corkscrew field</label></div>
       <div class="ctl">
         <label for="moonN">Blue orbits per lap</label><output id="moonOut"></output>
         <input id="moonN" type="range" min="1" max="24" step="0.1" value="4">
@@ -201,6 +203,14 @@ const fDot=new THREE.Mesh(new THREE.SphereGeometry(0.06,16,12),new THREE.MeshBas
 const FTN=120;const fTrail=makeLine(FTN,COL.mag,1);const fBuf=[];
 // Fractal copy: the charge's own small loop (the donut's cross-section at the charge), drawn as a thin ring.
 const mini=new THREE.Mesh(new THREE.TorusGeometry(1,0.035,10,64),new THREE.MeshBasicMaterial({color:COL.elec,transparent:true,opacity:0.55}));scene.add(mini);
+// The light's corkscrew: field arrows along the charge ring, rotating twice per lap (4 pi),
+// travelling with the charge at c. Orange = points outward (+), blue = points inward (-).
+const NA=64, ARW=0.42, CORK=2;
+const corkGeo=new THREE.BufferGeometry();corkGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(NA*6),3));
+corkGeo.setAttribute('color',new THREE.BufferAttribute(new Float32Array(NA*6),3));
+const cork=new THREE.LineSegments(corkGeo,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.95}));scene.add(cork);
+const heads=[];for(let i=0;i<NA;i++){const h=new THREE.Mesh(new THREE.ConeGeometry(0.045,0.13,10),new THREE.MeshBasicMaterial({color:0xffffff}));scene.add(h);heads.push(h);}
+const cOut=new THREE.Color('#ffa23a'), cIn=new THREE.Color(COL.mag), UPV=new THREE.Vector3(0,1,0);
 const FLN=4000;const fLong=makeLine(FLN,COL.mag,0.16);   // faint spirograph: the last 3 laps
 { // faint fading tracer: colours fade from the background to the field colour toward the moon
   const cols=new Float32Array(FTN*3),bg=new THREE.Color(COL.bgHex||'#0c1017'),fg=new THREE.Color(COL.mag);
@@ -363,6 +373,17 @@ function frame(now){
     const b=fLong.geometry.attributes.position.array;
     for(let i=0;i<FLN;i++){moon(QANG-3*2*Math.PI*(1-i/(FLN-1)),tmp);b[i*3]=tmp.x;b[i*3+1]=tmp.y;b[i*3+2]=tmp.z;}
     fLong.geometry.attributes.position.needsUpdate=true; }
+  { // corkscrew field along the ring; phase fixed relative to the charge, so the charge always rides an inward arrow
+    const showC=$('showCork').checked;cork.visible=showC;heads.forEach(h=>h.visible=showC);
+    const P=cork.geometry.attributes.position.array, Cc=cork.geometry.attributes.color.array, dir=new THREE.Vector3(), tip=new THREE.Vector3();
+    for(let i=0;i<NA;i++){const sAng=QANG+2*Math.PI*i/NA, cu=Math.cos(sAng), su=Math.sin(sAng);
+      const ph=Math.PI+CORK*(sAng-QANG);                 // at the charge (i=0) the field points inward
+      dir.set(Math.cos(ph)*cu,Math.sin(ph),Math.cos(ph)*su);
+      const bx=rim*cu,bz=rim*su; tip.set(bx+ARW*dir.x,ARW*dir.y,bz+ARW*dir.z);
+      P.set([bx,0,bz,tip.x,tip.y,tip.z],i*6);
+      const col=cIn.clone().lerp(cOut,(Math.cos(ph)+1)/2);Cc.set([col.r,col.g,col.b,col.r,col.g,col.b],i*6);
+      heads[i].position.copy(tip);heads[i].quaternion.setFromUnitVectors(UPV,dir);heads[i].material.color.copy(col);}
+    cork.geometry.attributes.position.needsUpdate=true;cork.geometry.attributes.color.needsUpdate=true; }
   { const cu=Math.cos(QANG),su=Math.sin(QANG),cen=new THREE.Vector3((R+r)*cu,0,(R+r)*su);
     mini.position.copy(cen);mini.scale.set(r,r,r);mini.lookAt(cen.clone().add(new THREE.Vector3(-su,0,cu))); }
   rfParts.forEach(m=>{const d=m.userData;const yPrev=m.position.y;d.s+=(S.paused?0:dt*S.rate/gam)*0.12;rfPoint(d.ci,d.u+QANG,d.s,m.position);
