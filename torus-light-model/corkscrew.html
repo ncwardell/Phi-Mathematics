@@ -65,7 +65,7 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <span><i class="sw" style="background:var(--plus)"></i>Field loop, + polarity (pushes outward)</span>
       <span><i class="sw" style="background:var(--minus)"></i>Field loop, − polarity (pushes inward)</span>
       <span><i class="sw" style="background:#9fd3ff"></i>Arrow: the inward push holding the light</span>
-      <span><i class="sw" style="background:#bfe3ff"></i>Conjugate partner: pale-blue light, opposite twist and polarity; joining field lines run centre to centre</span>
+      <span><i class="sw" style="background:#bfe3ff"></i>Second torus: positron (pale blue, mirrored, opposite fields, lines join) or second electron (gold, same fields, lines turn away); red arrows = push apart</span>
       <span><i class="sw" style="background:linear-gradient(90deg,#ff6464,#5dea8c,#62a6ff)"></i>On the first charge: x = direction of motion, y = inward push, z = at right angles</span>
       <span><i class="sw" style="background:linear-gradient(90deg,var(--minus),var(--plus))"></i>Breathing: + loops swell outward, − loops pull in, so the structure pulses as the corkscrew turns</span>
     </div>
@@ -74,7 +74,9 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
     <div class="row" style="align-items:center"><label for="shape">Shape</label>
       <select id="shape"><option value="horn" selected>Horn torus (hole pinched to a point)</option><option value="donut">Donut (hole = energy loop)</option></select></div>
     <div class="row"><label><input type="checkbox" id="outerOn"> Bigger shell around it (same centre)</label></div>
-    <div class="row"><label><input type="checkbox" id="pairOn"> Conjugate partner (mirror image, opposite fields)</label></div>
+    <div class="row"><label><input type="checkbox" id="pairOn"> Second torus along the axis</label></div>
+    <div class="row" style="align-items:center"><label for="pairType">Partner</label>
+      <select id="pairType"><option value="anti">Conjugate: positron (mirror, opposite fields)</option><option value="same">Duplicate: second electron (same fields)</option></select></div>
     <div class="ctl">
       <label for="pairD">Partner distance</label><output id="pairDOut"></output>
       <input id="pairD" type="range" min="0" max="2" step="0.01" value="1.2">
@@ -153,7 +155,7 @@ const RQ=2.0;                          // charge ring radius (hbar/mc)
 let RC=1.0, A=1.0, B=1.1;              // corkscrew centre circle, corkscrew radius, field-loop radius (set by shape)
 const S={K:1,shape:'horn',N:2,speed:0.22,tail:0.45,paused:matchMedia('(prefers-reduced-motion: reduce)').matches};
 const OS={on:false,k:3};   // bigger shell sharing the centre
-const PS={on:false,D:1.2};  // conjugate partner below, along the axis
+const PS={on:false,D:1.2,type:'anti'};  // conjugate partner below, along the axis
 const tmp=new THREE.Vector3();
 function helix(th,out){const w=S.N*th,c=Math.cos(th),s=Math.sin(th),q=RC+A*Math.cos(w);return out.set(q*c,A*Math.sin(w),q*s);}
 function ringPt(th,out){return out.set(RC*Math.cos(th),0,RC*Math.sin(th));}
@@ -243,9 +245,14 @@ function numbers(){
    <tr><td>Charges on the loop</td><td class="v">${S.K}</td><td class="s"></td></tr>
    <tr><td>Each charge on an inward (−) spot</td><td class="v">${N%S.K===0?'yes':'no'}</td><td class="s">${chip(N%S.K===0?true:false,N%S.K===0?'✓':'✗')}</td></tr>
    <tr><td>Total charge</td><td class="v">${S.K}e</td><td class="s"></td></tr>
-   <tr><td>Conjugate partner</td><td class="v">${PS.on?(PS.D<0.06?'merged':'charge −1 · opposite twist'):'off'}</td><td class="s"></td></tr>
-   <tr><td>Pair: total charge / total energy</td><td class="v">${PS.on?'0 / 2mc² = '+(2*E/K.eV/1e6).toFixed(3)+' MeV':'—'}</td><td class="s"></td></tr>
-   <tr><td>When merged: light released</td><td class="v">${PS.on?'2 photons × '+(E/K.eV/1e3).toFixed(1)+' keV':'—'}</td><td class="s">${PS.on&&PS.D<0.06?chip(true,'✓'):''}</td></tr>
+   <tr><td>Second torus</td><td class="v">${!PS.on?'off':PS.type==='anti'?(PS.D<0.06?'positron, merged':'positron: opposite charge and twist'):'second electron: same charge and twist'}</td><td class="s"></td></tr>
+   <tr><td>Pair: total charge / total energy</td><td class="v">${!PS.on?'—':(PS.type==='anti'?'0':'2 electron charges')+' / 2mc² = '+(2*E/K.eV/1e6).toFixed(3)+' MeV'}</td><td class="s"></td></tr>
+   ${PS.on&&PS.type==='same'?`<tr><td>Centre distance</td><td class="v">${dHC().toFixed(2)} × ħ/mc${PS.D<1?' (held at touching)':''}</td><td class="s">${PS.D<1?chip(false,'blocked'):''}</td></tr>
+   <tr><td>Electric push, αmc²/D</td><td class="v">${(K.alpha*E/K.eV/dHC()/1e3).toFixed(2)} keV</td><td class="s"></td></tr>
+   <tr><td>Magnetic pull (aligned, on axis), αmc²/2D³</td><td class="v">${(K.alpha*E/K.eV/(2*dHC()**3)/1e3).toFixed(2)} keV</td><td class="s"></td></tr>
+   <tr><td>Net</td><td class="v">${(K.alpha*E/K.eV*(1/dHC()-1/(2*dHC()**3))/1e3).toFixed(2)} keV push apart</td><td class="s"></td></tr>
+   <tr><td>Pushed together</td><td class="v">same twist = same state: cannot overlap; the second must flip its twist to pair</td><td class="s"></td></tr>`
+   :`<tr><td>When merged: light released</td><td class="v">${PS.on?'2 photons × '+(E/K.eV/1e3).toFixed(1)+' keV':'—'}</td><td class="s">${PS.on&&PS.D<0.06?chip(true,'✓'):''}</td></tr>`}
    <tr><td>Bigger shell: size / lap time / energy per loop</td><td class="v">${OS.on?OS.k+'× / '+OS.k+'× / mc²÷'+OS.k:'off'}</td><td class="s"></td></tr>
    <tr><td>Real atomic shell (Bohr radius ÷ ħ/mc)</td><td class="v">137×</td><td class="s"></td></tr>
    <tr><td>g if all share one energy loop</td><td class="v">${(2*S.K).toFixed(1)}</td><td class="s">${chip(S.K===1?true:'warn',S.K===1?'✓':'≠ 2')}</td></tr>`;
@@ -323,37 +330,51 @@ const NLINK=10,links=[];for(let i=0;i<NLINK;i++){const g=new THREE.BufferGeometr
   const l=new THREE.Line(g,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));scene.add(l);links.push(l);}
 const photons=[0,1].map(()=>{const p=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:0.8,map:glow,color:0xffffff,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));scene.add(p);return p;});
 const beam=new THREE.Line(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(6),3)),new THREE.LineBasicMaterial({color:0xfff2d0,transparent:true,opacity:0.5}));scene.add(beam);
-function pairVisible(v){[pPath,pPts,pHead,...pLoops,...links,...photons,beam].forEach(o=>o.visible=v);}
+const pCore=new THREE.Mesh(new THREE.TorusGeometry(1,0.84,40,160),new THREE.MeshBasicMaterial({color:0x0c1422,transparent:true,opacity:0.92}));pCore.rotation.x=Math.PI/2;pCore.renderOrder=-1;scene.add(pCore);
+const repel=[0,1].map(()=>{const a=new THREE.ArrowHelper(new THREE.Vector3(0,1,0),new THREE.Vector3(),0.9,0xff5d6c,0.22,0.14);[a.line,a.cone].forEach(o=>{o.material.depthTest=false;o.renderOrder=5;});scene.add(a);return a;});
+function pairVisible(v){[pPath,pPts,pHead,...pLoops,...links,...photons,beam,pCore,...repel].forEach(o=>o.visible=v);}
 pairVisible(false);
-const pOff=()=>-PS.D*2*A;                                  // partner centre height
-function pHelix(th,out){helix(-th,out);out.y=pOff()-out.y;return out;}   // mirror: opposite twist, flipped vertically
-const annihilating=()=>PS.on&&PS.D<0.06;
+const dHC=()=>effD()*(S.shape==='horn'?1:0.5);   // centre distance in units of ħ/mc (tube radius: horn ħ/2mc, donut ħ/4mc)
+const effD=()=>PS.type==='same'?Math.max(PS.D,1):PS.D;   // two electrons cannot be pushed together
+const pOff=()=>-effD()*2*A;                                  // partner centre height
+function pHelix(th,out){if(PS.type==='same'){helix(th,out);out.y+=pOff();return out;}helix(-th,out);out.y=pOff()-out.y;return out;}   // conjugate: mirrored, opposite twist; duplicate: same copy, shifted
+const annihilating=()=>PS.on&&PS.type==='anti'&&PS.D<0.06;
 $('pairOn').addEventListener('change',e=>{PS.on=e.target.checked;if(PS.on){scene.fog.near=9;scene.fog.far=26;camera.position.set(7.5,1.0,9.5);controls.target.set(0,pOff()/2,0);}else{scene.fog.near=6.5;scene.fog.far=15;resetView();}controls.update();numbers();});
-$('pairD').addEventListener('input',e=>{PS.D=parseFloat(e.target.value);$('pairDOut').textContent=PS.D<0.06?'merged':PS.D.toFixed(2);numbers();});
+const pairLabel=()=>{$('pairDOut').textContent=PS.type==='anti'?(PS.D<0.06?'merged':PS.D.toFixed(2)):(PS.D<1?'held at 1.00 (touching)':PS.D.toFixed(2));};
+$('pairD').addEventListener('input',e=>{PS.D=parseFloat(e.target.value);pairLabel();numbers();});
+$('pairType').addEventListener('change',e=>{PS.type=e.target.value;pairLabel();if(PS.on){controls.target.set(0,pOff()/2,0);controls.update();}numbers();});
 $('pairDOut').textContent=PS.D.toFixed(2);
 let annT=0;
 function drawPair(dt){
   if(!PS.on){pairVisible(false);return;}
   const ann=annihilating();pairVisible(true);
-  [pPath,pPts,pHead,...pLoops,...links].forEach(o=>o.visible=!ann);photons.forEach(p=>p.visible=ann);beam.visible=ann;
+  const same=PS.type==='same';
+  [pPath,pPts,pHead,...pLoops,...links,pCore].forEach(o=>o.visible=!ann);repel.forEach(a=>a.visible=!ann&&same);photons.forEach(p=>p.visible=ann);beam.visible=ann;
   ePts.visible=!ann;heads.forEach((h,q)=>h.visible=!ann&&q<S.K);pushes.forEach((a,q)=>a.visible=!ann&&q<S.K);triad.forEach(a=>a.visible=!ann);triLbl.forEach(l=>l.visible=!ann);
   if(ann){ // opposite fields cancel, the trap opens, the light leaves as two photons in opposite directions
     annT=(annT+dt*S.speed*1.5)%1;const d=0.3+annT*6,dir=new THREE.Vector3(Math.cos(0.6),0.25,Math.sin(0.6)).normalize();
     photons[0].geometry.attributes.position.array.set([dir.x*d,dir.y*d,dir.z*d]);photons[1].geometry.attributes.position.array.set([-dir.x*d,-dir.y*d,-dir.z*d]);
     photons.forEach(p=>{p.geometry.attributes.position.needsUpdate=true;p.material.opacity=1-annT*0.8;});
     beam.geometry.attributes.position.array.set([dir.x*d,dir.y*d,dir.z*d,-dir.x*d,-dir.y*d,-dir.z*d]);beam.geometry.attributes.position.needsUpdate=true;return;}
+  if(pCore.userData.k!==RC+'/'+A){pCore.geometry.dispose();pCore.geometry=new THREE.TorusGeometry(RC,A*0.84,40,160);pCore.userData.k=RC+'/'+A;}pCore.position.set(0,pOff(),0);
+  const pcolHex=same?'#ffe2a6':'#bfe3ff';pHead.material.color.set(pcolHex);pPath.material.color.set(pcolHex);
+  if(same){const mid=pOff()/2,L=Math.min(0.9,0.4+0.5/effD());repel[0].position.set(0,mid+0.12,0);repel[0].setDirection(up);repel[0].setLength(L,0.22,0.14);repel[1].position.set(0,mid-0.12,0);repel[1].setDirection(new THREE.Vector3(0,-1,0));repel[1].setLength(L,0.22,0.14);}
   const pa=pPathGeo.attributes.position.array;for(let i=0;i<1000;i++){pHelix(i/999*2*Math.PI,tmp);pa[i*3]=tmp.x;pa[i*3+1]=tmp.y;pa[i*3+2]=tmp.z;}pPathGeo.attributes.position.needsUpdate=true;
-  const ep=pGeo.attributes.position.array,ec=pGeo.attributes.color.array,span=S.tail*2*Math.PI,pc=new THREE.Color('#bfe3ff');
+  const ep=pGeo.attributes.position.array,ec=pGeo.attributes.color.array,span=S.tail*2*Math.PI,pc=new THREE.Color(pcolHex);
   for(let i=0;i<PEN;i++){const f=i/(PEN-1);pHelix(th0-span*(1-f),tmp);ep[i*3]=tmp.x;ep[i*3+1]=tmp.y;ep[i*3+2]=tmp.z;const kk=Math.pow(f,2.2);ec[i*3]=pc.r*kk;ec[i*3+1]=pc.g*kk;ec[i*3+2]=pc.b*kk;}
   pGeo.attributes.position.needsUpdate=true;pGeo.attributes.color.needsUpdate=true;
   pHelix(th0,tmp);pHead.geometry.attributes.position.array.set([tmp.x,tmp.y,tmp.z]);pHead.geometry.attributes.position.needsUpdate=true;
   const yo=pOff();
-  pLoops.forEach((l,i)=>{const ts=2*Math.PI*i/PM,c=Math.cos(ts),s=Math.sin(ts),pol=Math.cos(S.N*(ts+th0));   // opposite polarity to the original
+  pLoops.forEach((l,i)=>{const ts=2*Math.PI*i/PM,c=Math.cos(ts),s=Math.sin(ts),pol=same?-Math.cos(S.N*(ts-th0)):Math.cos(S.N*(ts+th0));   // duplicate: same polarity; conjugate: opposite
     l.material.color.copy(C.minus.clone().lerp(C.plus,(pol+1)/2));l.material.opacity=0.12+0.45*Math.abs(pol);
-    const a=l.geometry.attributes.position.array;for(let j=0;j<=72;j++){const w=j/72*2*Math.PI,q=RC+B*Math.cos(w);a[j*3]=q*c;a[j*3+1]=yo-B*Math.sin(w);a[j*3+2]=q*s;}l.geometry.attributes.position.needsUpdate=true;});
+    const a=l.geometry.attributes.position.array;for(let j=0;j<=72;j++){const w=j/72*2*Math.PI,q=RC+B*Math.cos(w);a[j*3]=q*c;a[j*3+1]=yo+(same?1:-1)*B*Math.sin(w);a[j*3+2]=q*s;}l.geometry.attributes.position.needsUpdate=true;});
   // field lines joining the two: leave the original's centre point, arc out and enter the partner's centre point
   links.forEach((l,i)=>{const ph=2*Math.PI*i/NLINK,c=Math.cos(ph),s=Math.sin(ph),W=1.25*A+0.4*PS.D;
     const a=l.geometry.attributes.position.array,cc=l.geometry.attributes.color.array;
+    if(same){ // like poles face each other: lines from each centre turn away sideways and never meet
+      const fromTop=i%2===0,y0=fromTop?0:yo,dy=fromTop?1:-1;
+      for(let j=0;j<=60;j++){const t=j/60,y=y0+dy*(Math.abs(yo)/2-0.12)*Math.sin(Math.PI/2*t),rho=1.7*W*t*t;a[j*3]=rho*c;a[j*3+1]=y;a[j*3+2]=rho*s;const col=C.minus;cc[j*3]=col.r;cc[j*3+1]=col.g;cc[j*3+2]=col.b;}
+    }else
     for(let j=0;j<=60;j++){const t=j/60,rho=W*Math.sin(Math.PI*t),y=yo*t;a[j*3]=rho*c;a[j*3+1]=y;a[j*3+2]=rho*s;const col=C.minus.clone().lerp(C.plus,t);cc[j*3]=col.r;cc[j*3+1]=col.g;cc[j*3+2]=col.b;}
     l.geometry.attributes.position.needsUpdate=true;l.geometry.attributes.color.needsUpdate=true;});
 }
