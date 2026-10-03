@@ -65,7 +65,7 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
       <span><i class="sw" style="background:var(--plus)"></i>Field loop, + polarity (pushes outward)</span>
       <span><i class="sw" style="background:var(--minus)"></i>Field loop, − polarity (pushes inward)</span>
       <span><i class="sw" style="background:#9fd3ff"></i>Arrow: the inward push holding the light</span>
-      <span><i class="sw" style="background:linear-gradient(90deg,#ff6464,#5dea8c,#62a6ff)"></i>On the first charge: x = direction of motion, y = inward push, z = at right angles; label shows its x, y, z position (ħ/mc)</span>
+      <span><i class="sw" style="background:linear-gradient(90deg,#ff6464,#5dea8c,#62a6ff)"></i>On the first charge: x = direction of motion, y = inward push, z = at right angles</span>
       <span><i class="sw" style="background:linear-gradient(90deg,var(--minus),var(--plus))"></i>Breathing: + loops swell outward, − loops pull in, so the structure pulses as the corkscrew turns</span>
     </div>
     <div class="row" style="align-items:center"><label for="particle">Particle</label>
@@ -284,10 +284,7 @@ function frame(now){
     helix(th0,hp);helix(th0+1e-3,hp2);vx.copy(hp2).sub(hp).normalize();
     ringPt(th0,cen);vy.copy(cen).sub(hp);vy.addScaledVector(vx,-vy.dot(vx)).normalize();vz.crossVectors(vx,vy);
     [vx,vy,vz].forEach((v,i)=>{triad[i].position.copy(hp);triad[i].setDirection(v);triLbl[i].position.copy(hp).addScaledVector(v,0.7);});
-    const scr=hp.clone().project(camera),tag=$('coordTag');
-    if(scr.z<1){tag.hidden=false;tag.style.left=((scr.x+1)/2*host.clientWidth)+'px';tag.style.top=((1-scr.y)/2*host.clientHeight)+'px';
-      const u=v=>(v/RQ).toFixed(3);tag.innerHTML=`<b style="color:${triCols[0]}">x</b> ${u(hp.x)} &nbsp;<b style="color:${triCols[1]}">y</b> ${u(hp.y)} &nbsp;<b style="color:${triCols[2]}">z</b> ${u(hp.z)} <span style="color:var(--muted)">ħ/mc</span>`;}
-    else tag.hidden=true; }
+    $('coordTag').hidden=true; }
   helix(th0,hp);
   pathLine.visible=$('showPath').checked;
   // inward push: from the light toward the ring centre line
