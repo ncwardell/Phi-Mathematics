@@ -54,15 +54,14 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
 }
 </style>
 <div class="wrap">
-  <div id="view" aria-label="3D view: atoms held together by shared charges. Each charge is a figure-eight of light with one loop around each atom. Drag to rotate, scroll to zoom."></div>
+  <div id="view" aria-label="3D view: electrons orbiting nuclei under inverse-square pulls, like planets around stars. Shared electrons orbit around both atoms. Drag to rotate, scroll to zoom."></div>
   <div class="card">
     <h1>Light Bonds</h1>
-    <p>A charge is one figure-eight of light: two loops. A loop is one electron. An atom with a loop left unpaired can join it with another atom's unpaired loop; the joined pair is a bond, one loop around each nucleus.</p>
+    <p>Same equation as gravity. Each electron is pulled toward every nucleus as Z/r² (like GM/r²) and pushed away from every other electron as 1/r². Nothing is drawn by hand: a bond is whatever orbit carries an electron around both atoms.</p>
     <div class="key">
-      <span><i class="sw" style="background:var(--energy)"></i>Bond: a shared charge, one loop around each atom</span>
-      <span><i class="sw" style="background:#ffb070"></i>Unpaired loop: half a charge, waiting for a partner</span>
-      <span><i class="sw" style="background:#9fd3ff"></i>Lone pair: a charge with both loops on its own atom</span>
-      <span><i class="sw" style="background:#5b6b86"></i>Inner shell: the full first shell, one charge</span>
+      <span><i class="sw" style="background:var(--energy)"></i>Shared: this electron has orbited around more than one atom recently</span>
+      <span><i class="sw" style="background:#ff6b6b"></i>Staying with the central atom (O, N or C)</span>
+      <span><i class="sw" style="background:#cfe0ff"></i>Staying with a hydrogen (or helium)</span>
     </div>
     <div class="row" style="align-items:center"><label for="mol">Molecule</label>
       <select id="mol"><option value="H2">H₂ (hydrogen)</option><option value="CH4">CH₄ (methane)</option><option value="NH3">NH₃ (ammonia)</option><option value="H2O" selected>H₂O (water)</option><option value="He2">He + He (no bond)</option></select></div>
@@ -72,14 +71,18 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
     </div>
     <div class="ctl">
       <label for="speed">Speed</label><output id="speedOut"></output>
-      <input id="speed" type="range" min="0" max="1" step="0.01" value="0.3">
+      <input id="speed" type="range" min="0.05" max="1.5" step="0.05" value="0.5">
     </div>
-    <div class="row"><button id="play" type="button">Animate joining</button><button id="pause" type="button">Pause</button></div>
-    <h2>Counting loops</h2>
+    <div class="ctl">
+      <label for="tail">Trail length</label><output id="tailOut"></output>
+      <input id="tail" type="range" min="20" max="600" step="10" value="260">
+    </div>
+    <div class="row"><button id="play" type="button">Animate joining</button><button id="restart" type="button">Restart orbits</button><button id="pause" type="button">Pause</button></div>
+    <h2>Orbits</h2>
     <table id="countTable"></table>
     <h2>Shape and energy</h2>
     <table id="shapeTable"></table>
-    <p class="note">Model view. Loop counts follow the shell rule (a charge = 2 loops, shell n holds 2n² loops). The model places the four charges around the central atom evenly (tetrahedron, 109.47°); the measured angles and bond energies are listed for comparison, not derived.</p>
+    <p class="note">Simulation of the model's rule, not quantum chemistry. Every pull and push uses one law, strength ÷ r² (softened very close in). Each electron keeps the energy it started with, the way a loop's closure fixes its energy (E·T = h); without that, a classical cloud of electrons slowly throws one out. Nuclei sit at the measured bond lengths; angles and bond energies listed are measured values for comparison.</p>
   </div>
 </div>
 
@@ -89,17 +92,17 @@ select{font:13px var(--body);background:#0d121b;color:var(--fg);border:1px solid
 (function(){
 const $=id=>document.getElementById(id);
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const COL={bond:new THREE.Color(css('--energy')),open:new THREE.Color('#ffb070'),lone:new THREE.Color('#9fd3ff'),inner:new THREE.Color('#5b6b86')};
+const SHARED=new THREE.Color(css('--energy'));
 function chip(ok,label){return `<span class="chip ${ok===true?'ok':ok==='warn'?'warn':'bad'}">${label||(ok===true?'✓':'✗')}</span>`;}
 
 /* ---------- scene ---------- */
 const host=$('view');
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));host.appendChild(renderer.domElement);
-const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x070a10,9,22);
+const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x070a10,10,26);
 const camera=new THREE.PerspectiveCamera(42,1,0.05,100);
 const controls=new THREE.OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
-function resetView(){camera.position.set(5.5,6.0,9.0);controls.target.set(1.8,0,0);controls.update();}
+function resetView(){camera.position.set(5.5,6.5,10);controls.target.set(1.8,0,0);controls.update();}
 resetView();
 function resize(){const w=host.clientWidth,h=host.clientHeight;renderer.setSize(w,h,false);renderer.domElement.style.width=w+'px';renderer.domElement.style.height=h+'px';camera.aspect=w/h;camera.updateProjectionMatrix();}
 new ResizeObserver(resize).observe(host);resize();
@@ -107,128 +110,124 @@ const glow=(()=>{const c=document.createElement('canvas');c.width=c.height=64;co
   const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(0.25,'rgba(255,255,255,0.7)');gr.addColorStop(1,'rgba(255,255,255,0)');
   g.fillStyle=gr;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);})();
 
-/* ---------- molecules (lengths in Å; 1 Å = 2.2 scene units) ---------- */
-const U=2.2, TET=[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(v=>new THREE.Vector3(...v).normalize());
-// orient the tetrahedron so the first two directions (the H₂O bonds) lie flat
-(()=>{const m=new THREE.Matrix4().lookAt(new THREE.Vector3(),TET[0].clone().add(TET[1]).normalize(),new THREE.Vector3(0,0,1));const q=new THREE.Quaternion().setFromRotationMatrix(m).invert();
-  const fix=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),Math.PI/2);TET.forEach(v=>v.applyQuaternion(q).applyQuaternion(fix));
-  const a=TET[0].clone().sub(TET[1]);const r=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(a.x,0,a.z).normalize(),new THREE.Vector3(0,0,1));TET.forEach(v=>v.applyQuaternion(r));})();
+/* ---------- molecules: lengths in Å, 1 Å = 2.2 scene units ---------- */
+const U=2.2;
+const TET=[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(v=>new THREE.Vector3(...v).normalize());
+(()=>{const q=new THREE.Quaternion().setFromUnitVectors(TET[0].clone().add(TET[1]).normalize(),new THREE.Vector3(0,-1,0));TET.forEach(v=>v.applyQuaternion(q));
+  const a=TET[0].clone().sub(TET[1]);const r=new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(a.x,0,a.z).normalize(),new THREE.Vector3(1,0,0));TET.forEach(v=>v.applyQuaternion(r));})();
+// Z = pull of the nucleus as seen from outside its full inner shell (nucleus charge − inner electrons); val = outer electrons
+const EL={H:{Z:1,val:1,r:0.85,col:'#cfe0ff'},He:{Z:2,val:2,r:0.55,col:'#cfe0ff'},C:{Z:4,val:4,r:1.15,col:'#ff6b6b'},N:{Z:5,val:5,r:1.1,col:'#ff6b6b'},O:{Z:6,val:6,r:1.05,col:'#ff6b6b'}};
 const MOL={
-  H2:{name:'H₂',centre:null,atoms:[{el:'H',p:new THREE.Vector3(-0.3705*U,0,0)},{el:'H',p:new THREE.Vector3(0.3705*U,0,0)}],len:0.741,
-      real:{bond:'H–H 0.741 Å',E:4.52,angle:null}},
-  CH4:{name:'CH₄',el:'C',bonds:4,len:1.087,real:{bond:'C–H 1.087 Å',E:4.28,angle:109.47}},
-  NH3:{name:'NH₃',el:'N',bonds:3,len:1.012,real:{bond:'N–H 1.012 Å',E:4.05,angle:106.7}},
-  H2O:{name:'H₂O',el:'O',bonds:2,len:0.958,real:{bond:'O–H 0.958 Å',E:4.80,angle:104.5}},
-  He2:{name:'He + He',atoms:[{el:'He',p:new THREE.Vector3(-1.5*U,0,0)},{el:'He',p:new THREE.Vector3(1.5*U,0,0)}],len:3.0,real:{bond:'none',E:0.0009,angle:null}}
+  H2:{len:0.741,atoms:()=>[['H',[-0.3705,0,0]],['H',[0.3705,0,0]]],bonds:1,real:{bond:'H–H 0.741 Å',E:4.52,angle:null}},
+  CH4:{len:1.087,centre:'C',nH:4,bonds:4,real:{bond:'C–H 1.087 Å',E:4.28,angle:109.47}},
+  NH3:{len:1.012,centre:'N',nH:3,bonds:3,real:{bond:'N–H 1.012 Å',E:4.05,angle:106.7}},
+  H2O:{len:0.958,centre:'O',nH:2,bonds:2,real:{bond:'O–H 0.958 Å',E:4.80,angle:104.5}},
+  He2:{len:3.0,atoms:()=>[['He',[-1.5,0,0]],['He',[1.5,0,0]]],bonds:0,real:{bond:'none',E:0.0009,angle:null}}
 };
-const VAL={H:1,He:2,C:4,N:5,O:6};      // electrons in the outer shell (loops)
-const NUC={H:'#f3f6ff',He:'#c9a6ff',C:'#8c96a8',N:'#6f9bff',O:'#ff6b6b'};
 
-/* ---------- drawing a loop: a lobe of r = 2a cos²φ, the top view of the horn-torus path ---------- */
-const TL=90,PATHN=160;
-function lobePoint(cross,w,v,a,phi,out){const r=2*a*Math.cos(phi)**2,c=Math.cos(phi),s=Math.sin(phi);
-  return out.copy(cross).addScaledVector(w,r*c).addScaledVector(v,r*s).add(new THREE.Vector3(0,0.35*a*Math.sin(2*phi)*Math.cos(phi)**2,0));}
-let items=[];   // {kind, loops:[{cross,w,v,a}], col, line, tail, head}
+/* ---------- simulation state ---------- */
+const EPS2=0.09;          // softening: (0.3)²
+let M=null,nuc=[],ele=[],simT=0;
+const st={t:1,speed:0.5,tail:260,paused:false,play:-1,flash:-1,wasJoined:true};
 const group=new THREE.Group();scene.add(group);
-function clearGroup(){while(group.children.length){const o=group.children.pop();o.geometry&&o.geometry.dispose();}}
-function mkItem(kind,nLoops){const col=COL[kind];
-  const lines=[];for(let i=0;i<nLoops;i++){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(PATHN*3),3));
-    const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:col,transparent:true,opacity:kind==='inner'?0.35:0.28,depthWrite:false}));group.add(l);lines.push(l);}
-  const tg=new THREE.BufferGeometry();tg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(TL*3),3));tg.setAttribute('color',new THREE.BufferAttribute(new Float32Array(TL*3),3));
-  const tail=new THREE.Points(tg,new THREE.PointsMaterial({size:kind==='inner'?0.12:0.2,map:glow,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(tail);
-  const hg=new THREE.BufferGeometry();hg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(6),3));
-  const head=new THREE.Points(hg,new THREE.PointsMaterial({size:kind==='inner'?0.3:0.55,map:glow,color:col,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(head);
-  return {kind,col,lines,tail,head,loops:[]};}
-
-let M=null,atoms=[],bondPairs=[],st={t:1,speed:0.3,clock:0,paused:false,play:-1,flash:-1};
-function build(key){clearGroup();items=[];M=MOL[key];
-  if(M.atoms)atoms=M.atoms.map(a=>({el:a.el,p0:a.p.clone()}));
-  else{atoms=[{el:M.el,p0:new THREE.Vector3()}];for(let i=0;i<M.bonds;i++)atoms.push({el:'H',p0:TET[i].clone().multiplyScalar(M.len*U),dir:TET[i]});}
-  atoms.forEach(a=>{const m=new THREE.Mesh(new THREE.SphereGeometry(a.el==='H'?0.12:0.2,20,14),new THREE.MeshBasicMaterial({color:NUC[a.el]}));group.add(m);a.mesh=m;
-    const g=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:a.el==='H'?0.9:1.4,map:glow,color:NUC[a.el],transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(g);a.glow=g;});
-  bondPairs=[];
-  if(key==='H2')bondPairs.push([0,1]);
-  else if(key!=='He2'){for(let i=1;i<atoms.length;i++)bondPairs.push([0,i]);}
-  bondPairs.forEach(pr=>{const it=mkItem('bond',2);it.pair=pr;items.push(it);});
-  // central atom: inner shell and lone pairs
-  if(M.el){const it=mkItem('inner',2);it.fixed={atom:0,dir:new THREE.Vector3(0,0,1),a:0.22,off:0};items.push(it);
-    for(let i=M.bonds;i<4;i++){const lp=mkItem('lone',2);lp.fixed={atom:0,dir:TET[i],a:0.42,off:0.75};items.push(lp);}}
-  if(key==='He2')atoms.forEach((a,i)=>{const it=mkItem('inner',2);it.fixed={atom:i,dir:new THREE.Vector3(0,0,1),a:0.42,off:0};it.kind='lone';it.col=COL.lone;it.lines.forEach(l=>l.material.color.copy(COL.lone));it.head.material.color.copy(COL.lone);items.push(it);});
+const HIST=600;
+function clearGroup(){while(group.children.length){const o=group.children.pop();if(o.geometry)o.geometry.dispose();}}
+function nucPos(i,out){const n=nuc[i],spread=1+1.6*(1-st.t);return out.copy(n.p0).sub(nucCentre).multiplyScalar(spread).add(nucCentre);}
+const nucCentre=new THREE.Vector3();
+function build(key){clearGroup();M=MOL[key];nuc=[];ele=[];simT=0;
+  const list=M.atoms?M.atoms():[[M.centre,[0,0,0]],...TET.slice(0,M.nH).map(d=>['H',d.clone().multiplyScalar(M.len).toArray()])];
+  list.forEach(([el,p])=>{const v=new THREE.Vector3(...p).multiplyScalar(U);
+    const m=new THREE.Mesh(new THREE.SphereGeometry(el==='H'?0.13:0.2,20,14),new THREE.MeshBasicMaterial({color:EL[el].col}));group.add(m);
+    const g=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:el==='H'?0.9:1.4,map:glow,color:EL[el].col,transparent:true,opacity:0.45,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(g);
+    nuc.push({el,Z:EL[el].Z,p0:v,p:v.clone(),mesh:m,glow:g});});
+  nucCentre.set(0,0,0);if(M.atoms){nuc.forEach(n=>nucCentre.add(n.p0));nucCentre.multiplyScalar(1/nuc.length);}
+  nuc.forEach((n,i)=>nucPos(i,n.p));
+  // electrons start on orbits around their own atom, spread evenly over a sphere
+  nuc.forEach((n,i)=>{const k=EL[n.el].val,r=EL[n.el].r;
+    for(let j=0;j<k;j++){const y=1-2*(j+0.5)/k,rr=Math.sqrt(1-y*y),ph=j*2.39996+i*1.3;const d=new THREE.Vector3(Math.cos(ph)*rr,y,Math.sin(ph)*rr);
+      ele.push({home:i,p:n.p.clone().addScaledVector(d,r),v:new THREE.Vector3(),a:new THREE.Vector3(),hist:new Float32Array(HIST*3),hn:0,visit:new Map(),near:i});}});
+  // circular speed from the actual inward pull, moving at right angles to the radius
+  ele.forEach((e,idx)=>{accel(e,e.a);const n=nuc[e.home],rv=e.p.clone().sub(n.p),r=rv.length(),rh=rv.clone().normalize();
+    const inward=Math.max(0.15,-e.a.dot(rh)),sp=Math.sqrt(inward*r);
+    let t=rh.clone().cross(new THREE.Vector3(Math.sin(idx*1.7),Math.cos(idx*2.3),Math.sin(idx*0.9+1))).normalize();if(t.lengthSq()<1e-6)t.set(0,0,1);
+    e.v.copy(t.multiplyScalar(sp));});
+  ele.forEach(e=>{e.E0=energy(e);for(let h=0;h<HIST;h++)e.hist.set([e.p.x,e.p.y,e.p.z],h*3);});
+  // drawing objects per electron
+  ele.forEach(e=>{const tg=new THREE.BufferGeometry();tg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(HIST*3),3));tg.setAttribute('color',new THREE.BufferAttribute(new Float32Array(HIST*3),3));
+    e.trail=new THREE.Line(tg,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false}));group.add(e.trail);
+    e.head=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(3),3)),new THREE.PointsMaterial({size:0.42,map:glow,color:0xffffff,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));group.add(e.head);});
   st.wasJoined=st.t>=0.999;tables();}
 
-function atomPos(i,out){const a=atoms[i];const spread=1+1.6*(1-st.t);
-  if(M.atoms){const c=atoms[0].p0.clone().add(atoms[1].p0).multiplyScalar(0.5);return out.copy(a.p0).sub(c).multiplyScalar(spread).add(c);}
-  return i===0?out.set(0,0,0):out.copy(a.p0).multiplyScalar(spread);}
+const d=new THREE.Vector3();
+function accel(e,out){out.set(0,0,0);   // one law for everything: strength × (direction) / r², softened
+  for(const n of nuc){d.copy(n.p).sub(e.p);const r2=d.lengthSq()+EPS2;out.addScaledVector(d,n.Z/(r2*Math.sqrt(r2)));}
+  for(const o of ele){if(o===e)continue;d.copy(o.p).sub(e.p);const r2=d.lengthSq()+EPS2;out.addScaledVector(d,-1/(r2*Math.sqrt(r2)));}
+  return out;}
+function potential(e){let U0=0;for(const n of nuc){U0-=n.Z/Math.sqrt(e.p.distanceToSquared(n.p)+EPS2);}for(const o of ele){if(o!==e)U0+=1/Math.sqrt(e.p.distanceToSquared(o.p)+EPS2);}return U0;}
+function energy(e){return 0.5*e.v.lengthSq()+potential(e);}
 
-const tmp=new THREE.Vector3(),pA=new THREE.Vector3(),pB=new THREE.Vector3(),up=new THREE.Vector3(0,1,0);
-function frameLoops(it){   // returns the loop list [{cross,w,v,a}] for this moment
-  if(it.pair){const [i,j]=it.pair;atomPos(i,pA);atomPos(j,pB);const a=M.len*U/2,u=pB.clone().sub(pA).normalize();
-    let n=u.clone().cross(up);if(n.lengthSq()<1e-4)n.set(1,0,0);n.normalize();const v=n.clone().cross(u).normalize();   // lobe plane holds the bond
-    return [{cross:pA.clone().addScaledVector(u,a),w:u.clone().negate(),v:v.clone(),a},{cross:pB.clone().addScaledVector(u,-a),w:u.clone(),v:v.clone().negate(),a}];}
-  const f=it.fixed;atomPos(f.atom,pA);const d=f.dir.clone();let w=d.clone().cross(up);if(w.lengthSq()<1e-4)w.set(1,0,0);w.normalize();const v=d.clone().cross(w).normalize();
-  const cross=pA.clone().addScaledVector(d,f.off);
-  return [{cross,w:w.clone(),v,a:f.a},{cross:cross.clone(),w:w.clone().negate(),v:v.clone().negate(),a:f.a}];}
+function step(dt){
+  ele.forEach(e=>{e.v.addScaledVector(e.a,dt/2);e.p.addScaledVector(e.v,dt);});
+  ele.forEach(e=>{accel(e,e.a);e.v.addScaledVector(e.a,dt/2);});
+  // each electron keeps its own energy (closure fixes a loop's energy)
+  ele.forEach(e=>{const ke=e.E0-potential(e),k0=0.5*e.v.lengthSq();if(ke>0.02&&k0>1e-6)e.v.multiplyScalar(Math.sqrt(ke/k0));});
+  simT+=dt;
+  ele.forEach(e=>{let best=0,bd=1e9;nuc.forEach((n,i)=>{const q=e.p.distanceToSquared(n.p);if(q<bd){bd=q;best=i;}});e.near=best;e.visit.set(best,simT);
+    if(bd>100){const n=nuc[e.home];e.p.copy(n.p).add(new THREE.Vector3(EL[n.el].r,0,0));e.v.set(0,0,Math.sqrt(n.Z/EL[n.el].r));e.E0=energy(e);}});   // lost: put it back home
+}
+const SHARE_WIN=14;   // time window for "orbited around more than one atom recently"
+const isShared=e=>{let c=0;e.visit.forEach(t=>{if(simT-t<SHARE_WIN)c++;});return c>1;};
 
-/* ---------- light released when a bond closes ---------- */
+/* ---------- light released when the bond closes ---------- */
 const PHN=160,wave=new THREE.Line(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(new Float32Array(PHN*3),3)),new THREE.LineBasicMaterial({color:0xffffff,transparent:true}));scene.add(wave);wave.visible=false;
 function nmColor(nm){let r=0,g=0,b=0;if(nm<380)return new THREE.Color(0.78,0.62,1);if(nm>750)return new THREE.Color(0.6,0.1,0.1);
   if(nm<440){r=(440-nm)/60;b=1;}else if(nm<490){g=(nm-440)/50;b=1;}else if(nm<510){g=1;b=(510-nm)/20;}else if(nm<580){r=(nm-510)/70;g=1;}else if(nm<645){r=1;g=(645-nm)/65;}else r=1;return new THREE.Color(r,g,b);}
 
 /* ---------- tables ---------- */
-function tables(){if(!M)return;const key=$('mol').value,joined=st.t>=0.999;
-  const nb=bondPairs.length,lone=M.el?4-M.bonds:(key==='He2'?2:0),inner=M.el?1:0;
-  let rows='';
-  const per=[...new Set(atoms.map(a=>a.el))];
-  per.forEach(el=>{const own=VAL[el],shared=bondPairs.filter(p=>atoms[p[0]].el===el||atoms[p[1]].el===el).length/(atoms.filter(a=>a.el===el).length),
-      need=(el==='H'||el==='He')?2:8,have=own+(joined?shared:0);
-    rows+=`<tr><td>${el}: own outer loops + shared</td><td class="v">${own} + ${joined?shared:0} = ${have} of ${need}</td><td class="s">${chip(have===need?true:'warn',have===need?'full':'open')}</td></tr>`;});
-  rows+=`<tr><td>Bonds (shared charges)</td><td class="v">${joined?nb:0}${!joined&&nb?' (loops still apart)':''}</td><td class="s"></td></tr>
-   <tr><td>Lone pairs / inner-shell charges</td><td class="v">${lone} / ${inner}</td><td class="s"></td></tr>
-   <tr><td>Total loops (= electrons)</td><td class="v">${atoms.reduce((s,a)=>s+(a.el==='H'||a.el==='He'?VAL[a.el]:VAL[a.el]+2),0)}</td><td class="s"></td></tr>`;
-  if(key==='He2')rows+=`<tr><td>Unpaired loops to share</td><td class="v">none: both shells already full</td><td class="s">${chip(true,'no bond')}</td></tr>`;
+function tables(){if(!M)return;const key=$('mol').value;
+  const sh=ele.filter(isShared).length,expect=2*M.bonds;
+  let rows=`<tr><td>Law: pull Z/r² from each nucleus, push 1/r² between electrons</td><td class="v">same form as GM/r²</td><td class="s"></td></tr>
+   <tr><td>Electrons (outer)</td><td class="v">${ele.length}</td><td class="s"></td></tr>
+   <tr><td>Shared right now (orbited 2+ atoms recently)</td><td class="v">${sh}</td><td class="s"></td></tr>
+   <tr><td>Bonds × 2 (one pair per bond)</td><td class="v">${expect}</td><td class="s">${simT<SHARE_WIN?'':chip(sh===expect?true:'warn',sh===expect?(key==='He2'?'none':'✓'):(sh>expect?'more':'fewer'))}</td></tr>
+   <tr><td>Electric vs gravitational strength, e²/(4πε₀Gmₑ²)</td><td class="v">4.17×10⁴²</td><td class="s"></td></tr>`;
   $('countTable').innerHTML=rows;
   const r=M.real,E=r.E,nm=1239.84198/E;let s2=`<tr><td>Measured bond</td><td class="v">${r.bond}</td><td class="s"></td></tr>`;
-  if(r.angle){s2+=`<tr><td>Angle: model (4 charges spread evenly)</td><td class="v">109.47°</td><td class="s"></td></tr>
-   <tr><td>Angle: measured</td><td class="v">${r.angle}°</td><td class="s">${chip(Math.abs(r.angle-109.47)<0.1?true:'warn',Math.abs(r.angle-109.47)<0.1?'✓':(r.angle-109.47).toFixed(1)+'°')}</td></tr>
-   <tr><td>Lone pairs push the bonds closer</td><td class="v">${M.bonds===4?'none here':4-M.bonds+' lone pair'+(4-M.bonds>1?'s':'')}</td><td class="s"></td></tr>`;}
-  s2+=key==='He2'?`<tr><td>Measured He–He binding</td><td class="v">≈ 0.0009 eV (essentially none)</td><td class="s">${chip(true,'✓')}</td></tr>`
+  if(r.angle)s2+=`<tr><td>Angle: measured / even spread of 4</td><td class="v">${r.angle}° / 109.47°</td><td class="s">${chip(Math.abs(r.angle-109.47)<0.1?true:'warn',Math.abs(r.angle-109.47)<0.1?'✓':(r.angle-109.47).toFixed(1)+'°')}</td></tr>`;
+  s2+=key==='He2'?`<tr><td>Measured He–He binding</td><td class="v">≈ 0.0009 eV (essentially none)</td><td class="s"></td></tr>`
     :`<tr><td>Light released per bond (bond energy)</td><td class="v">${E.toFixed(2)} eV · ${nm.toFixed(0)} nm (UV)</td><td class="s"></td></tr>`;
   $('shapeTable').innerHTML=s2;}
 
 /* ---------- controls ---------- */
 const bind=(id,fmt,set)=>{const el=$(id),o=$(id+'Out');const up=()=>{set(parseFloat(el.value));o.textContent=fmt(parseFloat(el.value));};el.addEventListener('input',up);up();};
-bind('t',v=>v>=0.999?'bonded':v<=0.001?'apart':Math.round(v*100)+'%',v=>{st.t=v;st.play=-1;tables();});
+bind('t',v=>v>=0.999?'bonded':v<=0.001?'apart':Math.round(v*100)+'%',v=>{st.t=v;st.play=-1;});
 bind('speed',v=>v.toFixed(2)+'×',v=>{st.speed=v;});
-$('mol').addEventListener('change',e=>{build(e.target.value);});
-$('play').addEventListener('click',()=>{st.play=0;st.t=0;$('t').value=0;st.wasJoined=false;});
+bind('tail',v=>v.toFixed(0),v=>{st.tail=v;});
+$('mol').addEventListener('change',e=>build(e.target.value));
+$('restart').addEventListener('click',()=>build($('mol').value));
+$('play').addEventListener('click',()=>{st.play=0;st.t=0;$('t').value=0;st.wasJoined=false;build($('mol').value);});
 $('pause').addEventListener('click',e=>{st.paused=!st.paused;e.target.textContent=st.paused?'Play':'Pause';});
 build('H2O');
 
 /* ---------- animation ---------- */
-let last=performance.now();
+let last=performance.now(),tabT=0;
+const tmp=new THREE.Vector3();
 function frame(now){const dt=Math.min(0.05,(now-last)/1000);last=now;
-  if(!st.paused)st.clock+=dt*st.speed;
-  if(st.play>=0){st.play+=dt;st.t=Math.min(1,st.play/3);$('t').value=st.t;$('tOut').textContent=st.t>=0.999?'bonded':Math.round(st.t*100)+'%';if(st.t>=1){st.play=-1;}tables();}
-  const joined=st.t>=0.999;
-  if(joined&&!st.wasJoined&&M.real.E>0.01){st.flash=0;}st.wasJoined=joined;
-  atoms.forEach((a,i)=>{atomPos(i,tmp);a.mesh.position.copy(tmp);a.glow.geometry.attributes.position.array.set([tmp.x,tmp.y,tmp.z]);a.glow.geometry.attributes.position.needsUpdate=true;});
-  items.forEach((it,idx)=>{const L=frameLoops(it);
-    const open=it.kind==='bond'&&!joined,col=open?COL.open:it.col;it.lines.forEach(l=>l.material.color.copy(col));it.head.material.color.copy(col);
-    L.forEach((lp,k)=>{const a=it.lines[k].geometry.attributes.position.array;for(let i=0;i<PATHN;i++){lobePoint(lp.cross,lp.w,lp.v,lp.a,-Math.PI/2+Math.PI*i/(PATHN-1),tmp);a[i*3]=tmp.x;a[i*3+1]=tmp.y;a[i*3+2]=tmp.z;}it.lines[k].geometry.attributes.position.needsUpdate=true;});
-    // light: joined → one head runs both loops as a figure-eight; apart → each loop has its own head
-    const ph=(st.clock*2+idx*0.37)%2,hp=it.head.geometry.attributes.position.array,tp=it.tail.geometry.attributes.position.array,tc=it.tail.geometry.attributes.color.array;
-    const at=(s,out)=>{if(open){const k=s<1?0:1;return lobePoint(L[k].cross,L[k].w,L[k].v,L[k].a,-Math.PI/2+Math.PI*((s%1+1)%1),out);}
-      const ss=((s%2)+2)%2,k=ss<1?0:1;return lobePoint(L[k].cross,L[k].w,L[k].v,L[k].a,-Math.PI/2+Math.PI*(ss-k),out);};
-    if(open){at(ph%1,tmp);hp.set([tmp.x,tmp.y,tmp.z],0);at(1+ph%1,tmp);hp.set([tmp.x,tmp.y,tmp.z],3);it.head.geometry.setDrawRange(0,2);}
-    else{at(ph,tmp);hp.set([tmp.x,tmp.y,tmp.z],0);it.head.geometry.setDrawRange(0,1);}
-    it.head.geometry.attributes.position.needsUpdate=true;
-    for(let m=0;m<TL;m++){const f=m/(TL-1),s=open?(ph%1)-0.5*(1-f):ph-0.7*(1-f);at(open?((s%1)+1)%1:s,tmp);tp[m*3]=tmp.x;tp[m*3+1]=tmp.y;tp[m*3+2]=tmp.z;const kk=Math.pow(f,2)*0.9;tc[m*3]=col.r*kk;tc[m*3+1]=col.g*kk;tc[m*3+2]=col.b*kk;}
-    it.tail.geometry.attributes.position.needsUpdate=true;it.tail.geometry.attributes.color.needsUpdate=true;});
-  // the light given off as the loops close into a bond
+  if(st.play>=0){st.play+=dt;st.t=Math.min(1,st.play/6);$('t').value=st.t;$('tOut').textContent=st.t>=0.999?'bonded':Math.round(st.t*100)+'%';if(st.t>=1)st.play=-1;}
+  nuc.forEach((n,i)=>{nucPos(i,n.p);n.mesh.position.copy(n.p);n.glow.geometry.attributes.position.array.set([n.p.x,n.p.y,n.p.z]);n.glow.geometry.attributes.position.needsUpdate=true;});
+  if(!st.paused){const T=dt*st.speed*6,h=0.002,nS=Math.min(400,Math.ceil(T/h));for(let i=0;i<nS;i++){step(T/nS);if(i%3===0)ele.forEach(e=>{e.hn=(e.hn+1)%HIST;e.hist.set([e.p.x,e.p.y,e.p.z],e.hn*3);});}}
+  const L=Math.min(HIST,st.tail|0);
+  ele.forEach(e=>{const col=isShared(e)?SHARED:new THREE.Color(EL[nuc[e.near].el].col);
+    e.head.geometry.attributes.position.array.set([e.p.x,e.p.y,e.p.z]);e.head.geometry.attributes.position.needsUpdate=true;e.head.material.color.copy(col);
+    const tp=e.trail.geometry.attributes.position.array,tc=e.trail.geometry.attributes.color.array;
+    for(let m=0;m<L;m++){const src=((e.hn-(L-1-m))%HIST+HIST)%HIST,f=m/(L-1),k=Math.pow(f,1.3);tp[m*3]=e.hist[src*3];tp[m*3+1]=e.hist[src*3+1];tp[m*3+2]=e.hist[src*3+2];tc[m*3]=col.r*k;tc[m*3+1]=col.g*k;tc[m*3+2]=col.b*k;}
+    e.trail.geometry.setDrawRange(0,L);e.trail.geometry.attributes.position.needsUpdate=true;e.trail.geometry.attributes.color.needsUpdate=true;});
+  const joined=st.t>=0.999;if(joined&&!st.wasJoined&&M.real.E>0.01)st.flash=0;st.wasJoined=joined;
   if(st.flash>=0){st.flash+=dt;const f=st.flash/3;if(f>1){st.flash=-1;wave.visible=false;}else{
     const nm=1239.84198/M.real.E,dir=new THREE.Vector3(0.3,0.25,1).normalize(),a=wave.geometry.attributes.position.array;wave.material.color.copy(nmColor(nm));wave.material.opacity=1-f*0.7;
-    for(let i=0;i<PHN;i++){const u=i/(PHN-1),d=0.3+f*12+u*2.4,amp=0.2*Math.sin(Math.PI*u);a[i*3]=dir.x*d;a[i*3+1]=dir.y*d+Math.sin(u*Math.PI*12-st.flash*22)*amp;a[i*3+2]=dir.z*d;}
+    for(let i=0;i<PHN;i++){const u=i/(PHN-1),dd=0.3+f*12+u*2.4,amp=0.2*Math.sin(Math.PI*u);a[i*3]=dir.x*dd;a[i*3+1]=dir.y*dd+Math.sin(u*Math.PI*12-st.flash*22)*amp;a[i*3+2]=dir.z*dd;}
     wave.geometry.attributes.position.needsUpdate=true;wave.visible=true;}}
+  tabT+=dt;if(tabT>0.5){tabT=0;tables();}
   controls.update();renderer.render(scene,camera);requestAnimationFrame(frame);}
 requestAnimationFrame(frame);
 })();
